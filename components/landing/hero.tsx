@@ -15,7 +15,7 @@ export function Hero() {
             Effortless course management for teachers and students
           </h1>
 
-          <p className="mt-5 max-w-xl text-sm md:text-base text-[#1C2420]/70 lg:mx-0 mx-auto">
+          <p className="mt-5 max-w-xl text-sm md:text-base text-[#1C2420]/60 lg:mx-0 mx-auto">
             Empowering educators and learners with tools for collaboration, grading, and resource sharing. Built for focus and academic excellence.
           </p>
 
