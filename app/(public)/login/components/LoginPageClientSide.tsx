@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import LoginFormFields from "./LoginFormFields";
 
 export default function LoginPageClientSide() {
     const searchParams = useSearchParams();
@@ -32,7 +33,7 @@ export default function LoginPageClientSide() {
                 </div>
 
                 {/* form fields */}
-                
+                <LoginFormFields callbackUrl={callbackUrl} />
 
                 <p className="mb-4 mt-8 text-[#1C2420] text-center">
                     New to this site? {" "}
