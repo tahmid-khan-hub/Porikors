@@ -12,7 +12,7 @@ export default function LoginPageClientSide() {
     return (
         <div className="w-full min-h-screen flex items-center justify-center px-2 overflow-x-hidden bg-[#F6F5F1]">
             <div className="bg-white border border-[#DAD7CE] w-full max-w-xl p-8 space-y-6 rounded-md mt-6">
-                <h2 className="jakartaSans text-3xl font-bold text-center pt-4 text-[#1C2420]"> Welcome Back </h2>
+                <h2 className="text-3xl font-bold text-center pt-4 text-[#1C2420]"> Welcome Back </h2>
                 <p className="text-center text-sm text-[#1C2420]/60 -mt-2 mb-12"> Sign in to continue with Porikors </p>
 
                 {/* Google Login */}
@@ -22,7 +22,7 @@ export default function LoginPageClientSide() {
                     className="bg-[#1F6F5C] text-white hover:bg-[#175446] py-6 rounded-lg font-semibold text-[16px] w-full flex items-center justify-center gap-2"
                 >
                     <FcGoogle />
-                    Sign in with Google
+                    Login with Google
                 </Button>
 
                 {/* Divider */}
@@ -37,9 +37,10 @@ export default function LoginPageClientSide() {
 
                 <p className="mb-4 mt-8 text-[#1C2420] text-center">
                     New to this site? {" "}
-                    <Link className="text-[#1F6F5C] hover:underline" href={"/sign-up"}>
-                    Sign-up
+                    <Link className="text-[#1F6F5C] hover:underline mr-1" href={"/register"}>
+                    Register
                     </Link>
+                    here
                 </p>
             </div>
         </div>
