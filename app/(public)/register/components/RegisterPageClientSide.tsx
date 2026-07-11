@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import RegisterFormFields from "./RegisterFormFields";
 
 export default function RegisterPageClientSide() {
     const searchParams = useSearchParams();
@@ -21,7 +22,7 @@ export default function RegisterPageClientSide() {
                     className="bg-[#1F6F5C] text-white hover:bg-[#175446] py-6 rounded-lg font-semibold text-[16px] w-full flex items-center justify-center gap-2"
                 >
                     <FcGoogle />
-                    Login with Google
+                    Continue with Google
                 </Button>
 
                 {/* Divider */}
@@ -30,6 +31,9 @@ export default function RegisterPageClientSide() {
                     <span className="text-[#1C2420]/50 ">or</span>
                     <div className="flex-1 h-px bg-[#DAD7CE]" />
                 </div>
+
+                {/* form fields */}
+                <RegisterFormFields callbackUrl={callbackUrl} />
 
                 <p className="mb-4 mt-8 text-[#1C2420] text-center">
                     Already have an account? {" "}
