@@ -3,6 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Sessionprovider from "./SessionProvider";
+import QueryProvider from "./QueryProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,9 +38,11 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", inter.variable, geistMono.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
-        <Sessionprovider>
-          {children}
-        </Sessionprovider>
+        <QueryProvider>
+          <Sessionprovider>
+            {children}
+          </Sessionprovider>
+        </QueryProvider>
       </body>
     </html>
   );
