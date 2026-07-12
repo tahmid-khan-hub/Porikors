@@ -1,3 +1,4 @@
+import AnimationOnScroll from "@/app/hooks/AnimationOnScroll";
 import { GraduationCap, Share2, TrendingUp } from "lucide-react";
 
 const steps = [
@@ -21,13 +22,11 @@ const steps = [
 export function HowItWorks() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="text-center text-3xl font-bold tracking-tight text-[#1C2420]">
-        Getting Started is Simple
-      </h2>
+      <AnimationOnScroll direction="scale" delay={0.5}><h2 className="text-center text-3xl font-bold tracking-tight text-[#1C2420]">Getting Started is Simple</h2></AnimationOnScroll>
 
       <div className="mt-14 grid grid-cols-1 gap-10 md:grid-cols-3">
         {steps.map(({ icon: Icon, title, description }, i) => (
-          <div key={title} className="relative text-center">
+          <AnimationOnScroll key={title} direction="up" delay={i*0.08}><div key={title} className="relative text-center">
             {/* connecting line (desktop only) */}
             {i < steps.length - 1 && (
               <div className="absolute left-1/2 top-6 hidden h-px w-full bg-[#DAD7CE] md:block" />
@@ -43,7 +42,7 @@ export function HowItWorks() {
             <p className="mt-2 text-sm leading-relaxed text-[#1C2420]/60">
               {description}
             </p>
-          </div>
+          </div></AnimationOnScroll>
         ))}
       </div>
     </section>
