@@ -5,13 +5,18 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import RegisterFormFields from "./RegisterFormFields";
+import { motion } from "framer-motion";
 
 export default function RegisterPageClientSide() {
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl") || "/";
     return (
         <div className="w-full min-h-screen flex items-center justify-center px-2 overflow-x-hidden bg-[#F6F5F1]">
-            <div className="bg-white border border-[#DAD7CE] w-full max-w-xl p-8 space-y-6 rounded-md mt-6">
+            <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }} 
+            className="bg-white border border-[#DAD7CE] w-full max-w-xl p-8 space-y-6 rounded-md mt-6">
                 <h2 className="text-3xl font-bold text-center pt-4 text-[#1C2420]">Set up your account</h2>
                 <p className="text-center text-sm text-[#1C2420]/60 -mt-2 mb-12">Where teachers manage courses and students keep up with them.</p>
 
@@ -41,7 +46,7 @@ export default function RegisterPageClientSide() {
                     Login
                     </Link>
                 </p>
-            </div>
+            </motion.div>
         </div>
     )
 }
