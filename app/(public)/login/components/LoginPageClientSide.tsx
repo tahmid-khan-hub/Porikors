@@ -27,7 +27,7 @@ export default function LoginPageClientSide() {
                     className="bg-[#1F6F5C] text-white hover:bg-[#175446] py-6 rounded-lg font-semibold text-[16px] w-full flex items-center justify-center gap-2"
                 >
                     <FcGoogle />
-                    Login with Google
+                    Continue with Google
                 </Button>
 
                 {/* Divider */}
