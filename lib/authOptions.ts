@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
 
         if (existing.rows.length === 0) {
           await pool.query(
-            "INSERT INTO users (name, email, image, password_hash) VALUES ($1, $2, $3, $4)",
+            "INSERT INTO users (name, email, image, password) VALUES ($1, $2, $3, $4)",
             [user.name, user.email, user.image, null]
           );
         }
