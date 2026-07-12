@@ -7,7 +7,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
-      role?: string;
+      role?: string | null;
     } & DefaultSession["user"];
     accessToken?: string;
   }
@@ -17,13 +17,13 @@ declare module "next-auth" {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    role?: string;
+    role?: string | null;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     userId?: string;
-    role?: string;
+    role?: string | null;
   }
 }
