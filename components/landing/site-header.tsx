@@ -9,7 +9,7 @@ export function SiteHeader() {
   return (
     <header className="border-b border-[#DAD7CE]/20 bg-[#1F6F5C]/5">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-bold text-[#1F6F5C]">
+        <Link href="/" className="lobster text-lg font-bold text-[#1F6F5C]">
           Porikors
         </Link>
 

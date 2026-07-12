@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Inter, Lobster_Two } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Sessionprovider from "./SessionProvider";
@@ -14,6 +14,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
 });
+
+const lobster = Lobster_Two({
+  variable: "--font-lobster",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+})
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", inter.variable, geistMono.variable, "font-sans")}
+      className={cn("h-full", "antialiased", inter.variable, geistMono.variable, lobster.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
         <QueryProvider>
