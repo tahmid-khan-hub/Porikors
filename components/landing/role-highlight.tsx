@@ -1,3 +1,4 @@
+import AnimationOnScroll from "@/app/hooks/AnimationOnScroll";
 import { CheckCircle2 } from "lucide-react";
 
 const roles = [
@@ -27,10 +28,10 @@ export function RoleHighlight() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
       <div className="grid gap-6 md:grid-cols-2">
-        {roles.map(({ label, title, description, points }) => (
-          <div
+        {roles.map(({ label, title, description, points }, i) => (
+          <AnimationOnScroll key={title} direction="left" delay={i*0.08}><div
             key={title}
-            className="relative overflow-hidden rounded-lg border border-[#DAD7CE] bg-white p-8 shadow-lg"
+            className="relative overflow-hidden rounded-lg border border-[#DAD7CE] bg-white p-8 h-full shadow-lg"
           >
             <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#1F6F5C]/5" />
 
@@ -57,7 +58,7 @@ export function RoleHighlight() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div></AnimationOnScroll>
         ))}
       </div>
     </section>

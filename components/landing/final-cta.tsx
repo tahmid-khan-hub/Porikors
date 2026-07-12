@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
+import AnimationOnScroll from "@/app/hooks/AnimationOnScroll";
 
 export function FinalCta() {
   return (
     <section className="mx-auto max-w-6xl px-6 pt-10 pb-16">
-      <div className="rounded-3xl bg-[#1F6F5C] px-8 py-16 text-center">
+      <AnimationOnScroll direction="up" delay={0.6}><div className="rounded-3xl bg-[#1F6F5C] px-8 py-16 text-center">
         <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-white">
           <span className="h-1.5 w-1.5 rounded-full bg-white" />
           GET STARTED TODAY
@@ -31,7 +32,7 @@ export function FinalCta() {
                 <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
         </Link>
-      </div>
+      </div></AnimationOnScroll>
     </section>
   );
 }
