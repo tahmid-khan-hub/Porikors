@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { RegisterUser } from "@/lib/auth/RegisterUser";
+import { signIn } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -25,6 +27,23 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
             setErrorMessage("Password must be at least 8 characters and include: 1 uppercase, 1 lowercase and 1 special character.");
             return;
         }
+        const res = await RegisterUser({ name, email, password, image });
+
+        if(res.success){
+            const signUp = await signIn("credentials", {
+                redirect: false, email, password, callbackUrl
+            });
+            if (signUp?.ok) {
+                form.reset();
+                setTimeout(() => {
+                    window.location.href = signUp.url || callbackUrl;
+                }, 1500);
+            } else {
+                setErrorMessage("Registered but failed to sign in. Please try signing in manually.");
+            }
+        } else {
+            setErrorMessage("User already exists or sign up failed. Please try again.");
+        }
     }
     return (
         <div>
@@ -32,7 +51,7 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
                 <input type="name" name="name" required
                 placeholder="Enter your name"
                 className="w-full p-3 mb-6 bg-white border border-[#DAD7CE] hover:border-[#1F6F5C] rounded-md focus:outline-none focus:ring-2 focus:ring-[#1F6F5C] focus:border-transparent placeholder:text-[#1C2420]/40"/>
-                <input type="text" name="image" required
+                <input type="text" name="image"
                 placeholder="Enter your image url (optional)"
                 className="w-full p-3 mb-6 bg-white border border-[#DAD7CE] hover:border-[#1F6F5C] rounded-md focus:outline-none focus:ring-2 focus:ring-[#1F6F5C] focus:border-transparent placeholder:text-[#1C2420]/40"/>
                 <input type="email" name="email" required
