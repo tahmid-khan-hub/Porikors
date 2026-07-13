@@ -1,5 +1,7 @@
 import { DefaultSession } from "next-auth";
 
+type RoleStatus = "unset" | "pending" | "approved" | "rejected";
+
 declare module "next-auth" {
   interface Session {
     user: {
@@ -8,6 +10,7 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       role?: string | null;
+      roleStatus?: RoleStatus;
     } & DefaultSession["user"];
     accessToken?: string;
   }
@@ -18,6 +21,7 @@ declare module "next-auth" {
     email?: string | null;
     image?: string | null;
     role?: string | null;
+    roleStatus?: RoleStatus;
   }
 }
 
@@ -25,5 +29,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     userId?: string;
     role?: string | null;
+    roleStatus?: RoleStatus;
   }
 }
