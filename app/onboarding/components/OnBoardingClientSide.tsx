@@ -31,7 +31,7 @@ export default function OnBoardingClientSide() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              {/* <VerificationForm role={role} onBack={() => setRole(null)} /> */}
+              <VerificationForm role={role} onBack={() => setRole(null)} />
             </motion.div>
           )}
         </AnimatePresence>
