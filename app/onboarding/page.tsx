@@ -1,10 +1,5 @@
-import { Suspense } from "react";
-import OnBoardingClientSide from "./components/OnBoardingClientSide";
+import OnBoardingLoader from "./components/OnBoardingLoader";
 
 export default function OnboardingPage() {
-  return (
-    <Suspense>
-        <OnBoardingClientSide />
-    </Suspense>
-  );
+  return <OnBoardingLoader />;
 }
