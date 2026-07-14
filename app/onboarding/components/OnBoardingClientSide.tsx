@@ -3,11 +3,22 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import VerificationForm from "./VerificationForm";
 import RolePicker from "./RolePicker";
+import { getStoredRole, setStoredRole } from "@/lib/onboardingStorage";
 
 export type Role = "teacher" | "student";
 
 export default function OnBoardingClientSide() {
-  const [role, setRole] = useState<Role | null>(null);
+  const [role, setRole] = useState<Role | null>(() => getStoredRole());
+
+  function handleSelectRole(role: Role) {
+    setStoredRole(role);
+    setRole(role);
+  }
+
+  function handleBack() {
+    setStoredRole(null);
+    setRole(null);
+  }
 
   return (
     <div className="min-h-screen bg-[#F6F5F1] flex items-center justify-center px-4">
@@ -21,7 +32,7 @@ export default function OnBoardingClientSide() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <RolePicker onSelect={setRole} />
+              <RolePicker onSelect={handleSelectRole} />
             </motion.div>
           ) : (
             <motion.div
@@ -31,7 +42,7 @@ export default function OnBoardingClientSide() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <VerificationForm role={role} onBack={() => setRole(null)} />
+              <VerificationForm role={role} onBack={handleBack} />
             </motion.div>
           )}
         </AnimatePresence>

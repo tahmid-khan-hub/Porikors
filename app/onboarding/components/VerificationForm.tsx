@@ -4,6 +4,7 @@ import { submitVerification } from "@/lib/actions/submitVerification";
 import Field from "./Field";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { clearOnboardingStorage } from "@/lib/onboardingStorage";
 
 interface VerificationFormProps {
     role: Role;
@@ -15,7 +16,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),
         onSuccess: () => {
-            
+            clearOnboardingStorage();
         },
         onError: () => {
             alert("something went wrong. Try again")
