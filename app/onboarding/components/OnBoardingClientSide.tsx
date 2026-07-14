@@ -12,7 +12,7 @@ export default function OnBoardingClientSide() {
   return (
     <div className="min-h-screen bg-[#F6F5F1] flex items-center justify-center px-4">
       <div className="w-full max-w-lg">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!role ? (
             <motion.div
               key="picker"
