@@ -1,0 +1,16 @@
+export const departmentOptions = [
+  "Computer Science & Engineering (CSE)",
+  "Software Engineering (SWE)",
+  "Electrical & Electronic Engineering (EEE)",
+  "Business Administration (BBA)",
+  "Accounting",
+  "Finance",
+  "Marketing",
+  "Economics",
+  "English",
+  "Law",
+  "Pharmacy",
+  "Architecture",
+  "Textile Engineering",
+  "Other",
+];
