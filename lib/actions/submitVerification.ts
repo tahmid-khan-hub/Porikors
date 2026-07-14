@@ -1,3 +1,4 @@
+"use server"
 import { Role } from "@/app/onboarding/components/OnBoardingClientSide";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../authOptions";
