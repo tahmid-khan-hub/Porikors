@@ -5,6 +5,10 @@ import Field from "./Field";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { clearOnboardingStorage } from "@/lib/onboardingStorage";
+import Dropdown from "@/components/shared/Dropdown";
+import { departmentOptions } from "@/lib/constants/departmentOptions";
+import { useState } from "react";
+import { designationOptions } from "@/lib/constants/designationOptions";
 
 interface VerificationFormProps {
     role: Role;
@@ -12,6 +16,8 @@ interface VerificationFormProps {
 }
 
 export default function VerificationForm({ role, onBack } : VerificationFormProps) {
+    const [department, setDepartment] = useState("");
+    const [designation, setDesignation] = useState("");
 
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),
@@ -49,8 +55,8 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
                         <>
                             {/* fields for teacher role */}
                             <Field name="designation" label="Designation" required />
-                            <Field name="department" label="Department" required />
-                            <Field name="work_email" label="Work email" type="email" required />
+                            <Dropdown name="department" options={departmentOptions} placeholder="Select your department" label="Department" value={department} onChange={setDepartment} />
+                            <Dropdown name="work_email" options={designationOptions} placeholder="Select your designation" label="Designation" value={designation} onChange={setDesignation} />
                         </>
                     ) : (
                         <>
