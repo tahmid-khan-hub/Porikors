@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 
 export function SiteHeader() {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
 
   return (
     <header className="border-b border-[#DAD7CE]/20 bg-[#1F6F5C]/5">
@@ -18,7 +20,7 @@ export function SiteHeader() {
             <div className="h-9 w-17 animate-pulse rounded-md bg-[#1F6F5C]/15" />
           ) : session?.user ? (
             <>
-              {session?.user?.roleStatus === "unset" && (
+              {session?.user?.roleStatus === "unset" && pathname !== "/onboarding" && (
                 <Link href="/onboarding">
                   <Button
                     variant="outline"
