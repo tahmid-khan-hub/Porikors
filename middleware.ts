@@ -21,24 +21,24 @@ export async function middleware(req: NextRequest) {
 
     // user is logged in but has no role -> onboarding
     if (roleStatus === "unset") {
-        if (!isOnboarding) {
-        return NextResponse.redirect(new URL("/onboarding", req.url));
+        if (isPublic || isOnboarding) {
+            return NextResponse.next();
         }
-        return NextResponse.next();
+        return NextResponse.redirect(new URL("/onboarding", req.url));
     }
 
     // user logged in and select the role now waiting for approval
     if (roleStatus === "pending" || roleStatus === "rejected") {
-        if (!isPending) {
-        return NextResponse.redirect(new URL("/pending", req.url));
+        if (isPublic || isPending) {
+            return NextResponse.next();
         }
-        return NextResponse.next();
+        return NextResponse.redirect(new URL("/pending", req.url));
     }
 
     // user is logged in and has specific role, also get the approval then redirect to dashboard layout
     if (roleStatus === "approved") {
-        if (isOnboarding || isPending) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        if (isPublic || isPending) {
+            return NextResponse.redirect(new URL("/dashboard", req.url));
         }
         return NextResponse.next();
     }
