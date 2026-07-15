@@ -35,11 +35,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid email or password");
         }
 
-        if (!user.password_hash) {
+        if (!user.password) {
           throw new Error("This account uses Google Sign-In. Please continue with Google.");
         }
 
-        const isValid = await bcrypt.compare(credentials.password, user.password_hash);
+        const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) {
           throw new Error("Invalid email or password");
         }
@@ -94,7 +94,7 @@ export const authOptions: NextAuthOptions = {
       if (user || !token.userId) {
         try {
           const result = await pool.query<{ id: string; role: string | null; role_status: string }>(
-            "SELECT id, role FROM users WHERE email = $1",
+            "SELECT id, role, role_status FROM users WHERE email = $1",
             [token.email]
           );
           if (result.rows.length > 0) {

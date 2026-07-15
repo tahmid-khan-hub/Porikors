@@ -35,9 +35,7 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
             });
             if (signUp?.ok) {
                 form.reset();
-                setTimeout(() => {
-                    window.location.href = signUp.url || callbackUrl;
-                }, 1500);
+                window.location.href = "/onboarding";
             } else {
                 setErrorMessage("Registered but failed to sign in. Please try signing in manually.");
             }
