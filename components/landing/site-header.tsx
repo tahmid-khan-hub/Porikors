@@ -17,12 +17,24 @@ export function SiteHeader() {
           {status === "loading" ? (
             <div className="h-9 w-17 animate-pulse rounded-md bg-[#1F6F5C]/15" />
           ) : session?.user ? (
-            <Button
-              onClick={() => signOut()}
-              className="bg-[#1F6F5C] text-white hover:bg-[#175446] px-3"
-            >
-              Log out
-            </Button>
+            <>
+              {session?.user?.roleStatus === "unset" && (
+                <Link href="/onboarding">
+                  <Button
+                    variant="outline"
+                    className="border-[#1F6F5C] text-[#1F6F5C] bg-white hover:bg-[#1F6F5C]/5 px-3"
+                  >
+                    Continue
+                  </Button>
+                </Link>
+              )}
+              <Button
+                onClick={() => signOut()}
+                className="bg-[#1F6F5C] text-white hover:bg-[#175446] px-3"
+              >
+                Log out
+              </Button>
+            </>
           ) : (
             <Link href="/login">
               <Button className="bg-[#1F6F5C] text-white hover:bg-[#175446] px-3">
