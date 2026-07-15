@@ -34,3 +34,7 @@ export function clearOnboardingStorage() {
   sessionStorage.removeItem(ROLE_KEY);
   sessionStorage.removeItem(FORM_KEY);
 }
+
+export function clearStoredFields() {
+  sessionStorage.removeItem(FORM_KEY);
+}

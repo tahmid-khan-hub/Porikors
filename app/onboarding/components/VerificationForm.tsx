@@ -4,7 +4,7 @@ import { submitVerification } from "@/lib/actions/submitVerification";
 import Field from "./Field";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { clearOnboardingStorage } from "@/lib/onboardingStorage";
+import { clearOnboardingStorage, clearStoredFields } from "@/lib/onboardingStorage";
 import Dropdown from "@/components/shared/Dropdown";
 import { departmentOptions } from "@/lib/constants/departmentOptions";
 import { useState } from "react";
@@ -18,6 +18,7 @@ interface VerificationFormProps {
 export default function VerificationForm({ role, onBack } : VerificationFormProps) {
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
+    const [formKey, setFormKey] = useState(0);
 
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),
@@ -34,6 +35,13 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
         const formData = new FormData(e.currentTarget);
         mutation.mutate(formData);
     }
+
+    function handleClear() {
+        clearStoredFields();
+        setDepartment("");
+        setDesignation("");
+        setFormKey((k) => k + 1); 
+    }
     return(
         <>
             {/* back button */}
@@ -47,7 +55,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
                 <h2 className="mt-2 text-xl font-semibold text-[#1C2420] capitalize">{role} verification</h2>
                 <p className="mt-1 text-sm text-[#1C2420]/60">We will review this before granting {role} access.</p>
 
-                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                <form key={formKey} onSubmit={handleSubmit} className="mt-6 space-y-4">
                     {/* institution */}
                     <Field name="institution" placeholder="Enter your institution" label="Institution" required />
 
@@ -80,12 +88,23 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
                         </>
                     )}
 
-                    <Button 
-                        type="submit"
-                        disabled={mutation.isPending}
-                        className={"w-full rounded-lg bg-[#1F6F5C] text-white transition-colors hover:bg-[#175446] disabled:opacity-60 mt-5 py-5"}>
-                        {mutation.isPending ? "Submitting…" : "Submit for review"}
-                    </Button>
+                    <div className="flex gap-3 mt-8">
+                        <Button
+                            type="button"
+                            onClick={handleClear}
+                            variant="outline"
+                            className="w-18 rounded-lg border-[#DAD7CE] bg-white text-[#1C2420] hover:bg-[#F6F5F1] py-5"
+                        >
+                            Clear
+                        </Button>
+                        <Button
+                            type="submit"
+                            disabled={mutation.isPending}
+                            className="flex-1 rounded-lg bg-[#1F6F5C] text-white transition-colors hover:bg-[#175446] disabled:opacity-60 py-5"
+                        >
+                            {mutation.isPending ? "Submitting…" : "Submit for review"}
+                        </Button>
+                    </div>
                 </form>
             </div>
         </>
