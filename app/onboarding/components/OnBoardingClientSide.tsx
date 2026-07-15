@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import VerificationForm from "./VerificationForm";
 import RolePicker from "./RolePicker";
 import { getStoredRole, setStoredRole } from "@/lib/onboardingStorage";
 import { SiteHeader } from "@/components/landing/site-header";
+import VerificationForm from "./VerificationForm/VerificationForm";
 
 export type Role = "teacher" | "student";
 
