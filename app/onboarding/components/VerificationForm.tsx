@@ -49,19 +49,19 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                     {/* institution */}
-                    <Field name="institution" label="Institution" required />
+                    <Field name="institution" placeholder="Enter your institution" label="Institution" required />
 
                     {role === "teacher" ? (
                         <>
                             {/* fields for teacher role */}
-                            <Field name="designation" label="Designation" required />
+                            <Field name="work_email" placeholder="Enter you work email" label="Email" required />
                             <Dropdown name="department" options={departmentOptions} placeholder="Select your department" label="Department" value={department} onChange={setDepartment} />
-                            <Dropdown name="work_email" options={designationOptions} placeholder="Select your designation" label="Designation" value={designation} onChange={setDesignation} />
+                            <Dropdown name="designation" options={designationOptions} placeholder="Select your designation" label="Designation" value={designation} onChange={setDesignation} />
                         </>
                     ) : (
                         <>
                             {/* fields for student role */}
-                            <Field name="student_id_number" label="Student ID number" required />
+                            <Field name="student_id_number" label="Student ID number" placeholder="Enter your student ID" required />
                             <div>
                                 <label className="text-xs font-medium text-[#1C2420]/70">
                                     Student ID card photo
