@@ -93,14 +93,15 @@ export const authOptions: NextAuthOptions = {
 
       if (user || !token.userId) {
         try {
-          const result = await pool.query<{ id: string; role: string | null; role_status: string }>(
-            "SELECT id, role, role_status FROM users WHERE email = $1",
+          const result = await pool.query<{ id: string; role: string | null; role_status: string; is_admin: boolean }>(
+            "SELECT id, role, role_status, is_admin FROM users WHERE email = $1",
             [token.email]
           );
           if (result.rows.length > 0) {
             token.userId = result.rows[0].id;
             token.role = result.rows[0].role;
             token.roleStatus = (result.rows[0].role_status as JWT["roleStatus"]) ?? "unset";
+            token.isAdmin = result.rows[0].is_admin;
           }
         } catch (error) {
           console.error("jwt callback DB error:", error);
@@ -115,6 +116,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = String(token.userId);
         session.user.role = token.role ?? null;
         session.user.roleStatus = token.roleStatus ?? "unset";
+        session.user.isAdmin = token.isAdmin ?? false;
       }
       if (!session.user.image || session.user.image.trim() === "") {
         session.user.image = null;

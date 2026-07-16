@@ -10,11 +10,20 @@ export async function middleware(req: NextRequest) {
     const isPublic = PUBLIC_PATHS.includes(pathname);
     const isOnboarding = pathname.startsWith("/onboarding");
     const isPending = pathname.startsWith("/pending");
+    const isAdminPath = pathname.startsWith("/admin");
 
     // if user is not logged in
     if(!token) {
         if(isPublic) return NextResponse.next();
         return NextResponse.redirect(new URL("/login", req.url))
+    }
+
+    // checked before role_status pipeline, since admin is orthogonal to role/onboarding
+    if (isAdminPath) {
+        if (!token.isAdmin) {
+            return NextResponse.redirect(new URL("/404", req.url));
+        }
+        return NextResponse.next();
     }
 
     const roleStatus = token.roleStatus ?? "unset";

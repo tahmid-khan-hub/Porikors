@@ -11,6 +11,7 @@ declare module "next-auth" {
       image?: string | null;
       role?: string | null;
       roleStatus?: RoleStatus;
+      isAdmin?: boolean;
     } & DefaultSession["user"];
     accessToken?: string;
   }
@@ -22,6 +23,7 @@ declare module "next-auth" {
     image?: string | null;
     role?: string | null;
     roleStatus?: RoleStatus;
+    isAdmin?: boolean;
   }
 }
 
@@ -30,5 +32,6 @@ declare module "next-auth/jwt" {
     userId?: string;
     role?: string | null;
     roleStatus?: RoleStatus;
+    isAdmin?: boolean;
   }
 }
