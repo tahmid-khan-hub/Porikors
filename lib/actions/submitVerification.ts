@@ -25,7 +25,7 @@ export async function submitVerification(role: Role, formData: FormData) {
             if(!emailPattern.test(work_email)) return { error: "Enter a valid work email", status: 400 }
 
             await pool.query(
-                "INSERT INTO role_verifications (user_id, role, institution, designation, department, work_email) VALUES ($1, 'teacher', $2, $3, $4, $5)",
+                "INSERT INTO role_verifications (user_id, requested_role, institution, designation, department, work_email) VALUES ($1, 'teacher', $2, $3, $4, $5)",
                 [session.user.id, institution, designation, department, work_email]
             )
         } else {
@@ -34,7 +34,7 @@ export async function submitVerification(role: Role, formData: FormData) {
             if(!student_id_number) return { error: "student id is required", status: 400 }
 
             await pool.query(
-                "INSERT INTO role_verifications (user_id, role, institution, student_id_number) VALUES ($1, 'student', $2, $3)",
+                "INSERT INTO role_verifications (user_id, requested_role, institution, student_id_number) VALUES ($1, 'student', $2, $3)",
                 [session.user.id, institution, student_id_number]
             )
         }

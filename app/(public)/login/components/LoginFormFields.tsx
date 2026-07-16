@@ -24,6 +24,7 @@ export default function LoginFormFields({ callbackUrl }: LoginFormProps) {
 
     if (signin?.ok) {
       alert("login successfully");
+      window.location.href = "/pending";
     } else {
       alert("failed to login");
     }

@@ -1,3 +1,4 @@
+"use client"
 import { useMutation } from "@tanstack/react-query";
 import { submitVerification } from "@/lib/actions/submitVerification";
 import { ArrowLeft } from "lucide-react";
@@ -5,6 +6,8 @@ import { clearOnboardingStorage, clearStoredFields } from "@/lib/onboardingStora
 import { useState } from "react";
 import { Role } from "../OnBoardingClientSide";
 import VerificationFormFields from "./VerificationFormFields";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface VerificationFormProps {
     role: Role;
@@ -12,6 +15,8 @@ interface VerificationFormProps {
 }
 
 export default function VerificationForm({ role, onBack } : VerificationFormProps) {
+    const { update } = useSession();
+    const router = useRouter();
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
     const [formKey, setFormKey] = useState(0);
@@ -20,6 +25,8 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
         mutationFn: (formData: FormData) => submitVerification(role, formData),
         onSuccess: () => {
             clearOnboardingStorage();
+            update({ role, roleStatus: "pending" });
+            router.push("/pending")
         },
         onError: () => {
             alert("something went wrong. Try again")
