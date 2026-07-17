@@ -10,7 +10,7 @@ const nav_items = [
     { label: "Settings", href: "/admin/settings", icon: Settings },
 ]
 
-export default function AdminSidebarContent() {
+export default function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void }) {
     const pathname = usePathname();
     return (
         <>
@@ -31,6 +31,7 @@ export default function AdminSidebarContent() {
                         <Link
                             key={href}
                             href={href}
+                            onClick={onNavigate}
                             className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors ${
                             isActive
                             ? "bg-[#1F6F5C]/15 text-[#3B8F5C] font-medium"
@@ -46,6 +47,7 @@ export default function AdminSidebarContent() {
             <div className="border-t border-white/10 px-3 py-4">
                 <Link
                     href="/admin/profile"
+                    onClick={onNavigate}
                     className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-[#B7BDB3] hover:bg-white/5 hover:text-[#F6F5F1] transition-colors">
                     <UserCircle size={18} />
                     Admin Profile
