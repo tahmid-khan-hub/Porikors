@@ -1,4 +1,4 @@
-import AdminSidebar from "@/components/admin/AdminSidebar";
+import AdminChrome from "@/components/admin/AdminChrome";
 import { authOptions } from "@/lib/authOptions"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation";
@@ -8,10 +8,5 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     if (!session?.user?.isAdmin) {
         redirect("/404");
     }
-    return (
-        <div className="flex min-h-screen bg-[#F6F5F1]">
-            <AdminSidebar />
-            <main className="flex-1 p-8">{children}</main>
-        </div>
-    )
+    return <AdminChrome user={session.user}>{children}</AdminChrome>
 }
