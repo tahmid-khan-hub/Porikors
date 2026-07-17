@@ -26,6 +26,11 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
+    // admin bypasses role_status pipeline entirely — they don't onboard
+    if (token.isAdmin) {
+        return NextResponse.next();
+    }
+
     const roleStatus = token.roleStatus ?? "unset";
 
     // user is logged in but has no role -> onboarding
