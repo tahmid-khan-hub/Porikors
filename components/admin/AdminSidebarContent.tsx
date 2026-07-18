@@ -1,7 +1,8 @@
 "use client"
 import { usePathname } from "next/navigation";
-import { ClipboardCheck, GraduationCap as TeacherIcon, Users, Settings, UserCircle } from "lucide-react";
+import { ClipboardCheck, GraduationCap as TeacherIcon, Users, Settings, UserCircle, LogOut } from "lucide-react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const nav_items = [
     { label: "Pending Verifications", href: "/admin/verifications", icon: ClipboardCheck },
@@ -42,6 +43,17 @@ export default function AdminSidebarContent({ onNavigate }: { onNavigate?: () =>
                         </Link>
                     );
                 })}
+                <button
+                    type="button"
+                    onClick={() => {
+                        onNavigate?.();
+                        signOut({ callbackUrl: "/login" });
+                    }}
+                    className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors text-[#B7BDB3] hover:bg-white/5 hover:text-[#F6F5F1]"
+                    >
+                        <LogOut size={18} />
+                        Log out
+                </button>
             </nav>
 
             <div className="border-t border-white/10 px-3 py-4">
