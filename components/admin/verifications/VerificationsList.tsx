@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import VerificationCard from "./VerificationCard";
 import VerificationCardSkeleton from "./VerificationCardSkeleton";
 import VerificationsError from "./VerificationsError";
+import VerificationsPending from "./VerificationsPending";
 
 export default function VerificationsList() {
     const [roleTab, setRoleTab] = useState<RoleTab>("all");
@@ -41,6 +42,10 @@ export default function VerificationsList() {
             )}
 
             {isError && ( <VerificationsError onRetry={() => refetch()} /> )}
+
+                {!isLoading && !isError && items.length === 0 && (
+                    <VerificationsPending />
+                )}
 
             {!isLoading && !isError && (
                 <div className="flex flex-col gap-3">
