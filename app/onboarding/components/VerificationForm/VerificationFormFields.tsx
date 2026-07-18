@@ -1,7 +1,7 @@
 import Dropdown from "@/components/shared/Dropdown";
 import Field from "../Field";
 import { Button } from "@/components/ui/button";
-import { VerificationFormFieldsProps } from "@/types/verification";
+import { VerificationFormFieldsProps } from "@/types/Verification";
 import { departmentOptions } from "@/lib/constants/departmentOptions";
 import { designationOptions } from "@/lib/constants/designationOptions";
 

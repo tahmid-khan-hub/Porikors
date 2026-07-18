@@ -3,6 +3,7 @@ import { useState } from "react";
 import { GraduationCap, User, Check, ArrowRight } from "lucide-react";
 import { Role } from "./OnBoardingClientSide";
 import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
 
 interface RolePickerProps {
   onSelect: (role: Role) => void;
@@ -90,10 +91,10 @@ export default function RolePicker({ onSelect }: RolePickerProps) {
       </Button>
 
       <p className="mt-4 text-xs text-[#1C2420]/50">
-        Already have an account?{" "}
-        <a href="/login" className="font-medium text-[#1F6F5C] hover:underline">
-          Login
-        </a>
+        Do not want to continue?{" "}
+        <button onClick={() => signOut()} className="font-medium text-[#1F6F5C] hover:underline">
+          Log out
+        </button>
       </p>
     </div>
   );
