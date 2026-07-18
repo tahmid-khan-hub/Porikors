@@ -20,13 +20,15 @@ export default function VerificationsList() {
     const items = data?.pages.flatMap((p) => p.items) ?? []
     return (
         <div className="flex flex-col gap-6">
-            <Tabs value={roleTab} onValueChange={(v) => setRoleTab(v as RoleTab)}>
-                <TabsList>
-                    <TabsTrigger value="all">All</TabsTrigger>
-                    <TabsTrigger value="teacher">Teacher</TabsTrigger>
-                    <TabsTrigger value="student">Student</TabsTrigger>
-                </TabsList>
-            </Tabs>
+            <div className="flex justify-end mt-5 lg:-mt-5">
+                <Tabs value={roleTab} onValueChange={(v) => setRoleTab(v as RoleTab)}>
+                    <TabsList>
+                        <TabsTrigger value="all">All</TabsTrigger>
+                        <TabsTrigger value="teacher">Teacher</TabsTrigger>
+                        <TabsTrigger value="student">Student</TabsTrigger>
+                    </TabsList>
+                </Tabs>
+            </div>
 
             <div className="flex flex-col gap-3">
                 {items.map((item) => (
