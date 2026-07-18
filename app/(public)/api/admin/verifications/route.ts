@@ -19,18 +19,18 @@ export async function GET(req: NextRequest) {
         const result = await pool.query(`
             SELECT * FROM (
                 SELECT DISTINCT ON (rv.user_id) 
-                    rv.id, rv.user_id, rv.role, rv.status, rv.institution,
+                    rv.id, rv.user_id, rv.requested_role, rv.status, rv.institution,
                     rv.id_card_url, rv.created_at,
                     u.name, u.email, u.image
                 FROM role_verifications rv
-                JOIN users ON u.id = rv.user_id
+                JOIN users u ON u.id = rv.user_id
                 ORDER BY rv.user_id, rv.created_at DESC
             ) latest
             WHERE latest.status = 'pending'
-                AND ($1::text is NULL OR latest.role = $1)
+                AND ($1::text is NULL OR latest.requested_role = $1)
                 AND (
                     $2::timestamptz is NULL
-                    OR (latest.created_at, latest_id) < ($2::timestamptz, $3::int)
+                    OR (latest.created_at, latest.id) < ($2::timestamptz, $3::uuid)
                 )
             ORDER BY latest.created_at DESC, latest.id DESC
             LIMIT $4
