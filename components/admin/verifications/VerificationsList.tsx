@@ -6,11 +6,12 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import VerificationCard from "./VerificationCard";
 import VerificationCardSkeleton from "./VerificationCardSkeleton";
+import VerificationsError from "./VerificationsError";
 
 export default function VerificationsList() {
     const [roleTab, setRoleTab] = useState<RoleTab>("all");
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = useInfiniteQuery({
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } = useInfiniteQuery({
         queryKey: ["verifications", roleTab],
         queryFn: ({ pageParam }) =>
             fetchVerifications(roleTab === 'all' ? null : roleTab, pageParam),
@@ -38,6 +39,8 @@ export default function VerificationsList() {
                     ))}
                 </div>
             )}
+
+            {isError && ( <VerificationsError onRetry={() => refetch()} /> )}
 
             {!isLoading && !isError && (
                 <div className="flex flex-col gap-3">
