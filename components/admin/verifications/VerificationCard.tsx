@@ -35,7 +35,7 @@ export default function VerificationCard({ verification,}: { verification: Verif
             <p className="text-sm text-[#1C2420]/60 truncate">
               {verification.email}
               <span className="mx-1.5 text-[#DAD7CE]">·</span>
-              <span className="capitalize">{verification.role}</span>
+              <span className="capitalize">{verification.requested_role}</span>
               <span className="mx-1.5 text-[#DAD7CE]">·</span>
               {verification.institution ?? "No institution given"}
             </p>

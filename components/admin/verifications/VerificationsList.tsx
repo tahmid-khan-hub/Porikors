@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import VerificationCard from "./VerificationCard";
+import VerificationCardSkeleton from "./VerificationCardSkeleton";
 
 export default function VerificationsList() {
     const [roleTab, setRoleTab] = useState<RoleTab>("all");
@@ -30,11 +31,21 @@ export default function VerificationsList() {
                 </Tabs>
             </div>
 
-            <div className="flex flex-col gap-3">
-                {items.map((item) => (
-                <VerificationCard key={item.id} verification={item} />
-                ))}
-            </div>
+            {isLoading && (
+                <div className="flex flex-col gap-3">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <VerificationCardSkeleton key={i} />
+                    ))}
+                </div>
+            )}
+
+            {!isLoading && !isError && (
+                <div className="flex flex-col gap-3">
+                    {items.map((item) => (
+                        <VerificationCard key={item.id} verification={item} />
+                    ))}
+                </div>
+            )}
 
             {hasNextPage && (
                 <button
