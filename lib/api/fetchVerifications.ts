@@ -1,7 +1,7 @@
-import { RoleTab, VerificationsPage } from "@/types/AdminVerification";
+import { VerificationsPage } from "@/types/AdminVerification";
 
 export async function fetchVerifications(
-  role: RoleTab,
+  role: "teacher" | "student" | null,
   cursor: string | null
 ): Promise<VerificationsPage> {
     const params = new URLSearchParams();
