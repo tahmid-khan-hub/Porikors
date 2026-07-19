@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { RegisterUser } from "@/lib/auth/RegisterUser";
+import { CircleCheckBig, XCircle } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "sonner";
 
 interface RegisterFormProps {
     callbackUrl: string;
@@ -10,7 +12,6 @@ interface RegisterFormProps {
 
 export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
     const [showPassword, setShowPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\W_]).{8,}$/; 
 
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
@@ -24,7 +25,11 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
         const password = formData.get("password") as string;
 
         if (!passwordPattern.test(password)) {
-            setErrorMessage("Password must be at least 8 characters and include: 1 uppercase, 1 lowercase and 1 special character.");
+            toast.error("Weak password", {
+                description: "Must be at least 8 characters and include 1 uppercase, 1 lowercase and 1 special character.",
+                descriptionClassName: "!text-[#C1443D]/80",
+                icon: <XCircle className="text-[#C1443D]" size={18} />,
+            });
             return;
         }
         const res = await RegisterUser({ name, email, password, image });
@@ -34,19 +39,30 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
                 redirect: false, email, password, callbackUrl
             });
             if (signUp?.ok) {
-                form.reset();
-                window.location.href = "/onboarding";
+                toast.success("Account created!", {
+                    description: "Welcome to Porikors.",
+                    descriptionClassName: "!text-[#1F6F5C]/80",
+                    icon: <CircleCheckBig className="text-[#1F6F5C]" size={18} /> 
+                });
             } else {
-                setErrorMessage("Registered but failed to sign in. Please try signing in manually.");
+                toast.error("Registered but failed to login", {
+                    description: "Please try signing in manually.",
+                    descriptionClassName: "!text-[#C1443D]/80",
+                    icon: <XCircle className="text-[#C1443D]" size={18} />,
+                });
             }
         } else {
-            setErrorMessage("User already exists or sign up failed. Please try again.");
+            toast.error("Registration failed", {
+                description: "User already exists or registration failed. Please try again.",
+                descriptionClassName: "!text-[#C1443D]/80",
+                icon: <XCircle className="text-[#C1443D]" size={18} />,
+            });
         }
     }
     return (
         <div>
             <form onSubmit={handleSubmit} className="space-y-4 text-[#1C2420]">
-                <input type="name" name="name" required
+                <input type="text" name="name" required
                 placeholder="Enter your name"
                 className="w-full p-3 mb-6 bg-white border border-[#DAD7CE] hover:border-[#1F6F5C] rounded-md focus:outline-none focus:ring-2 focus:ring-[#1F6F5C] focus:border-transparent placeholder:text-[#1C2420]/40"/>
                 <input type="text" name="image"
