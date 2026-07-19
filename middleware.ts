@@ -11,6 +11,8 @@ export async function middleware(req: NextRequest) {
     const isOnboarding = pathname.startsWith("/onboarding");
     const isPending = pathname.startsWith("/pending");
     const isAdminPath = pathname.startsWith("/admin");
+    const isTeacherPath = pathname.startsWith("/teacher");
+    const isStudentPath = pathname.startsWith("/student");
 
     // if user is not logged in
     if(!token) {
@@ -51,9 +53,17 @@ export async function middleware(req: NextRequest) {
 
     // user is logged in and has specific role, also get the approval then redirect to dashboard layout
     if (roleStatus === "approved") {
-        if (isPublic || isPending) {
-            return NextResponse.redirect(new URL("/dashboard", req.url));
+        const dashboardPath = token.role === "teacher" ? "/teacher" : "/student";
+
+        if (isPublic || isPending || isOnboarding) {
+            return NextResponse.redirect(new URL(dashboardPath, req.url));
         }
+
+        // wrong role access redirects
+        if ( (isTeacherPath && token.role !== "teacher") ||(isStudentPath && token.role !== "student") ) {
+            return NextResponse.redirect(new URL(dashboardPath, req.url));
+        }
+
         return NextResponse.next();
     }
 
