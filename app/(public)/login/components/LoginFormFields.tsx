@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { CircleCheckBig, XCircle } from "lucide-react";
 
 interface LoginFormProps {
   callbackUrl: string;
@@ -23,10 +25,17 @@ export default function LoginFormFields({ callbackUrl }: LoginFormProps) {
     });
 
     if (signin?.ok) {
-      alert("login successfully");
-      window.location.href = "/pending";
+      toast.success("Welcome back!", {
+        description: "You've successfully login.",
+        descriptionClassName: "!text-[#1F6F5C]/80",
+        icon: <CircleCheckBig className="text-[#1F6F5C]" size={18} /> 
+      });
     } else {
-      alert("failed to login");
+      toast.error("Failed to login", {
+        description: "Incorrect email or password. Please try again.",
+        descriptionClassName: "!text-[#C1443D]/80",
+        icon: <XCircle className="text-[#C1443D]" size={18} />,
+      });
     }
   };
 

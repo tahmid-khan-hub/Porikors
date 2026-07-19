@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Sessionprovider from "./SessionProvider";
 import QueryProvider from "./QueryProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({
         <QueryProvider>
           <Sessionprovider>
             {children}
+            <Toaster position="bottom-right" />
           </Sessionprovider>
         </QueryProvider>
       </body>
