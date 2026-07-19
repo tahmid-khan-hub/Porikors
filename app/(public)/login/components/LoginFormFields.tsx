@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { toast } from "sonner";
 import { CircleCheckBig, XCircle } from "lucide-react";
+import getPostAuthRedirect from "@/lib/getPostAuthRedirect";
 
 interface LoginFormProps {
   callbackUrl: string;
@@ -25,11 +26,16 @@ export default function LoginFormFields({ callbackUrl }: LoginFormProps) {
     });
 
     if (signin?.ok) {
+      const session = await getSession();
+      const destination = getPostAuthRedirect(session?.user);
+
       toast.success("Welcome back!", {
         description: "You've successfully login.",
         descriptionClassName: "!text-[#1F6F5C]/80",
         icon: <CircleCheckBig className="text-[#1F6F5C]" size={18} /> 
       });
+
+      setTimeout(() => { window.location.href = destination; }, 1200);
     } else {
       toast.error("Failed to login", {
         description: "Incorrect email or password. Please try again.",

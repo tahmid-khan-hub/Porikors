@@ -1,10 +1,6 @@
-interface SessionUser {
-    roleStatus?: "unset" | "pending" | "approved" | "rejected";
-    role?: "teacher" | "student" | null;
-    isAdmin?: boolean;
-}
+import type { Session } from "next-auth";
 
-export default function getPostAuthRedirect(user?: SessionUser | null): string {
+export default function getPostAuthRedirect(user?: Session["user"] | null): string {
     if (!user) return "/login";
 
     const { roleStatus, role, isAdmin } = user;
@@ -19,5 +15,5 @@ export default function getPostAuthRedirect(user?: SessionUser | null): string {
         return isAdmin ? "/admin/verifications" : "/onboarding";
     }
 
-    return "/pending"
+    return "/pending";
 }
