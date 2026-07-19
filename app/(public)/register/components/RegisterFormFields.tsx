@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { RegisterUser } from "@/lib/auth/RegisterUser";
+import getPostAuthRedirect from "@/lib/getPostAuthRedirect";
 import { CircleCheckBig, XCircle } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "sonner";
@@ -39,11 +40,16 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
                 redirect: false, email, password, callbackUrl
             });
             if (signUp?.ok) {
+                const session = await getSession();
+                const destination = getPostAuthRedirect(session?.user);
                 toast.success("Account created!", {
                     description: "Welcome to Porikors.",
                     descriptionClassName: "!text-[#1F6F5C]/80",
                     icon: <CircleCheckBig className="text-[#1F6F5C]" size={18} /> 
                 });
+
+                form.reset();
+                setTimeout(() => { window.location.href = destination; }, 1200);
             } else {
                 toast.error("Registered but failed to login", {
                     description: "Please try signing in manually.",
