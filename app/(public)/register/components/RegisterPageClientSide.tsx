@@ -1,11 +1,9 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
 import RegisterFormFields from "./RegisterFormFields";
 import { motion } from "framer-motion";
+import GoogleButton from "@/components/auth/GoogleButton";
 
 export default function RegisterPageClientSide() {
     const searchParams = useSearchParams();
@@ -21,14 +19,7 @@ export default function RegisterPageClientSide() {
                 <p className="text-center text-sm text-[#1C2420]/60 -mt-2 mb-12">Where teachers manage courses and students keep up with them.</p>
 
                 {/* Google Login */}
-                <Button
-                    onClick={() => signIn("google", { callbackUrl })}
-                    type="button"
-                    className="bg-[#1F6F5C] text-white hover:bg-[#175446] py-6 rounded-lg font-semibold text-[16px] w-full flex items-center justify-center gap-2"
-                >
-                    <FcGoogle />
-                    Continue with Google
-                </Button>
+                <GoogleButton />
 
                 {/* Divider */}
                 <div className="flex items-center gap-3">
