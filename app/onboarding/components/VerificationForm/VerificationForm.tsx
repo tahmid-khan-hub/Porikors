@@ -1,13 +1,14 @@
 "use client"
 import { useMutation } from "@tanstack/react-query";
 import { submitVerification } from "@/lib/actions/submitVerification";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, XCircle } from "lucide-react";
 import { clearOnboardingStorage, clearStoredFields } from "@/lib/onboardingStorage";
 import { useState } from "react";
 import { Role } from "../OnBoardingClientSide";
 import VerificationFormFields from "./VerificationFormFields";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface VerificationFormProps {
     role: Role;
@@ -23,13 +24,17 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
 
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),
-        onSuccess: () => {
+        onSuccess: async() => {
             clearOnboardingStorage();
-            update({ role, roleStatus: "pending" });
+            await update({ role, roleStatus: "pending" });
             router.push("/pending")
         },
         onError: () => {
-            alert("something went wrong. Try again")
+            toast.error("Falied to submit for review", {
+                description: "Please try again. Something went wrong!",
+                descriptionClassName: "!text-[#C1443D]/80",
+                icon: <XCircle className="text-[#C1443D]" size={18} />,
+            });
         }
     })
 

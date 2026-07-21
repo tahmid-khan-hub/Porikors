@@ -30,6 +30,16 @@ export function SiteHeader() {
                   </Button>
                 </Link>
               )}
+              {session?.user?.roleStatus === "pending" &&  
+              <Link href="/pending">
+                  <Button
+                    variant="outline"
+                    className="border-[#1F6F5C] text-[#1F6F5C] bg-white hover:bg-[#1F6F5C]/5 px-3"
+                  >
+                    Continue
+                  </Button>
+                </Link>
+              }
               <Button
                 onClick={() => signOut()}
                 className="bg-[#1F6F5C] text-white hover:bg-[#175446] px-3"
