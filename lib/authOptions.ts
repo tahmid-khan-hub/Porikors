@@ -99,7 +99,7 @@ export const authOptions: NextAuthOptions = {
           );
           if (result.rows.length > 0) {
             token.userId = result.rows[0].id;
-            token.role = result.rows[0].role;
+            token.role = result.rows[0].role as JWT["role"];
             token.roleStatus = (result.rows[0].role_status as JWT["roleStatus"]) ?? "unset";
             token.isAdmin = result.rows[0].is_admin;
           }
