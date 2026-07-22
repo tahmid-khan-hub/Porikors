@@ -21,7 +21,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
     const [formKey, setFormKey] = useState(0);
-    const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string }>({});
+    const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string; department?: string; designation?: string; }>({});
 
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),
@@ -54,6 +54,8 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
         if (role === "teacher") {
             const workEmail = formData.get("work_email")?.toString().trim() ?? "";
             if (!emailPattern.test(workEmail)) errors.work_email = "Enter a valid email address";
+            if (!department) errors.department = "Please select a department";
+            if (!designation) errors.designation = "Please select a designation";
         }
         
         setFieldErrors(errors);

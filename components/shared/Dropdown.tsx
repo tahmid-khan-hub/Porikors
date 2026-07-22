@@ -10,9 +10,10 @@ interface DropdownProps {
     label?: string;
     value?: string;
     onChange?: (value: string) => void;
+    error?: string;
 }
 
-export default function Dropdown({ name, options, placeholder, label, value, onChange, }: DropdownProps) {
+export default function Dropdown({ name, options, placeholder, label, value, onChange, error }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     
 
@@ -28,7 +29,9 @@ export default function Dropdown({ name, options, placeholder, label, value, onC
             <button
                 type="button"
                 onClick={() => setIsOpen((prev) => !prev)}
-                className="flex w-full text-sm items-center justify-between rounded-lg border border-[#DAD7CE] bg-white text-[#1C2420] outline-none focus:border-[#1F6F5C] px-3 py-2 mt-1 text-left transition "
+                className={`flex w-full text-sm items-center justify-between rounded-lg border bg-white text-[#1C2420] outline-none focus:border-[#1F6F5C] px-3 py-2 mt-1 text-left transition 
+                ${ error ? "border-[#C1443D]" : "border-[#DAD7CE]"
+                }`}
             >
                 <span className={value ? "text-sm text-[#1C2420]" : "text-sm text-gray-600"}>
                 {value || placeholder}
@@ -63,6 +66,7 @@ export default function Dropdown({ name, options, placeholder, label, value, onC
                     </motion.ul>
                 )}
             </AnimatePresence>
+            {error && <p className="mt-1 text-xs text-[#C1443D]">{error}</p>}
         </div>  
     )
 }

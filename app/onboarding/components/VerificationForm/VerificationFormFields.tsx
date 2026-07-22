@@ -35,6 +35,7 @@ export default function VerificationFormFields({role,
               label="Department"
               value={department}
               onChange={setDepartment}
+              error={fieldErrors?.department}
             />
             <Dropdown
               name="designation"
@@ -43,6 +44,7 @@ export default function VerificationFormFields({role,
               label="Designation"
               value={designation}
               onChange={setDesignation}
+              error={fieldErrors?.designation}
             />
           </>
         ) : (
