@@ -14,6 +14,7 @@ interface RegisterFormProps {
 export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
     const [showPassword, setShowPassword] = useState(false);
     const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\W_]).{8,}$/; 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,6 +25,15 @@ export default function RegisterFormFields({ callbackUrl }:RegisterFormProps) {
         const image = formData.get("image") as string;
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
+
+        if(!emailPattern.test(email)) {
+            toast.error("Invalid email", {
+                description: "Please enter a valid email address.",
+                descriptionClassName: "!text-[#C1443D]/80",
+                icon: <XCircle className="text-[#C1443D]" size={18} />
+            })
+            return;
+        }
 
         if (!passwordPattern.test(password)) {
             toast.error("Weak password", {
