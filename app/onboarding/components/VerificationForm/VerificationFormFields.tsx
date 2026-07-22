@@ -6,7 +6,7 @@ import { departmentOptions } from "@/lib/constants/departmentOptions";
 import { designationOptions } from "@/lib/constants/designationOptions";
 
 export default function VerificationFormFields({role,
-  formKey, department, setDepartment, designation, setDesignation, onSubmit, onClear, mutation,} : VerificationFormFieldsProps) {
+  formKey, department, setDepartment, designation, setDesignation, onSubmit, onClear, mutation, fieldErrors } : VerificationFormFieldsProps) {
   return (
     <div>
       <form key={formKey} onSubmit={onSubmit} className="mt-6 space-y-4">
@@ -26,6 +26,7 @@ export default function VerificationFormFields({role,
               placeholder="Enter you work email"
               label="Email"
               required
+              type="email" error={fieldErrors?.work_email}
             />
             <Dropdown
               name="department"
@@ -50,8 +51,10 @@ export default function VerificationFormFields({role,
             <Field
               name="student_id_number"
               label="Student ID number"
-              placeholder="Enter your student ID"
+              placeholder="e.g. 232-115-057"
               required
+              pattern="\d{3}-\d{3}-\d{3}" title="Format: 232-115-067"
+              maxLength={11} error={fieldErrors?.student_id_number}
             />
             <div>
               <label className="text-xs font-medium text-[#1C2420]/70">

@@ -21,6 +21,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
     const [formKey, setFormKey] = useState(0);
+    const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string }>({});
 
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),
@@ -41,6 +42,22 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        const studentIdPattern = /^\d{3}-\d{3}-\d{3}$/;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const errors: typeof fieldErrors = {};
+        
+        if (role === "student") {
+            const studentId = formData.get("student_id_number")?.toString().trim() ?? "";
+            if (!studentIdPattern.test(studentId)) errors.student_id_number = "Format must be 232-115-067";
+        }
+        
+        if (role === "teacher") {
+            const workEmail = formData.get("work_email")?.toString().trim() ?? "";
+            if (!emailPattern.test(workEmail)) errors.work_email = "Enter a valid email address";
+        }
+        
+        setFieldErrors(errors);
+        if (Object.keys(errors).length > 0) return;
         mutation.mutate(formData);
     }
 
@@ -72,6 +89,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
                     setDesignation={setDesignation}
                     onSubmit={handleSubmit}
                     onClear={handleClear}
+                    fieldErrors={fieldErrors}
                     mutation={mutation} />
             </div>
         </>
