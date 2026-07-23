@@ -8,7 +8,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         const session = await getServerSession(authOptions);
         if (!session?.user?.isAdmin) return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
 
-        const { id } = params;
+        const { id } = await params;
         if (!id?.trim()) return NextResponse.json({ success: false, message: "Verification ID is required" }, { status: 400 });
 
         const body = await req.json();
@@ -39,7 +39,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
             )
         } else {
             await pool.query(
-                `UPDATE role_verifications SET status = 'rejected', reject_reason = $1, updated_at = NOW() WHERE id = $2`,
+                `UPDATE role_verifications SET status = 'rejected', reject_reason = $1, reviewed_at = NOW() WHERE id = $2`,
                 [reason, id]
             )
         }

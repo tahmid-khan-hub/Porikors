@@ -6,7 +6,7 @@ import VerificationCardButtons from "./VerificationCardButtons";
 export default function VerificationCard({ verification,}: { verification: Verification }) {
   return (
     <div className="rounded-lg border border-[#DAD7CE] bg-white p-4 transition-colors">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3 min-w-0">
           {verification.image ? (
             <Image
