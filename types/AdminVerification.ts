@@ -1,7 +1,7 @@
 export type RoleTab = "all" | "teacher" | "student";
 
 export interface Verification {
-  id: number;
+  id: string;
   user_id: string;
   requested_role: "teacher" | "student";
   status: "pending" | "approved" | "rejected";
