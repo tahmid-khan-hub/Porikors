@@ -1,8 +1,10 @@
 "use client";
+import { TeacherColumns } from "@/components/admin/teachers/TeacherColumns";
 import TeacherFilters from "@/components/admin/teachers/TeacherFilters";
 import TeacherStatsCards from "@/components/admin/teachers/TeacherStatsCards";
 import { DataTable } from "@/components/shared/DataTable";
 import DataTablePagination from "@/components/shared/DataTablePagination";
+import { adminFetchTeachers } from "@/lib/api/adminFetchTeachers";
 import { TeacherDateRange, TeacherSortBy } from "@/types/admin";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -24,12 +26,16 @@ export default function AdminTeachersPage() {
 
         router.push(`/admin/teachers?${params.toString()}`);
     }
-    
+
+    const queryParams = { page, sortBy, dateRange };
+
     const { data, isLoading, isFetching } = useQuery({
-        queryKey: ["admin", "teachers", params],
-        queryFn: () => fetchTeachers(params),
+        queryKey: ["admin", "teachers", queryParams],
+        queryFn: () => adminFetchTeachers(queryParams),
         placeholderData: (prev) => prev,
-    })
+    });
+
+    const pagination = data?.pagination ?? { page: 1, limit: 10, totalItems: 0, totalPages: 1 };
 
     return (
         <div className="space-y-6">
@@ -48,7 +54,7 @@ export default function AdminTeachersPage() {
             />
 
             <DataTable
-                columns={teacherColumns}
+                columns={TeacherColumns}
                 data={data?.teachers ?? []}
                 isLoading={isLoading || isFetching}
                 getRowId={(teacher) => teacher.id}
