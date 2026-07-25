@@ -4,6 +4,7 @@ import TeacherStatsCards from "@/components/admin/teachers/TeacherStatsCards";
 import { DataTable } from "@/components/shared/DataTable";
 import DataTablePagination from "@/components/shared/DataTablePagination";
 import { TeacherDateRange, TeacherSortBy } from "@/types/admin";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AdminTeachersPage() {
@@ -23,6 +24,13 @@ export default function AdminTeachersPage() {
 
         router.push(`/admin/teachers?${params.toString()}`);
     }
+    
+    const { data, isLoading, isFetching } = useQuery({
+        queryKey: ["admin", "teachers", params],
+        queryFn: () => fetchTeachers(params),
+        placeholderData: (prev) => prev,
+    })
+
     return (
         <div className="space-y-6">
             <div>
