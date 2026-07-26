@@ -3,7 +3,7 @@ export interface Teacher {
   name: string;
   email: string;
   image: string | null;
-  createdAt: string;
+  roleApprovedAt: string;
   coursesCount: number;
 }
 

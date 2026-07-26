@@ -31,11 +31,11 @@ export const TeacherColumns: ColumnDef<Teacher>[] = [
         cell: (teacher) => <span className="text-[#1C2420]/70">{teacher.email}</span>,
     },
     {
-        key: "createdAt",
+        key: "roleApprovedAt",
         header: "Joined",
         cell: (teacher) => (
             <span className="text-[#1C2420]/70">
-                {new Date(teacher.createdAt).toLocaleDateString()}
+                {new Date(teacher.roleApprovedAt).toLocaleDateString()}
             </span>
         ),
     },
