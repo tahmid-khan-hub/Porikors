@@ -43,7 +43,15 @@ export function DataTable<T>({
                 </TableHeader>
                 <TableBody>
                     {isLoading ? (
-                        <p>loading....</p>
+                        Array.from({ length: skeletonRows }).map((_, i) => (
+                            <TableRow key={`skeleton-${i}`} className="border-[#DAD7CE] hover:bg-transparent">
+                                {columns.map((col) => (
+                                    <TableCell key={col.key}>
+                                        <div className="h-5 w-full max-w-[160px] rounded bg-[#DAD7CE]/50 animate-pulse" />
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))
                     ) : data.length === 0 ? (
                         <TableRow className="border-[#DAD7CE] hover:bg-transparent">
                             <TableCell
