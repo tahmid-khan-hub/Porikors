@@ -40,8 +40,8 @@ export default function AdminTeachersPage() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-xl font-semibold text-[#1C2420]">Teachers</h1>
-                <p className="text-sm text-[#1C2420]/60">Manage all verified teachers on the platform.</p>
+                <h1 className="text-2xl font-semibold text-[#1C2420]">Teachers</h1>
+                <p className="text-[#1C2420]/60 mt-1">Manage all verified teachers on the platform.</p>
             </div>
 
             <TeacherStatsCards />

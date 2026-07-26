@@ -3,6 +3,7 @@ import Dropdown from "@/components/shared/Dropdown";
 import { TeacherDateRange, TeacherSortBy } from "@/types/admin";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface TeacherFiltersProps {
   sortBy: TeacherSortBy;
@@ -58,35 +59,46 @@ export default function TeacherFilters({ sortBy, dateRange, onSortByChange, onDa
         </button>
       </div>
 
-      {showFilters && (
-        <div className="flex flex-wrap gap-4 rounded-md border border-[#DAD7CE] bg-white p-3">
-          <div className="w-48">
-            <Dropdown
-              name="sortBy"
-              label="Sort by"
-              options={SORT_OPTIONS.map((o) => o.label)}
-              value={currentSortLabel}
-              onChange={(label) => {
-                const match = SORT_OPTIONS.find((o) => o.label === label);
-                if (match) onSortByChange(match.value as TeacherSortBy);
-              }}
-            />
-          </div>
+      <AnimatePresence initial={false}>
+        {showFilters && (
+          <motion.div
+            key="teacher-filters-drawer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="flex flex-wrap gap-4 rounded-md border border-[#DAD7CE] bg-white p-3">
+              <div className="w-48">
+                <Dropdown
+                  name="sortBy"
+                  label="Sort by"
+                  options={SORT_OPTIONS.map((o) => o.label)}
+                  value={currentSortLabel}
+                  onChange={(label) => {
+                    const match = SORT_OPTIONS.find((o) => o.label === label);
+                    if (match) onSortByChange(match.value as TeacherSortBy);
+                  }}
+                />
+              </div>
 
-          <div className="w-48">
-            <Dropdown
-              name="dateRange"
-              label="Joined"
-              options={DATE_OPTIONS.map((o) => o.label)}
-              value={currentDateLabel}
-              onChange={(label) => {
-                const match = DATE_OPTIONS.find((o) => o.label === label);
-                if (match) onDateRangeChange(match.value as TeacherDateRange);
-              }}
-            />
-          </div>
-        </div>
-      )}
+              <div className="w-48">
+                <Dropdown
+                  name="dateRange"
+                  label="Joined"
+                  options={DATE_OPTIONS.map((o) => o.label)}
+                  value={currentDateLabel}
+                  onChange={(label) => {
+                    const match = DATE_OPTIONS.find((o) => o.label === label);
+                    if (match) onDateRangeChange(match.value as TeacherDateRange);
+                  }}
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
