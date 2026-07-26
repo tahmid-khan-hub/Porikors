@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         const conditions: string[] = [`role = 'teacher'`, `role_status = 'approved'`];
         const values: unknown[] = [];
 
-        if (interval) conditions.push(`created_at >= NOW() - INTERVAL ${interval}`);
+        if (interval) conditions.push(`created_at >= NOW() - INTERVAL '${interval}'`);
 
         if (search) {
             values.push(`%${search}%`);

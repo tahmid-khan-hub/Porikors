@@ -35,13 +35,17 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         if (verification.status !== "pending") return NextResponse.json({ success: false, message: "Already processed" }, { status: 409 });
         
         if(action === "approve") {
-            await pool.query(
-                `UPDATE role_verifications SET status = 'approved', reviewed_at = NOW() WHERE id = $1`, [id]
-            )
-            await pool.query(
-                `UPDATE users SET role = $1, role_status = 'approved' WHERE id = $2`,
-                [verification.requested_role, verification.user_id]
-            )
+            try {
+                await pool.query(
+                    `UPDATE role_verifications SET status = 'approved', reviewed_at = NOW() WHERE id = $1`, [id]
+                )
+                await pool.query(
+                    `UPDATE users SET role = $1, role_status = 'approved' WHERE id = $2`,
+                    [verification.requested_role, verification.user_id]
+                )
+            } catch (error) {
+                throw error;
+            }
         } else {
             await pool.query(
                 `UPDATE role_verifications SET status = 'rejected', reject_reason = $1, reviewed_at = NOW() WHERE id = $2`,
