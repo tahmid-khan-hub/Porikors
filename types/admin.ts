@@ -33,7 +33,7 @@ export interface Student {
   name: string;
   email: string;
   image: string | null;
-  createdAt: string;
+  roleApprovedAt: string;
 }
 
 export interface StudentStats {

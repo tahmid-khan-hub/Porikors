@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
                     `UPDATE role_verifications SET status = 'approved', reviewed_at = NOW() WHERE id = $1`, [id]
                 )
                 await pool.query(
-                    `UPDATE users SET role = $1, role_status = 'approved' WHERE id = $2`,
+                    `UPDATE users SET role = $1, role_status = 'approved', role_approved_at = NOW() WHERE id = $2`,
                     [verification.requested_role, verification.user_id]
                 )
             } catch (error) {

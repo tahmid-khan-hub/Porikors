@@ -4,10 +4,10 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 function getSortClause(sortBy: string): string {
-  if (sortBy === "oldest") return "u.created_at ASC";
+  if (sortBy === "oldest") return "u.role_approved_at ASC";
   if (sortBy === "name_asc") return "u.name ASC";
   if (sortBy === "name_desc") return "u.name DESC";
-  return "u.created_at DESC";
+  return "u.role_approved_at DESC";
 }
 
 function getIntervalForRange(dateRange: string): string | null {
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     const conditions: string[] = [`role = 'student'`, `role_status = 'approved'`];
     const values: unknown[] = [];
 
-    if (interval) conditions.push(`created_at >= NOW() - INTERVAL '${interval}'`);
+    if (interval) conditions.push(`role_approved_at >= NOW() - INTERVAL '${interval}'`);
 
     if (search) {
       values.push(`%${search}%`);
@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
 
     values.push(limit, offset);
     const dataResult = await pool.query(
-      `SELECT id, name, email, image, created_at FROM users u
+      `SELECT id, name, email, image, role_approved_at FROM users u
        ${whereClause} ORDER BY ${sortClause}
        LIMIT $${values.length - 1} OFFSET $${values.length}`, values
     );
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
         name: row.name,
         email: row.email,
         image: row.image,
-        createdAt: row.created_at,
+        roleApprovedAt: row.role_approved_at,
       })),
       pagination: {
         page,

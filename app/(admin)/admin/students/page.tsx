@@ -76,7 +76,7 @@ export default function AdminStudentsPage() {
                 data={data?.students ?? []}
                 isLoading={isLoading || isFetching}
                 getRowId={(student) => student.id}
-                emptyMessage="No teachers found."
+                emptyMessage="No students found."
             />
             <DataTablePagination
                 page={pagination.page}

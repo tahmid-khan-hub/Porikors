@@ -33,11 +33,11 @@ export const StudentColumns: ColumnDef<Student>[] = [
     ),
   },
   {
-    key: "createdAt",
+    key: "roleApprovedAt",
     header: "Joined",
     cell: (student) => (
       <span className="text-[#1C2420]/70">
-        {new Date(student.createdAt).toLocaleDateString()}
+        {new Date(student.roleApprovedAt).toLocaleDateString()}
       </span>
     ),
   },
