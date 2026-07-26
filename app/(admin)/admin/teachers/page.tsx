@@ -16,18 +16,23 @@ export default function AdminTeachersPage() {
     const page = Number(searchParams.get("page")) || 1;
     const sortBy = (searchParams.get("sortBy") as TeacherSortBy) || "newest";
     const dateRange = (searchParams.get("dateRange") as TeacherDateRange) || "all";
+    const search = searchParams.get("search") || "";
 
-    function updateParams (next: { page?: number; sortBy?: TeacherSortBy; dateRange?: TeacherDateRange }) {
+    function updateParams (next: { page?: number; sortBy?: TeacherSortBy; dateRange?: TeacherDateRange; search?: string; }) {
         const params = new URLSearchParams(searchParams.toString())
 
         if (next.page !== undefined) params.set("page", String(next.page));
         if (next.sortBy !== undefined) params.set("sortBy", next.sortBy);
         if (next.dateRange !== undefined) params.set("dateRange", next.dateRange);
+        if (next.search !== undefined) {
+            if (next.search) params.set("search", next.search);
+            else params.delete("search"); 
+        }
 
         router.push(`/admin/teachers?${params.toString()}`);
     }
 
-    const queryParams = { page, sortBy, dateRange };
+    const queryParams = { page, sortBy, dateRange, search };
 
     const { data, isLoading, isFetching } = useQuery({
         queryKey: ["admin", "teachers", queryParams],
@@ -47,8 +52,10 @@ export default function AdminTeachersPage() {
             <TeacherStatsCards />
 
             <TeacherFilters
+                search={search}
                 sortBy={sortBy}
                 dateRange={dateRange}
+                onSearchChange={(value) => updateParams({ search: value, page: 1 })}
                 onSortByChange={(value) => updateParams({ sortBy: value, page: 1 })}
                 onDateRangeChange={(value) => updateParams({ dateRange: value, page: 1 })}
             />
