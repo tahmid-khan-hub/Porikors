@@ -1,10 +1,11 @@
 "use client";
 import { TeacherColumns } from "@/components/admin/teachers/TeacherColumns";
-import TeacherFilters from "@/components/admin/teachers/TeacherFilters";
 import TeacherStatsCards from "@/components/admin/teachers/TeacherStatsCards";
 import { DataTable } from "@/components/shared/DataTable";
 import DataTablePagination from "@/components/shared/DataTablePagination";
+import Filters from "@/components/shared/Filters";
 import { adminFetchTeachers } from "@/lib/api/adminFetchTeachers";
+import { DATE_OPTIONS, SORT_OPTIONS } from "@/lib/constants/filterOptions";
 import { TeacherDateRange, TeacherSortBy } from "@/types/admin";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -51,13 +52,26 @@ export default function AdminTeachersPage() {
 
             <TeacherStatsCards />
 
-            <TeacherFilters
+            <Filters
                 search={search}
-                sortBy={sortBy}
-                dateRange={dateRange}
                 onSearchChange={(value) => updateParams({ search: value, page: 1 })}
-                onSortByChange={(value) => updateParams({ sortBy: value, page: 1 })}
-                onDateRangeChange={(value) => updateParams({ dateRange: value, page: 1 })}
+                searchPlaceholder="Search teachers by name or email..."
+                groups={[
+                    {
+                        key: "sortBy",
+                        label: "Sort by",
+                        options: SORT_OPTIONS,
+                        value: sortBy,
+                        onChange: (value) => updateParams({ sortBy: value as TeacherSortBy, page: 1 }),
+                    },
+                    {
+                        key: "dateRange",
+                        label: "Joined",
+                        options: DATE_OPTIONS,
+                        value: dateRange,
+                        onChange: (value) => updateParams({ dateRange: value as TeacherDateRange, page: 1 }),
+                    },
+                ]}
             />
 
             <DataTable
