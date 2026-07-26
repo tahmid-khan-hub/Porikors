@@ -1,6 +1,7 @@
 "use client";
 import Dropdown from "@/components/shared/Dropdown";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 export interface FilterOption {
   label: string;
@@ -21,6 +22,8 @@ interface FilterDrawerProps {
 }
 
 export default function FilterDrawer({ isOpen, groups }: FilterDrawerProps) {
+  const [isAnimating, setIsAnimating] = useState(false);
+
   return (
     <AnimatePresence initial={false}>
       {isOpen && (
@@ -30,11 +33,13 @@ export default function FilterDrawer({ isOpen, groups }: FilterDrawerProps) {
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="overflow-hidden"
+          onAnimationStart={() => setIsAnimating(true)}
+          onAnimationComplete={() => setIsAnimating(false)}
+          style={{ overflow: isAnimating ? "hidden" : "visible" }}
         >
           <div className="flex flex-wrap gap-4 rounded-md border border-[#DAD7CE] bg-white p-3">
             {groups.map((group) => {
-              const currentLabel = group.options.find( (o) => o.value === group.value, )?.label;
+              const currentLabel = group.options.find((o) => o.value === group.value)?.label;
 
               return (
                 <div key={group.key} className="w-48">
@@ -44,7 +49,7 @@ export default function FilterDrawer({ isOpen, groups }: FilterDrawerProps) {
                     options={group.options.map((o) => o.label)}
                     value={currentLabel}
                     onChange={(label) => {
-                      const match = group.options.find( (o) => o.label === label, );
+                      const match = group.options.find((o) => o.label === label);
                       if (match) group.onChange(match.value);
                     }}
                   />
