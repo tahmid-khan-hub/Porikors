@@ -1,6 +1,6 @@
 "use client";
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface TeacherSearchBarProps {
   search: string;
@@ -10,13 +10,18 @@ interface TeacherSearchBarProps {
 export default function TeacherSearchBar({ search, onSearchChange }: TeacherSearchBarProps) {
   const [localSearch, setLocalSearch] = useState(search);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      onSearchChange(localSearch);
-    }, 400); 
+   const onSearchChangeRef = useRef(onSearchChange);
+    useEffect(() => {
+      onSearchChangeRef.current = onSearchChange;
+    });
 
-    return () => clearTimeout(timeoutId); 
-  }, [localSearch, onSearchChange]);
+    useEffect(() => {
+      const timeoutId = setTimeout(() => {
+        onSearchChangeRef.current(localSearch);
+      }, 400);
+
+      return () => clearTimeout(timeoutId);
+    }, [localSearch]);
 
   return (
     <div className="relative flex-1">
