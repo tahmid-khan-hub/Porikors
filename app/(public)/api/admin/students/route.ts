@@ -10,14 +10,13 @@ function getSortClause(sortBy: string): string {
   return "u.role_approved_at DESC";
 }
 
-function getIntervalForRange(dateRange: string): string | null {
-  if (dateRange === "today") return "1 day";
-  if (dateRange === "week") return "7 days";
-  if (dateRange === "month") return "30 days";
-  if (dateRange === "year") return "365 days";
+function getDateCondition(dateRange: string): string | null {
+  if (dateRange === "today") return `role_approved_at >= date_trunc('day', NOW())`;
+  if (dateRange === "week") return `role_approved_at >= NOW() - INTERVAL '7 days'`;
+  if (dateRange === "month") return `role_approved_at >= NOW() - INTERVAL '30 days'`;
+  if (dateRange === "year") return `role_approved_at >= NOW() - INTERVAL '365 days'`;
   return null;
 }
-
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -33,14 +32,14 @@ export async function GET(req: NextRequest) {
     const sortClause = getSortClause(sortBy);
 
     const dateRange = searchParams.get("dateRange") || "all";
-    const interval = getIntervalForRange(dateRange);
+    const dateCondition = getDateCondition(dateRange);
 
     const search = searchParams.get("search")?.trim() || "";
 
     const conditions: string[] = [`role = 'student'`, `role_status = 'approved'`];
     const values: unknown[] = [];
 
-    if (interval) conditions.push(`role_approved_at >= NOW() - INTERVAL '${interval}'`);
+    if (dateCondition) conditions.push(dateCondition);
 
     if (search) {
       values.push(`%${search}%`);
