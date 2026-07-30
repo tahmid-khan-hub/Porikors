@@ -27,6 +27,15 @@ export default function TeacherHeader({ user, title = "Dashboard", onMenuClick }
                 </button>
 
                 <div className="flex items-center gap-2 md:hidden">
+                    <div className="w-8">
+                        <Image
+                            src="/porikors_logo.jpeg"
+                            alt="Porikors logo"
+                            width={36}
+                            height={36}
+                            className="rounded-lg "
+                        />
+                    </div>
                     <h3 className="lobster text-xl font-bold text-[#1F6F5C]">Porikors</h3>
                 </div>
 
