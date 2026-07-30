@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export function SiteHeader() {
   const { data: session, status } = useSession();
@@ -11,8 +12,19 @@ export function SiteHeader() {
   return (
     <header className="border-b border-[#DAD7CE]/20 bg-[#1F6F5C]/5">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="lobster text-xl font-bold text-[#1F6F5C]">
-          Porikors
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8">
+            <Image
+              src="/porikors_logo.jpeg"
+              alt="Porikors logo"
+              width={36}
+              height={36}
+              className="rounded-lg "
+            />
+          </div>
+          <span className="lobster text-xl font-bold text-[#1F6F5C]">
+            Porikors
+          </span>
         </Link>
 
         <div className="flex items-center gap-3">
