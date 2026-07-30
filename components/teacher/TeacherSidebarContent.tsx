@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import { GraduationCap as UserCircle, LogOut, LayoutDashboard, BookOpen, FolderOpen, ClipboardList, Megaphone, Table } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 
 const nav_items = [
     { label: "Dashboard", href: "/teacher", icon: LayoutDashboard },
@@ -18,11 +19,16 @@ export default function TeacherSidebarContent({ onNavigate }: { onNavigate?: () 
     return (
         <>
             <div className="flex items-center gap-2 px-6 py-6">
-                <div className="leading-tight">
-                    <h3 className="lobster text-xl font-bold text-[#1F6F5C]">Porikors</h3>
-                    <p className="text-[10px] tracking-wide text-[#8A9186] uppercase">
-                        Teacher Console
-                    </p>
+                <div className="flex leading-tight">
+                    <div className="w-12 h-12 mt-1">
+                        <Image src={"/porikors_logo.jpeg"} height={34} width={34} alt="porikors logo" className="rounded-lg" />
+                    </div>
+                    <div className="flex flex-col">
+                        <h3 className="lobster text-xl font-bold text-[#1F6F5C]">Porikors</h3>
+                        <p className="text-[10px] tracking-wide text-[#8A9186] uppercase">
+                            Teacher Console
+                        </p>
+                    </div>
                 </div>
             </div>
 
