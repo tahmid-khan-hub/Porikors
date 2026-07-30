@@ -9,7 +9,7 @@ interface TeacherChromeProps {
 export default function TeacherChrome({ user, title, children } : TeacherChromeProps) {
     return (
         <div>
-
+            
         </div>
     )
 }
