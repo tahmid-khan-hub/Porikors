@@ -4,5 +4,6 @@ export interface Course {
     description: string | null;
     joinCode: string;
     isArchived: boolean;
+    studentCount: number;
     createdAt: string;
 }
