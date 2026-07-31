@@ -1,3 +1,4 @@
+"use server"
 import { pool } from "../postgresql";
 
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
