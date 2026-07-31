@@ -6,6 +6,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { BookOpen, Plus } from "lucide-react";
 import CreateCourseDialog from "./CreateCourseDialog";
+import CourseCard from "./CourseCard";
 
 export default function CourseGrid({ teacherId }: { teacherId: string }) {
     const queryClient = useQueryClient();
@@ -70,4 +71,27 @@ export default function CourseGrid({ teacherId }: { teacherId: string }) {
             </>
         );
     }
+    return (
+        <>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3">
+                {courses?.map((course) => (
+                    <CourseCard key={course.id} course={course} />
+                ))}
+                <button
+                    onClick={() => setDialogOpen(true)}
+                    className="border border-dashed border-[#DAD7CE] rounded-xl flex flex-col items-center justify-center gap-2 text-[#6B7369] min-h-33 hover:border-[#1F6F5C] hover:text-[#1F6F5C] transition-colors"
+                >
+                    <Plus size={22} />
+                    <span className="text-sm">Create course</span>
+                </button>
+            </div>
+
+            <CreateCourseDialog
+                open={dialogOpen}
+                onOpenChange={setDialogOpen}
+                onSubmit={(values) => createMutation.mutate(values)}
+                isPending={createMutation.isPending}
+            />
+        </>
+    )
 }

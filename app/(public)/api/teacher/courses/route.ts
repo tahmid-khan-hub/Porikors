@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try {
         const session = await getServerSession(authOptions);
-        if (!session?.user?.isAdmin) return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
+        if (!session?.user || session.user.role !== "teacher") return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
 
         const result = await pool.query(
             `SELECT c.id, c.title, c.description, c.join_code, c.is_archived, c.created_at,
