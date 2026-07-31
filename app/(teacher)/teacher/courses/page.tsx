@@ -7,8 +7,8 @@ export default async function TeacherCoursesPage() {
 
     return (
         <div className="p-6">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-lg font-medium text-[#1C2420]">Courses</h1>
+            <div className="flex justify-between">
+                <h1 className="text-2xl mb-5 font-semibold text-[#1C2420]">Courses</h1>
             </div>
             <CourseGrid teacherId={session!.user.id} />
         </div>
