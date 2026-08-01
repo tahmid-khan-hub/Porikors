@@ -75,7 +75,7 @@ export default function CourseGrid({ teacherId }: { teacherId: string }) {
         <>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3">
                 {courses?.map((course) => (
-                    <CourseCard key={course.id} course={course} />
+                    <CourseCard key={course.id} course={course} teacherId={teacherId} />
                 ))}
                 <button
                     onClick={() => setDialogOpen(true)}

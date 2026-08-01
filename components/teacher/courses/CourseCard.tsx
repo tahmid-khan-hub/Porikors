@@ -1,10 +1,11 @@
 "use client";
 import { Course } from "@/types/course";
-import { Copy, MoreVertical, Users } from "lucide-react";
+import { Copy, Users } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import CourseCardMenu from "./CourseCardMenu";
 
-export default function CourseCard({ course }: { course: Course }) {
+export default function CourseCard({ course, teacherId }: { course: Course; teacherId: string; }) {
     const handleCopy = (e: React.MouseEvent) => {
         e.preventDefault();
         navigator.clipboard.writeText(course.joinCode); // the browser's API for copying to and reading from the system clipboard
@@ -19,13 +20,7 @@ export default function CourseCard({ course }: { course: Course }) {
             }`}>
                 <div className="flex justify-between items-start">
                     <p className="font-medium text-[15px] text-[#1C2420]">{course.title}</p>
-                    <button
-                        onClick={(e) => e.preventDefault()}
-                        aria-label="Course options"
-                        className="text-[#6B7369]"
-                    >
-                        <MoreVertical size={18} />
-                    </button>
+                    <CourseCardMenu course={course} teacherId={teacherId} />
                 </div>
                 <div className="flex items-center gap-1.5 text-[#6B7369] text-sm">
                     <Users size={15} />
