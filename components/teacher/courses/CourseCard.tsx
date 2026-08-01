@@ -13,14 +13,17 @@ export default function CourseCard({ course, teacherId }: { course: Course; teac
     }
     return (
         <>
-            <Link
-            href={`/teacher/courses/${course.id}`}
-            className={`bg-white border border-[#DAD7CE] rounded-xl p-4 flex flex-col gap-3 hover:border-[#1F6F5C]/40 transition-colors ${
+            <div
+            className={`relative bg-white border border-[#DAD7CE] rounded-xl p-4 flex flex-col gap-3 hover:border-[#1F6F5C]/40 transition-colors ${
                 course.isArchived ? "opacity-60" : ""
             }`}>
+                <Link href={`/teacher/courses/${course.id}`} className="absolute inset-0" aria-label={course.title} />
+
                 <div className="flex justify-between items-start">
                     <p className="font-medium text-[15px] text-[#1C2420]">{course.title}</p>
-                    <CourseCardMenu course={course} teacherId={teacherId} />
+                    <div className="relative z-10">
+                        <CourseCardMenu course={course} teacherId={teacherId} />
+                    </div>
                 </div>
                 <div className="flex items-center gap-1.5 text-[#6B7369] text-sm">
                     <Users size={15} />
@@ -36,7 +39,7 @@ export default function CourseCard({ course, teacherId }: { course: Course; teac
                         </button>
                     )}
                 </div>
-            </Link>
+            </div>
         </>
     )
 }
