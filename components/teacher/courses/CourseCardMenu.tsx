@@ -5,7 +5,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel,
  AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "@/components/ui/alert-dialog";
 import { Archive, ArchiveRestore, MoreVertical, Trash2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { archiveCourse } from "@/lib/actions/archiveAndDeleteCourse";
+import { archiveCourse, deleteCourse } from "@/lib/actions/archiveAndDeleteCourse";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -27,6 +27,19 @@ export default function CourseCardMenu({ course, teacherId }:CourseCardMenuProps
             } else  toast.error(result.error);
         },
         onError: () => toast.error("Something went wrong"),
+    })
+
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteCourse(course.id, teacherId),
+        onSuccess: (result) => {
+            if (result.success) {
+                queryClient.invalidateQueries({ queryKey: ["courses", teacherId] });
+                toast.success("Course deleted");
+            } else toast.error(result.error);
+            
+            setDeleteDialogOpen(false);
+        },
+        onError: () => { toast.error("Something went wrong"); setDeleteDialogOpen(false); },
     })
     return (
         <>
@@ -61,6 +74,26 @@ export default function CourseCardMenu({ course, teacherId }:CourseCardMenuProps
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
+
+            <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Delete this course?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This permanently deletes &quot;{course.title}&quot; and all its enrollments, resources, tasks and grades. This can not be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={() => deleteMutation.mutate()}
+                            className="bg-[#C1443D] hover:bg-[#a3382f]"
+                        >
+                            {deleteMutation.isPending ? "Deleting..." : "Delete"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     )
 }
