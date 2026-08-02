@@ -7,3 +7,7 @@ export interface Course {
     studentCount: number;
     createdAt: string;
 }
+
+export interface CourseDetail extends Course {
+    teacherId: string;
+}
