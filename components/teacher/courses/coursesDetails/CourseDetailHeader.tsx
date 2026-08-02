@@ -10,17 +10,17 @@ export default function CourseDetailHeader({ course }: { course: CourseDetail })
     };
 
     return (
-        <div className="flex justify-between items-start">
+        <div className="flex flex-row justify-between items-start gap-4">
             <div>
-                <div className="flex items-center gap-2">
-                    <h1 className="text-2xl font-semibold text-[#1C2420]">{course.title}</h1>
+                <div className="flex items-center gap-2 flex-wrap">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-[#1C2420]">{course.title}</h1>
                     {course.isArchived && (
                         <span className="text-xs bg-[#F6F5F1] text-[#6B7369] rounded-full px-2 py-0.5">Archived</span>
                     )}
                 </div>
 
                 {course.description && (
-                    <p className="text-[#6B7369] mt-1">{course.description}</p>
+                    <p className="text-[#6B7369] mt-1 text-sm sm:text-base">{course.description}</p>
                 )}
 
                 <div className="flex items-center gap-1.5 text-[#6B7369] text-sm mt-2">
@@ -30,7 +30,7 @@ export default function CourseDetailHeader({ course }: { course: CourseDetail })
 
             <button
                 onClick={handleCopy}
-                className="flex items-center gap-2 bg-[#F6F5F1] rounded-lg px-3 py-2 hover:bg-[#DAD7CE]/40 transition-colors"
+                className="flex items-center gap-2 bg-[#F6F5F1] rounded-lg px-3 py-2 hover:bg-[#DAD7CE]/40 transition-colors self-start sm:self-auto shrink-0"
             >
                 <span className="font-mono text-sm tracking-wide text-[#1C2420]">{course.joinCode}</span>
                 <Copy size={15} className="text-[#1F6F5C]" />
