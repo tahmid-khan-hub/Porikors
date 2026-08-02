@@ -56,7 +56,7 @@ export default function AnnouncementCard({ announcement, queryKey, }: {
             ) : (
                 <>
                     <div className="flex items-start justify-between gap-3">
-                        <p className="whitespace-pre-wrap text-sm text-[#1C2420]">{announcement.content} </p>
+                        <p className="min-w-0 flex-1 whitespace-pre-wrap wrap-break-word text-sm text-[#1C2420]">{announcement.content}</p>
                         <AnnouncementCardMenu
                             announcementId={announcement.id}
                             queryKey={queryKey}

@@ -30,7 +30,7 @@ export default function CourseDetailChrome({ courseId, children, }: {
         );
     }
     return (
-        <div className="p-6 flex flex-col gap-6">
+        <div className="p-3 flex flex-col gap-6">
             <CourseDetailHeader course={course} />
             <CourseTabs courseId={courseId} />
             <div>{children}</div>

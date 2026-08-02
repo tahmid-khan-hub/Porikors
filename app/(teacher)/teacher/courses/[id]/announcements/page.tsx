@@ -4,7 +4,7 @@ export default async function CourseAnnouncementsPage({ params, }: { params: Pro
     const { id } = await params;
 
     return (
-        <div className="p-6">
+        <div className="mt-3">
             <CourseAnnouncementsGrid courseId={id} />
         </div>
     );

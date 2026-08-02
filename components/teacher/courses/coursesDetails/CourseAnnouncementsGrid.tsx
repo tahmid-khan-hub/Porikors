@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import AnnouncementCard from "../../announcements/AnnouncementCard";
+import { Megaphone } from "lucide-react";
 
 export default function CourseAnnouncementsGrid ({ courseId }: { courseId: string }) {
     const queryClient = useQueryClient();
@@ -33,7 +34,7 @@ export default function CourseAnnouncementsGrid ({ courseId }: { courseId: strin
     };
     return (
         <div className="flex flex-col gap-6">
-            <div className="rounded-lg border p-4" style={{ borderColor: "#DAD7CE", backgroundColor: "#F6F5F1" }}>
+            <div className="rounded-lg border p-3" style={{ borderColor: "#DAD7CE", backgroundColor: "#F6F5F1" }}>
                 <textarea
                     value={draft}
                     onChange={(e) => setDraft(e.target.value)}
@@ -55,7 +56,7 @@ export default function CourseAnnouncementsGrid ({ courseId }: { courseId: strin
             </div>
 
             {isLoading ? (
-                <p style={{ color: "#6B7369" }}>Loading announcements...</p>
+                <div className="h-46 w-full rounded-lg border border-[#DAD7CE] bg-gray-100 animate-pulse" />
             ) : announcements && announcements.length > 0 ? (
                 <div className="flex flex-col gap-3">
                     {announcements.map((a) => (
@@ -63,7 +64,12 @@ export default function CourseAnnouncementsGrid ({ courseId }: { courseId: strin
                     ))}
                 </div>
             ) : (
-                <p>No announcements yet for this course.</p>
+                <div className="flex flex-col items-center justify-center gap-3 bg-white border border-[#DAD7CE] rounded-xl py-14 px-6 text-center">
+                    <div className="w-12 h-12 rounded-full bg-[#F6F5F1] flex items-center justify-center">
+                        <Megaphone size={22} className="text-[#6B7369]" />
+                    </div>
+                    <p className="text-sm text-[#6B7369]">No announcements yet for this course.</p>
+                </div>
             )}
         </div>
     )
