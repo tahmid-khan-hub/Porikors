@@ -6,3 +6,10 @@ export async function fetchCourseAnnouncements(courseId: string): Promise<Announ
     const data = await res.json();
     return data.announcements;
 }
+
+export async function fetchGlobalAnnouncements(): Promise<Announcement[]> {
+    const res = await fetch(`/api/teacher/announcements`);
+    if (!res.ok) throw new Error("Failed to fetch announcements");
+    const data = await res.json();
+    return data.announcements;
+}
