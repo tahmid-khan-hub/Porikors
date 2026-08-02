@@ -1,6 +1,9 @@
+"use client"
 import { fetchCourseDetail } from "@/lib/api/fetchCourses";
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen } from "lucide-react";
+import CourseDetailHeader from "./CourseDetailHeader";
+import CourseTabs from "./CourseTabs";
 
 export default function CourseDetailChrome({ courseId, children, }: {
     courseId: string; children: React.ReactNode;
@@ -33,7 +36,9 @@ export default function CourseDetailChrome({ courseId, children, }: {
         );
     }
     return (
-        <div>
+        <div className="p-6 flex flex-col gap-6">
+            <CourseDetailHeader course={course} />
+            <CourseTabs courseId={courseId} />
             <div>{children}</div>
         </div>
     )
