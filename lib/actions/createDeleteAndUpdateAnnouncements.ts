@@ -25,9 +25,29 @@ export async function createCourseAnnouncement( courseId: string, content: strin
             [session.user.id, courseId, content.trim()]
         );
 
-        if (result.rows[0].course_id) revalidatePath(`/teacher/courses/${courseId}/announcements`);  
-        else revalidatePath(`/teacher/announcements`); 
+        revalidatePath(`/teacher/courses/${courseId}/announcements`);  
 
+        return { success: true, data: { id: result.rows[0].id } };
+    } catch (error) {
+        console.error(error);
+        return { success: false, error: "Failed to create announcement" };
+    }
+}
+
+export async function createGlobalAnnouncement( content: string ): Promise<ActionResult<{ id: string }>> {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session?.user || session.user.role !== "teacher") return { success: false, error: "Unauthorized" };
+        
+        if (!content.trim()) return { success: false, error: "Announcement cannot be empty" };
+
+        const result = await pool.query(
+            `INSERT INTO announcements (teacher_id, course_id, content)
+            VALUES ($1::uuid, NULL, $2) RETURNING id`,
+            [session.user.id, content.trim()]
+        );
+
+        revalidatePath(`/teacher/announcements`);
         return { success: true, data: { id: result.rows[0].id } };
     } catch (error) {
         console.error(error);
