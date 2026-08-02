@@ -4,13 +4,15 @@ import { fetchCourseAnnouncements } from "@/lib/api/fetchAnnouncements";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
+import AnnouncementCard from "../../announcements/AnnouncementCard";
 
 export default function CourseAnnouncementsGrid ({ courseId }: { courseId: string }) {
     const queryClient = useQueryClient();
     const [draft, setDraft] = useState("");
+    const queryKey = ["announcements", "course", courseId]
 
     const { data: announcements, isLoading } = useQuery({
-        queryKey: ["announcements", "course", courseId],
+        queryKey,
         queryFn: () => fetchCourseAnnouncements(courseId),
     })
     const createMutation = useMutation({
@@ -19,7 +21,7 @@ export default function CourseAnnouncementsGrid ({ courseId }: { courseId: strin
             if (result.success) {
                 toast.success("Announcement posted");
                 setDraft("");
-                queryClient.invalidateQueries({ queryKey: ["announcements", "course", courseId] });
+                queryClient.invalidateQueries({ queryKey });
             } else  toast.error(result.error);
         },
         onError: () => toast.error("Failed to post announcement"),
@@ -55,7 +57,11 @@ export default function CourseAnnouncementsGrid ({ courseId }: { courseId: strin
             {isLoading ? (
                 <p style={{ color: "#6B7369" }}>Loading announcements...</p>
             ) : announcements && announcements.length > 0 ? (
-                <div></div>
+                <div className="flex flex-col gap-3">
+                    {announcements.map((a) => (
+                        <AnnouncementCard key={a.id} announcement={a} queryKey={queryKey} />
+                    ))}
+                </div>
             ) : (
                 <p>No announcements yet for this course.</p>
             )}
