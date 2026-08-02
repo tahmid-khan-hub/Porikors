@@ -60,7 +60,9 @@ export default function AnnouncementCard({ announcement, queryKey, }: {
                         <AnnouncementCardMenu
                             announcementId={announcement.id}
                             queryKey={queryKey}
-                            onEdit={() => setIsEditing(true)}
+                            onEdit={() => {
+                                setDraft(announcement.content); setIsEditing(true);
+                            }}
                         />
                     </div>
                     <p className="mt-2 text-xs text-[#6B7369]">
