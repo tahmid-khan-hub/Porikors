@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BookOpen } from "lucide-react";
 import CourseDetailHeader from "./CourseDetailHeader";
 import CourseTabs from "./CourseTabs";
+import { CourseDetailSkeleton } from "./CourseDetailSkeleton";
 
 export default function CourseDetailChrome({ courseId, children, }: {
     courseId: string; children: React.ReactNode;
@@ -13,14 +14,7 @@ export default function CourseDetailChrome({ courseId, children, }: {
         queryFn: () => fetchCourseDetail(courseId),
     })
 
-    if (isLoading) {
-        return (
-            <div className="p-6 flex flex-col gap-6">
-                <div className="h-16 bg-white border border-[#DAD7CE] rounded-xl animate-pulse" />
-                <div className="h-10 bg-white border border-[#DAD7CE] rounded-xl animate-pulse" />
-            </div>
-        );
-    }
+    if (isLoading) return <CourseDetailSkeleton />;
 
     if (!course) {
         return (
