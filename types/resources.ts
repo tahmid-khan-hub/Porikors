@@ -11,3 +11,11 @@ export interface Resource {
   text_content: string | null;
   created_at: string;
 }
+
+export interface ResourceFormValues {
+  title: string;
+  description: string | null;
+  resource_type: ResourceType;
+  url: string | null;
+  text_content: string | null;
+}
