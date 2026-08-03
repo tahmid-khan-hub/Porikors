@@ -1,6 +1,7 @@
 "use client"
 import { Resource } from "@/types/resources";
 import { Video, Link2, File as FileIcon, StickyNote } from "lucide-react";
+import ResourceCardMenu from "./ResourceCardMenu";
 
 const iconMap = {
   video_link: Video,
@@ -59,7 +60,7 @@ export default function ResourceCard({ resource, onEdit, onDelete, }: ResourceCa
                 </div>
 
                 <div className="relative z-10">
-
+                    <ResourceCardMenu onEdit={onEdit} onDelete={onDelete} />
                 </div>
             </div>
         </div>

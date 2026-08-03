@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import ResourceCard from "./ResourceCard";
 
 export default function ResourcesGrid({ courseId }: { courseId?: string | null }) {
     const queryClient = useQueryClient();
@@ -64,7 +65,16 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
                 <p className="text-sm text-[#6B7369]">Loading resources...</p>
             ) : resources && resources.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    
+                    {resources.map((resource) => (
+                        <ResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            onEdit={() => {
+                                setEditingResource(resource);
+                            }}
+                            onDelete={() => deleteMutation.mutate(resource.id)}
+                        />
+                    ))}
                 </div>
             ) : (
                 <p className="text-sm text-[#6B7369] py-8 text-center">
