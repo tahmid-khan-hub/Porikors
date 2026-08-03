@@ -9,6 +9,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import ResourceCard from "./ResourceCard";
 import ResourceFormDialog from "./ResourceFormDialog";
+import { ResourcesEmptyState, ResourcesSkeleton } from "./ResourceEmptyStateAndSkeleton";
 
 export default function ResourcesGrid({ courseId }: { courseId?: string | null }) {
     const queryClient = useQueryClient();
@@ -65,9 +66,8 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
                 </Button>
             </div>
 
-            {isLoading ? (
-                <p className="text-sm text-[#6B7369]">Loading resources...</p>
-            ) : resources && resources.length > 0 ? (
+            {isLoading ? <ResourcesSkeleton /> : 
+            resources && resources.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {resources.map((resource) => (
                         <ResourceCard
@@ -81,11 +81,8 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
                         />
                     ))}
                 </div>
-            ) : (
-                <p className="text-sm text-[#6B7369] py-8 text-center">
-                No resources yet. Add your first one.
-                </p>
-            )}
+            ) : <ResourcesEmptyState /> 
+            }
 
             <ResourceFormDialog
                 key={editingResource?.id ?? "new"}
