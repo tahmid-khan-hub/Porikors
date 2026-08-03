@@ -56,7 +56,7 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-[#1C2420]">Resources</h2>
+                <h2 className="text-2xl font-semibold text-[#1C2420]">Resources</h2>
                 <Button
                 onClick={() => { setEditingResource(null); setFormOpen(true); }}
                 className="bg-[#1F6F5C] hover:bg-[#175446] text-white gap-2"
