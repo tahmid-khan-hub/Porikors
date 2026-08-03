@@ -51,7 +51,7 @@ export default function ResourceCard({ resource, onEdit, onDelete, }: ResourceCa
                         <h3 className="text-sm font-medium text-[#1C2420] truncate">{resource.title}</h3>
                         <p className="text-[11px] uppercase tracking-wide text-[#6B7369] mt-0.5">{labelMap[resource.resource_type]}</p>
                         {resource.description && (
-                            <p className="text-xs text-[#6B7369] mt-2 line-clamp-2">{resource.description}</p>
+                            <p className="text-xs text-[#6B7369] mt-2 line-clamp-2 wrap-break-word">{resource.description}</p>
                         )}
                         {resource.resource_type === "text" && resource.text_content && (
                             <p className="text-xs text-[#1C2420] mt-2 line-clamp-3">{resource.text_content}</p>

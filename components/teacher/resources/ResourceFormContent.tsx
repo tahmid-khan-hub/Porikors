@@ -34,6 +34,8 @@ export default function ResourceFormContent({ form, setForm, uploading, needsUpl
                 setForm((p) => ({ ...p, description: e.target.value || null }))
             }
             placeholder="Optional context for students"
+            wrap="soft"
+            className="max-h-40 overflow-y-auto resize-none w-full max-w-full break-all wrap:anywhere"
             rows={3}
             />
         </div>
