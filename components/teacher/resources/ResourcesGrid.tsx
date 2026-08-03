@@ -8,9 +8,11 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import ResourceCard from "./ResourceCard";
+import ResourceFormDialog from "./ResourceFormDialog";
 
 export default function ResourcesGrid({ courseId }: { courseId?: string | null }) {
     const queryClient = useQueryClient();
+    const [formOpen, setFormOpen] = useState(false);
     const [editingResource, setEditingResource] = useState<Resource | null>(null);
 
     const { data: resources, isLoading } = useQuery({
@@ -24,6 +26,7 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
             if (result.success) {
                 toast.success("Resource added");
                 queryClient.invalidateQueries({ queryKey: ["resources"] });
+                setFormOpen(false);
             } else toast.error(result.error);
         },
         onError: () => toast.error("Failed to add resource"),
@@ -34,6 +37,7 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
             if (result.success) {
                 toast.success("Resource updated");
                 queryClient.invalidateQueries({ queryKey: ["resources"] });
+                setFormOpen(false);
             } else toast.error(result.error);
         },
         onError: () => toast.error("Failed to update resource"),
@@ -54,7 +58,7 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
             <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-[#1C2420]">Resources</h2>
                 <Button
-                onClick={() => { setEditingResource(null); }}
+                onClick={() => { setEditingResource(null); setFormOpen(true); }}
                 className="bg-[#1F6F5C] hover:bg-[#175446] text-white gap-2"
                 >
                     <Plus size={16} /> Add Resource
@@ -71,6 +75,7 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
                             resource={resource}
                             onEdit={() => {
                                 setEditingResource(resource);
+                                setFormOpen(true);
                             }}
                             onDelete={() => deleteMutation.mutate(resource.id)}
                         />
@@ -82,7 +87,18 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
                 </p>
             )}
 
-            
+            <ResourceFormDialog
+                key={editingResource?.id ?? "new"}
+                open={formOpen}
+                onOpenChange={setFormOpen}
+                initialResource={editingResource}
+                onSubmit={(values) => {
+                    if (editingResource) {
+                        updateMutation.mutate({ id: editingResource.id, ...values });
+                    } else createMutation.mutate(values);
+                }}
+                isSubmitting={createMutation.isPending || updateMutation.isPending}
+            />
         </div>
     )
 }

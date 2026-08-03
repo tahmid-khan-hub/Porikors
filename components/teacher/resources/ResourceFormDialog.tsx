@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import ResourceFormFields from "./ResourceFormFields";
 
 interface ResourceFormDialogProps {
     open: boolean;
@@ -64,7 +65,12 @@ export default function ResourceFormDialog ({
                         <DialogTitle>{initialResource ? "Edit Resource" : "Add Resource"}</DialogTitle>
                     </DialogHeader>
 
-                    
+                    <ResourceFormFields
+                        form={form}
+                        setForm={setForm}
+                        uploading={uploading}
+                        setUploading={setUploading}
+                    />
 
                     <DialogFooter>
                         <Button variant="outline" onClick={() => onOpenChange(false)}>
