@@ -11,11 +11,16 @@ export async function GET(req: NextRequest) {
     const courseId = req.nextUrl.searchParams.get("course_id");
 
     const result = await pool.query(
-        `SELECT id, course_id, teacher_id, title, description, resource_type, url, text_content, created_at
-        FROM resources
-        WHERE teacher_id = $1 AND ($2::uuid IS NULL OR course_id = $2::uuid)
-        ORDER BY created_at DESC`,
-        [session.user.id, courseId]
+      courseId
+        ? `SELECT id, course_id, teacher_id, title, description, resource_type, url, text_content, created_at
+          FROM resources
+          WHERE teacher_id = $1 AND course_id = $2::uuid
+          ORDER BY created_at DESC`
+        : `SELECT id, course_id, teacher_id, title, description, resource_type, url, text_content, created_at
+          FROM resources
+          WHERE teacher_id = $1 AND course_id IS NULL
+          ORDER BY created_at DESC`,
+      courseId ? [session.user.id, courseId] : [session.user.id]
     );
 
     return NextResponse.json({ resources: result.rows });
