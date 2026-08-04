@@ -3,12 +3,13 @@ import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCourseGrades } from "@/lib/api/fetchGrades";
 import { createAssessmentComponent, updateAssessmentComponent,deleteAssessmentComponent, } from "@/lib/actions/gradeActions";
-import { AssessmentComponent, GradeCellUpdate } from "@/types/grade";
+import { AssessmentComponent, GradeCellUpdate, GradeStudentRow } from "@/types/grade";
 import { toast } from "sonner";
 import { saveGrades } from "@/lib/actions/saveGradeActions";
 
 type PendingKey = string; // `${componentId}:${studentId}`
 const EMPTY_COMPONENTS: AssessmentComponent[] = [];
+const EMPTY_ROWS: GradeStudentRow[] = [];
 
 export function useGradesTable(courseId: string) {
   const queryClient = useQueryClient();
@@ -91,7 +92,7 @@ export function useGradesTable(courseId: string) {
   }
 
   const components = data?.components ?? EMPTY_COMPONENTS;
-  const rows = data?.rows ?? [];
+  const rows = data?.rows ?? EMPTY_ROWS;
 
   // computes each student's total using the displayed values (including unsaved edits).
   const totalsByStudent = useMemo(() => {
