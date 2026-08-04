@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "framer-motion";
 import { createCourseAnnouncement } from "@/lib/actions/createDeleteAndUpdateAnnouncements";
 import { fetchCourseAnnouncements } from "@/lib/api/fetchAnnouncements";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -59,8 +60,16 @@ export default function CourseAnnouncementsGrid ({ courseId }: { courseId: strin
                 <div className="h-46 w-full rounded-lg border border-[#DAD7CE] bg-gray-100 animate-pulse" />
             ) : announcements && announcements.length > 0 ? (
                 <div className="flex flex-col gap-3">
-                    {announcements.map((a) => (
-                        <AnnouncementCard key={a.id} announcement={a} queryKey={queryKey} />
+                    {announcements.map((a, index) => (
+                        <motion.div
+                            key={a.id}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 + index * 0.06 }}
+                            whileHover={{ y: -2, transition: { duration: 0.2, ease: "easeOut", delay: 0 } }}
+                        >
+                            <AnnouncementCard announcement={a} queryKey={queryKey} />
+                        </motion.div>
                     ))}
                 </div>
             ) : (

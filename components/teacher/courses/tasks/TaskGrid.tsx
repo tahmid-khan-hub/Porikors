@@ -1,4 +1,5 @@
 "use client";
+import { motion } from "framer-motion";
 import { fetchCourseTasks } from "@/lib/api/fetchTasks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -47,8 +48,16 @@ export default function TaskGrid({ courseId }: { courseId: string }) {
         <div className="h-46 w-full rounded-lg border border-[#DAD7CE] bg-gray-100 animate-pulse" />
       ) : tasks && tasks.length > 0 ? (
         <div className="flex flex-col gap-3">
-            {tasks.map((t) => (
-                <TaskCard key={t.id} task={t} queryKey={queryKey} />
+            {tasks.map((t, index) => (
+                <motion.div
+                    key={t.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 + index * 0.06 }}
+                    whileHover={{ y: -2, transition: { duration: 0.2, ease: "easeOut", delay: 0 } }}
+                >
+                    <TaskCard task={t} queryKey={queryKey} />
+                </motion.div>
             ))}
         </div>
       ) : (

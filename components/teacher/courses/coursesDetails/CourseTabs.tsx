@@ -6,7 +6,7 @@ const TABS = [
     { label: "Announcements", segment: "announcements" },
     { label: "Resources", segment: "resources" },
     { label: "Tasks", segment: "tasks" },
-    { label: "Grades", segment: "grades" },
+    // { label: "Grades", segment: "grades" },
 ];
 
 export default function CourseTabs({ courseId }: { courseId: string }) {

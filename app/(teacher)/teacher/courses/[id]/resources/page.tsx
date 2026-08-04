@@ -5,7 +5,7 @@ export default async function CourseResourcesPage({ params }: { params: Promise<
 
     return (
         <div>
-            <CourseResourcesGrid courseId={id} />;
+            <CourseResourcesGrid courseId={id} />
         </div>
     )
 }
