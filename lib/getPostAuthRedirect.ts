@@ -6,8 +6,8 @@ export default function getPostAuthRedirect(user?: Session["user"] | null): stri
     const { roleStatus, role, isAdmin } = user;
 
     if (roleStatus === "approved") {
-        if (role === "teacher") return "/teacher";
-        if (role === "student") return "/student";
+        if (role === "teacher") return "/teacher/dashboard";
+        if (role === "student") return "/student/dashboard";
         return "/onboarding";
     }
 

@@ -53,7 +53,7 @@ export async function middleware(req: NextRequest) {
 
     // user is logged in and has specific role, also get the approval then redirect to dashboard layout
     if (roleStatus === "approved") {
-        const dashboardPath = token.role === "teacher" ? "/teacher" : "/student";
+        const dashboardPath = token.role === "teacher" ? "/teacher/dashboard" : "/student/dashboard";
 
         if (isPublic || isPending || isOnboarding) {
             return NextResponse.redirect(new URL(dashboardPath, req.url));
