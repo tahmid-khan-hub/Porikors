@@ -33,7 +33,7 @@ export async function GET() {
         // next 5 deadlines, with live submission counts per task
         pool.query(
             `SELECT t.id AS task_id, t.title AS task_title, t.deadline,
-            c.id AS course_id, c.name AS course_name,
+            c.id AS course_id, c.title AS course_name,
             COUNT(DISTINCT en.student_id) AS enrolled_count,
             COUNT(DISTINCT s.student_id) FILTER (WHERE s.status != 'not_submitted') AS submitted_count
             FROM tasks t
@@ -47,8 +47,8 @@ export async function GET() {
 
         // latest 5 announcements across all courses
         pool.query(
-            `SELECT a.id, a.title, a.content, a.created_at,
-            c.id AS course_id, c.name AS course_name
+            `SELECT a.id, a.content, a.created_at,
+            c.id AS course_id, c.title AS course_name
             FROM announcements a
             JOIN courses c ON c.id = a.course_id WHERE a.teacher_id = $1
             ORDER BY a.created_at DESC LIMIT 5`,
@@ -57,7 +57,7 @@ export async function GET() {
 
         // course cards with live enrollment counts
         pool.query(
-            `SELECT c.id, c.name, c.join_code, c.created_at,
+            `SELECT c.id, c.title, c.join_code, c.created_at,
             COUNT(en.student_id) AS student_count
             FROM courses c
             LEFT JOIN enrollments en ON en.course_id = c.id WHERE c.teacher_id = $1

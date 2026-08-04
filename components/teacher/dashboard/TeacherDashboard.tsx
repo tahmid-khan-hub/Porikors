@@ -8,6 +8,7 @@ import CoursesOverviewGrid from "./CoursesOverviewGrid";
 import { fetchTeacherDashboard } from "@/lib/api/fetchTeacherDashboard";
 import { useQuery } from "@tanstack/react-query";
 import DashboardSkeleton from "./DashboardSkeleton";
+import { ListTodo } from "lucide-react";
 
 export default function TeacherDashboard() {
     const { data, isLoading, isError } = useQuery({
@@ -21,7 +22,19 @@ export default function TeacherDashboard() {
 
     if (isLoading) return <DashboardSkeleton />;
     if (isError || !stats) {
-        return <p className="py-12 text-center text-sm text-[#C1443D]">Failed to load your dashboard.</p>;
+        return (
+            <div className="flex flex-col max-w-2xl mx-auto gap-3 rounded-xl border border-[#DAD7CE] bg-white p-5 transition-shadow hover:shadow-sm">
+                <div className="flex mx-auto h-10 w-10 items-center justify-center rounded-lg bg-[#1F6F5C]/10">
+                    <ListTodo size={20} className="text-[#1F6F5C]" />
+                </div>
+                <div className="flex flex-col gap-1 text-center">
+                    <h3 className="text-lg mt-3 font-semibold text-[#2F3A33]"> Unable to Load Dashboard</h3>
+                    <p className="text-sm text-[#6B7369] leading-relaxed">
+                    We couldn&apos;t load your dashboard at the moment. Please refresh the page or try again in a few minutes.
+                    </p>
+                </div>
+            </div>
+        )
     }
 
     return (
