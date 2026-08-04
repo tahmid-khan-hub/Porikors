@@ -10,7 +10,7 @@ interface StatCardProps {
 
 function StatCard({ icon, label, value }: StatCardProps) {
     return (
-        <div className="flex items-center gap-3 rounded-xl border border-[#DAD7CE] bg-white px-4 py-4">
+        <div className="flex items-center gap-3 rounded-xl border border-[#DAD7CE] bg-white px-4 py-4 transition-all duration-200 hover:bg-green-50 hover:shadow-md hover:-translate-y-0.5">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#F6F5F1]">
                 {icon}
             </div>
@@ -24,7 +24,7 @@ function StatCard({ icon, label, value }: StatCardProps) {
 
 export default function StatsGrid({ stats }: { stats: DashboardStats }) {
     return (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             <StatCard icon={<BookOpen size={18} className="text-[#1F6F5C]" />} label="Courses" value={stats.totalCourses} />
             <StatCard icon={<Users size={18} className="text-[#1F6F5C]" />} label="Students" value={stats.totalStudents} />
             <StatCard icon={<FileClock size={18} className="text-[#D98B3F]" />} label="Pending review" value={stats.pendingSubmissions} />

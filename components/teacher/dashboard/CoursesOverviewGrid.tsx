@@ -24,7 +24,7 @@ export default function CoursesOverviewGrid({ courses }: { courses: CourseSummar
                     className="group flex flex-col gap-2 rounded-xl border border-[#DAD7CE] bg-white p-4 transition-colors hover:border-[#1F6F5C]"
                 >
                     <div className="flex items-start justify-between">
-                        <h3 className="text-sm font-medium text-[#1C2420]">{c.name}</h3>
+                        <h3 className="text-sm font-medium text-[#1C2420]">{c.title}</h3>
                         <ArrowRight size={14} className="text-[#6B7369] opacity-0 transition-opacity group-hover:opacity-100" />
                     </div>
                     <div className="flex items-center gap-1.5 text-xs text-[#6B7369]">

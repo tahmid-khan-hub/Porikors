@@ -28,7 +28,7 @@ export interface RecentAnnouncement {
 
 export interface CourseSummary {
   id: string;
-  name: string;
+  title: string;
   join_code: string;
   student_count: number;
   created_at: string;

@@ -10,7 +10,7 @@ export default function DashboardCard({ title, action, children }: DashboardCard
     return (
         <div className="rounded-xl border border-[#DAD7CE] bg-white p-4">
             <div className="mb-1 flex items-center justify-between">
-                <h2 className="text-2xl font-semibold text-[#1C2420]">{title}</h2>
+                <h2 className="text-xl mb-2 font-semibold text-[#1C2420]">{title}</h2>
                 {action}
             </div>
             {children}
