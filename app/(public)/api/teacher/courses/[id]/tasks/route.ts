@@ -10,6 +10,12 @@ export async function GET( req: NextRequest, { params }: { params: { id: string 
                 
         const { id: courseId } = await params;
 
+        const ownershipCheck = await pool.query(
+            `SELECT id FROM courses WHERE id = $1::uuid AND teacher_id = $2::uuid`, [courseId, session.user.id]
+        );
+
+        if (ownershipCheck.rowCount === 0) return NextResponse.json({ error: "Course not found" }, { status: 404 }); 
+
         const result = await pool.query(
             `SELECT t.*
             FROM tasks t
