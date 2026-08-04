@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ListTodo, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import TaskCard from "./TaskCard";
 
 export default function TaskGrid({ courseId }: { courseId: string }) {
   const queryClient = useQueryClient();
@@ -29,7 +30,11 @@ export default function TaskGrid({ courseId }: { courseId: string }) {
       {isLoading ? (
         <div className="h-46 w-full rounded-lg border border-[#DAD7CE] bg-gray-100 animate-pulse" />
       ) : tasks && tasks.length > 0 ? (
-        <div className="flex flex-col gap-3"></div>
+        <div className="flex flex-col gap-3">
+            {tasks.map((t) => (
+                <TaskCard key={t.id} task={t} queryKey={queryKey} />
+            ))}
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-3 bg-white border border-[#DAD7CE] rounded-xl py-14 px-6 text-center">
           <div className="w-12 h-12 rounded-full bg-[#F6F5F1] flex items-center justify-center">
