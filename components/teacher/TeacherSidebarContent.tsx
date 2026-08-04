@@ -6,12 +6,12 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 
 const nav_items = [
-    { label: "Dashboard", href: "/teacher", icon: LayoutDashboard },
+    { label: "Dashboard", href: "/teacher/dashboard", icon: LayoutDashboard },
     { label: "Courses", href: "/teacher/courses", icon: BookOpen },
     { label: "Resources", href: "/teacher/resources", icon: FolderOpen },
     { label: "Tasks", href: "/teacher/tasks", icon: ClipboardList },
     { label: "Announcements", href: "/teacher/announcements", icon: Megaphone },
-    { label: "Grades", href: "/teacher/grades", icon: Table },
+    // { label: "Grades", href: "/teacher/grades", icon: Table },
 ]
 
 export default function TeacherSidebarContent({ onNavigate }: { onNavigate?: () => void }) {
