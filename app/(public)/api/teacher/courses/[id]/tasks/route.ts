@@ -24,8 +24,6 @@ export async function GET( req: NextRequest, { params }: { params: { id: string 
             ORDER BY t.deadline ASC`, [courseId, session.user.id]
         );
 
-        if (result.rowCount === 0) return NextResponse.json({ error: "Tasks not found" }, { status: 404 }); 
-
         return NextResponse.json({ tasks: result.rows });
     } catch (error) {
         console.error(error)
