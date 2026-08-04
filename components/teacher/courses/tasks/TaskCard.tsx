@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Task } from "@/types/task";
 import { getTaskDeadlineStatus, taskStatusStyles } from "@/lib/taskStatus";
+import TaskCardMenu from "./TaskCardMenu";
 
 export default function TaskCard({ task, queryKey, }: { task: Task; queryKey: unknown[]; }) {
   const status = getTaskDeadlineStatus(task.deadline);
@@ -48,7 +49,8 @@ export default function TaskCard({ task, queryKey, }: { task: Task; queryKey: un
             )}
           </div>
         </div>
-
+        
+        <TaskCardMenu task={task} queryKey={queryKey} />
       </div>
     </div>
   );

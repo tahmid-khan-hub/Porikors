@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import TaskFormFields from "./TaskFormFields";
 
 interface TaskFormDialogProps {
   open: boolean;
@@ -49,7 +50,7 @@ export default function TaskFormDialog({ open, onOpenChange, initialTask, onSubm
           <DialogTitle>{initialTask ? "Edit Task" : "New Task"}</DialogTitle>
         </DialogHeader>
 
-        
+        <TaskFormFields form={form} setForm={setForm} />
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>

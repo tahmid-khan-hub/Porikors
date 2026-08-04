@@ -1,17 +1,30 @@
 "use client";
-import { Task } from "@/types/task";
+import { Task, TaskFormValues } from "@/types/task";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "@/components/ui/alert-dialog";
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { deleteTask } from "@/lib/actions/createDeleteAndUpdateTasks";
+import { deleteTask, updateTask } from "@/lib/actions/createDeleteAndUpdateTasks";
+import TaskFormDialog from "./TaskFormDialog";
 
 export default function TaskCardMenu({ task, queryKey, }: { task: Task; queryKey: unknown[]; }) {
   const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+
+  const updateMutation = useMutation({
+    mutationFn: (values: TaskFormValues) => updateTask({ taskId: task.id, ...values }),
+    onSuccess: (result) => {
+        if (result.success) {
+        toast.success("Task updated");
+        queryClient.invalidateQueries({ queryKey });
+        setEditOpen(false);
+        } else toast.error(result.error);
+    },
+    onError: () => toast.error("Failed to update task"),
+  });
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteTask(task.id),
@@ -68,7 +81,13 @@ export default function TaskCardMenu({ task, queryKey, }: { task: Task; queryKey
         </AlertDialogContent>
       </AlertDialog>
 
-      
+      <TaskFormDialog
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        initialTask={task}
+        onSubmit={(values) => updateMutation.mutate(values)}
+        isSubmitting={updateMutation.isPending}
+      />
     </div>
   );
 }

@@ -1,10 +1,14 @@
 "use client";
 import { fetchCourseTasks } from "@/lib/api/fetchTasks";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ListTodo, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TaskCard from "./TaskCard";
+import TaskFormDialog from "./TaskFormDialog";
+import { createTask } from "@/lib/actions/createDeleteAndUpdateTasks";
+import { TaskFormValues } from "@/types/task";
+import { toast } from "sonner";
 
 export default function TaskGrid({ courseId }: { courseId: string }) {
   const queryClient = useQueryClient();
@@ -13,6 +17,18 @@ export default function TaskGrid({ courseId }: { courseId: string }) {
 
   const { data: tasks, isLoading } = useQuery({
     queryKey, queryFn: () => fetchCourseTasks(courseId),
+  });
+
+  const createMutation = useMutation({
+    mutationFn: (values: TaskFormValues) => createTask({ courseId, ...values }),
+    onSuccess: (result) => {
+        if (result.success) {
+            toast.success("Task created");
+            queryClient.invalidateQueries({ queryKey });
+            setDialogOpen(false);
+        } else toast.error(result.error);
+    },
+    onError: () => toast.error("Failed to create task"),
   });
 
   return (
@@ -43,6 +59,15 @@ export default function TaskGrid({ courseId }: { courseId: string }) {
           <p className="text-sm text-[#6B7369]">No tasks yet for this course.</p>
         </div>
       )}
+
+      <TaskFormDialog
+        key={dialogOpen ? "open" : "closed"}
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        initialTask={null}
+        onSubmit={(values) => createMutation.mutate(values)}
+        isSubmitting={createMutation.isPending}
+      />
     </div>
   );
 }
