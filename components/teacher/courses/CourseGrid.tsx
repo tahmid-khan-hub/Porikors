@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "framer-motion";
 import { createCourse } from "@/lib/actions/createCourse";
 import { fetchTeacherCourses } from "@/lib/api/fetchCourses";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -74,16 +75,28 @@ export default function CourseGrid({ teacherId }: { teacherId: string }) {
     return (
         <>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3">
-                {courses?.map((course) => (
-                    <CourseCard key={course.id} course={course} teacherId={teacherId} />
+                {courses?.map((course, index) => (
+                    <motion.div
+                        key={course.id}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 + index * 0.08 }}
+                        whileHover={{ y: -2, transition: { duration: 0.2, ease: "easeOut", delay: 0 } }}
+                    >
+                        <CourseCard course={course} teacherId={teacherId} />
+                    </motion.div>
                 ))}
-                <button
+                <motion.button
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 + (courses?.length ?? 0) * 0.08 }}
+                    whileHover={{ y: -2, transition: { duration: 0.2, ease: "easeOut", delay: 0 } }}
                     onClick={() => setDialogOpen(true)}
                     className="border border-dashed border-[#DAD7CE] rounded-xl flex flex-col items-center justify-center gap-2 text-[#6B7369] min-h-33 hover:border-[#1F6F5C] hover:text-[#1F6F5C] transition-colors"
                 >
                     <Plus size={22} />
                     <span className="text-sm">Create course</span>
-                </button>
+                </motion.button>
             </div>
 
             <CreateCourseDialog

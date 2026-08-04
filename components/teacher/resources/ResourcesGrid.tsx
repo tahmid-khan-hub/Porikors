@@ -1,4 +1,5 @@
 "use client"
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { createResource, deleteResource, updateResource } from "@/lib/actions/createDeleteAndUpdateResources";
 import { fetchResources } from "@/lib/api/fetchResources";
@@ -69,16 +70,23 @@ export default function ResourcesGrid({ courseId }: { courseId?: string | null }
             {isLoading ? <ResourcesSkeleton /> : 
             resources && resources.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {resources.map((resource) => (
-                        <ResourceCard
+                    {resources.map((resource, index) => (
+                        <motion.div
                             key={resource.id}
-                            resource={resource}
-                            onEdit={() => {
-                                setEditingResource(resource);
-                                setFormOpen(true);
-                            }}
-                            onDelete={() => deleteMutation.mutate(resource.id)}
-                        />
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 + index * 0.06 }}
+                            whileHover={{ y: -2, transition: { duration: 0.2, ease: "easeOut", delay: 0 } }}
+                        >
+                            <ResourceCard
+                                resource={resource}
+                                onEdit={() => {
+                                    setEditingResource(resource);
+                                    setFormOpen(true);
+                                }}
+                                onDelete={() => deleteMutation.mutate(resource.id)}
+                            />
+                        </motion.div>
                     ))}
                 </div>
             ) : <ResourcesEmptyState /> 
