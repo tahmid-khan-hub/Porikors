@@ -11,6 +11,7 @@ interface TaskSubmissionEditorProps {
     isPastDeadline: boolean;
     textContent: string;
     setTextContent: Dispatch<SetStateAction<string>>;
+    acceptAttr: string;
     file: File | null;
     setFile: Dispatch<SetStateAction<File | null>>;
     uploading: boolean;
@@ -19,7 +20,7 @@ interface TaskSubmissionEditorProps {
 }
 
 export default function TaskSubmissionEditor({
-    task, requiresFile, isPastDeadline, textContent, setTextContent,
+    task, requiresFile, isPastDeadline, textContent, setTextContent, acceptAttr,
     file, setFile, uploading, isSubmitting, onSubmit,
 }: TaskSubmissionEditorProps) {
     return (
@@ -66,6 +67,7 @@ export default function TaskSubmissionEditor({
                 </span>
                 <input
                 type="file"
+                accept={acceptAttr}
                 className="hidden"
                 onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                 />

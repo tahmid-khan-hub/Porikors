@@ -1,4 +1,5 @@
 import { SubmissionStatus } from "./studentCourseDetail";
+import { AllowedFileType } from "./task";
 
 export interface StudentTaskDetail {
     id: string;
@@ -8,7 +9,7 @@ export interface StudentTaskDetail {
     description: string | null;
     deadline: string;
     max_marks: number | null;
-    allowed_file_types: string[] | null; // null/empty = text-only
+    allowed_file_types: AllowedFileType[] | null; // null/empty = text-only
     submission: {
         id: string;
         status: SubmissionStatus;

@@ -6,10 +6,12 @@ import { StudentTaskDetail } from "@/types/studentTaskDetail";
 import { submitTask } from "@/lib/actions/submitTask";
 import TaskSubmissionView from "./TaskSubmissionView";
 import TaskSubmissionEditor from "./TaskSubmissionEditor";
+import { buildAcceptAttr } from "@/lib/allowedFileTypes";
 
 export default function TaskSubmissionForm({ task }: { task: StudentTaskDetail }) {
     const queryClient = useQueryClient();
     const requiresFile = !!task.allowed_file_types && task.allowed_file_types.length > 0;
+    const acceptAttr = buildAcceptAttr(task.allowed_file_types);
 
     const [textContent, setTextContent] = useState(task.submission?.text_content ?? "");
     const [file, setFile] = useState<File | null>(null);
@@ -17,32 +19,36 @@ export default function TaskSubmissionForm({ task }: { task: StudentTaskDetail }
 
     const isPastDeadline = new Date() > new Date(task.deadline);
     const isGraded = task.submission?.status === "graded";
-    const canEdit = !isGraded; // late submissions are still allowed, just flagged "late" server-side
+    // const canEdit = !isGraded; // late submissions are still allowed, just flagged "late" server-side
 
     const submitMutation = useMutation({
         mutationFn: async () => {
-        let fileUrl = task.submission?.file_url ?? null;
-        let fileName = task.submission?.file_name ?? null;
+            let fileUrl = task.submission?.file_url ?? null;
+            let fileName = task.submission?.file_name ?? null;
 
-        if (file) {
-            setUploading(true);
-            const formData = new FormData();
-            formData.append("file", file);
-            const uploadRes = await fetch("/api/student/upload", { method: "POST", body: formData });
-            setUploading(false);
-            if (!uploadRes.ok) throw new Error("File upload failed");
-            const uploadData = await uploadRes.json();
-            fileUrl = uploadData.url;
-            fileName = file.name;
-        }
+            if (file) {
+                setUploading(true);
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("taskId", task.id);
+                const uploadRes = await fetch("/api/student/upload", { method: "POST", body: formData });
+                setUploading(false);
+                if (!uploadRes.ok) {
+                    const err = await uploadRes.json().catch(() => null);
+                    throw new Error(err?.error ?? "File upload failed");
+                }
+                const uploadData = await uploadRes.json();
+                fileUrl = uploadData.url;
+                fileName = file.name;
+            }
 
-        return submitTask({
-            taskId: task.id,
-            courseId: task.course_id,
-            textContent: requiresFile ? null : textContent,
-            fileUrl,
-            fileName,
-        });
+            return submitTask({
+                taskId: task.id,
+                courseId: task.course_id,
+                textContent: requiresFile ? null : textContent,
+                fileUrl,
+                fileName,
+            });
         },
         onSuccess: (result) => {
             if (result.success) {
@@ -63,6 +69,7 @@ export default function TaskSubmissionForm({ task }: { task: StudentTaskDetail }
             isPastDeadline={isPastDeadline}
             textContent={textContent}
             setTextContent={setTextContent}
+            acceptAttr={acceptAttr}
             file={file}
             setFile={setFile}
             uploading={uploading}
