@@ -37,7 +37,7 @@ export async function joinCourse(rawCode: string): Promise<ActionResult<{ id: st
         );
 
         revalidatePath("/student/courses");
-        // revalidatePath("/student/dashboard");
+        revalidatePath("/student/dashboard");
 
         return { success: true, data: { id: course.id, title: course.title } };
     } catch (err: unknown) {
