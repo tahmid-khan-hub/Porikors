@@ -35,7 +35,7 @@ export default function StudentTaskDetailView({ courseId, taskId }: { courseId: 
     }
 
     return (
-        <div className="flex flex-col gap-6 max-w-2xl">
+        <div className="flex flex-col gap-6 max-w-7xl">
             <div>
                 <p className="text-xs text-[#6B7369] mb-1">{task.course_title}</p>
                 <h1 className="text-xl font-semibold text-[#1C2420]">{task.title}</h1>

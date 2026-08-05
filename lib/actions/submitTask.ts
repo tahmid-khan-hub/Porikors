@@ -54,10 +54,10 @@ export async function submitTask(input: SubmitTaskInput): Promise<ActionResult<{
     let result;
     if (existing.rowCount === 0) {
       result = await pool.query(
-        `INSERT INTO submissions (task_id, student_id, text_content, file_url, file_name, status, submitted_at)
-         VALUES ($1, $2, $3, $4, $5, $6, now())
+        `INSERT INTO submissions (task_id, student_id, content_text, file_url, status, submitted_at)
+         VALUES ($1, $2, $3, $4, $5, now())
          RETURNING id, status`,
-        [input.taskId, session.user.id, input.textContent, input.fileUrl, input.fileName, status]
+        [input.taskId, session.user.id, input.textContent, input.fileUrl, status]
       );
     } else {
       const current = existing.rows[0];
@@ -67,10 +67,10 @@ export async function submitTask(input: SubmitTaskInput): Promise<ActionResult<{
       const nextStatus = current.status === "resubmission_requested" ? "resubmitted" : status;
       result = await pool.query(
         `UPDATE submissions
-         SET text_content = $1, file_url = $2, file_name = $3, status = $4, submitted_at = now()
-         WHERE id = $5
+         SET content_text = $1, file_url = $2, status = $3, submitted_at = now()
+         WHERE id = $4
          RETURNING id, status`,
-        [input.textContent, input.fileUrl, input.fileName, nextStatus, current.id]
+        [input.textContent, input.fileUrl, nextStatus, current.id]
       );
     }
 

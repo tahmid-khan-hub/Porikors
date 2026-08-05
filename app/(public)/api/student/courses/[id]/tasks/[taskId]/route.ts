@@ -27,7 +27,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         if (taskResult.rowCount === 0) return NextResponse.json({ error: "Task not found" }, { status: 404 });
         
         const submissionResult = await pool.query(
-            `SELECT id, status, text_content, file_url, file_name, grade, feedback, submitted_at, graded_at
+            `SELECT id, status, content_text, file_url, grade, feedback, submitted_at, created_at
             FROM submissions
             WHERE task_id = $1 AND student_id = $2`,
             [taskId, session.user.id]
