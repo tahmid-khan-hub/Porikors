@@ -32,7 +32,7 @@ export async function GET() {
                 (SELECT COUNT(*)
                     FROM submissions s
                     JOIN tasks t ON t.id = s.task_id JOIN enrollments en ON en.course_id = t.course_id AND en.student_id = s.student_id
-                    WHERE s.student_id = $1 AND s.status = 'graded' AND s.graded_at >= date_trunc('month', now())
+                    WHERE s.student_id = $1 AND s.status = 'graded' AND s.created_at >= date_trunc('month', now())
                 ) AS graded_this_month`,
                 [studentId]
             ),
@@ -65,11 +65,11 @@ export async function GET() {
             pool.query(
                 `SELECT t.id AS task_id, t.title AS task_title,
                 c.id AS course_id, c.title AS course_name,
-                s.marks, t.max_marks, s.graded_at
+                s.grade, t.max_marks, s.created_at
                 FROM submissions s
                 JOIN tasks t ON t.id = s.task_id JOIN courses c ON c.id = t.course_id
                 WHERE s.student_id = $1 AND s.status = 'graded'
-                ORDER BY s.graded_at DESC LIMIT 5`,
+                ORDER BY s.created_at DESC LIMIT 5`,
                 [studentId]
             ),
 
@@ -88,7 +88,7 @@ export async function GET() {
                 JOIN courses c ON c.id = en.course_id JOIN users u ON u.id = c.teacher_id
                 LEFT JOIN enrollments en2 ON en2.course_id = c.id LEFT JOIN tasks t ON t.course_id = c.id
                 WHERE en.student_id = $1
-                GROUP BY c.id, u.name
+                GROUP BY c.id, u.name, en.enrolled_at
                 ORDER BY en.enrolled_at DESC LIMIT 6
                 `,
                 [studentId]
