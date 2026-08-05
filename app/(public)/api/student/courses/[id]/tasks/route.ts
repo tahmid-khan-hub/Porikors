@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         const result = await pool.query(
             `SELECT t.id, t.title, t.description, t.deadline, t.max_marks, t.allowed_file_types,
                 COALESCE(s.status, 'not_submitted') AS submission_status,
-                s.marks AS submission_marks
+                s.grade AS submission_marks
             FROM tasks t
             LEFT JOIN submissions s ON s.task_id = t.id AND s.student_id = $2
             WHERE t.course_id = $1

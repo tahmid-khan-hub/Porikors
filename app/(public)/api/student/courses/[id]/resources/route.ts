@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         if (enrolled.rowCount === 0) return NextResponse.json({ error: "Not enrolled in this course" }, { status: 403 });
         
         const result = await pool.query(
-            `SELECT id, title, type, url, created_at
+            `SELECT id, title, resource_type, url, created_at
             FROM resources
             WHERE course_id = $1
             ORDER BY created_at DESC`,

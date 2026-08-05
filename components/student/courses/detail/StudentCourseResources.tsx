@@ -20,8 +20,8 @@ export default function StudentCourseResources({ courseId }: { courseId: string 
     if (isLoading) {
         return (
         <div className="flex flex-col gap-3">
-            {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-14 w-full rounded-lg border border-[#DAD7CE] bg-gray-100 animate-pulse" />
+            {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="h-20 w-full rounded-lg border border-[#DAD7CE] bg-gray-100 animate-pulse" />
             ))}
         </div>
         );
