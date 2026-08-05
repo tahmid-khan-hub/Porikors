@@ -17,7 +17,7 @@ export default function StudentCoursesGrid() {
     return (
         <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
-                <h2 className="text-[15px] font-medium text-[#1C2420]">My Courses</h2>
+                <h2 className="text-2xl font-semibold text-[#1C2420]">My Courses</h2>
                 <Button
                     onClick={() => setJoinOpen(true)}
                     className="rounded-md px-4 py-2 text-sm font-medium text-white bg-[#1F6F5C] hover:bg-[#175446]"
@@ -44,7 +44,7 @@ export default function StudentCoursesGrid() {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center gap-3 bg-white border border-[#DAD7CE] rounded-xl py-14 px-6 text-center">
+                <div className="flex flex-col items-center justify-center gap-3 bg-white border border-[#DAD7CE] rounded-xl py-14 px-6 mt-16 text-center">
                     <div className="w-12 h-12 rounded-full bg-[#F6F5F1] flex items-center justify-center">
                         <BookOpen size={22} className="text-[#6B7369]" />
                     </div>
