@@ -1,6 +1,6 @@
 "use client"
 import { usePathname } from "next/navigation";
-import { GraduationCap as UserCircle, LogOut, LayoutDashboard, BookOpen, FolderOpen, ClipboardList, Megaphone } from "lucide-react";
+import { GraduationCap as UserCircle, LogOut, LayoutDashboard, BookOpen, FolderOpen, Megaphone } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -9,7 +9,6 @@ const nav_items = [
     { label: "Dashboard", href: "/student/dashboard", icon: LayoutDashboard },
     { label: "Courses", href: "/student/courses", icon: BookOpen },
     { label: "Resources", href: "/student/resources", icon: FolderOpen },
-    { label: "Tasks", href: "/student/tasks", icon: ClipboardList },
     { label: "Announcements", href: "/student/announcements", icon: Megaphone },
 ]
 
