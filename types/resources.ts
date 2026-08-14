@@ -19,3 +19,17 @@ export interface ResourceFormValues {
   url: string | null;
   text_content: string | null;
 }
+
+export interface StudentResource {
+  id: string;
+  title: string;
+  description: string | null;
+  resourceType: ResourceType;
+  url: string;
+  textContent: string | null;
+  createdAt: string;
+  courseId: string | null;   // null = teacher-wide/global
+  courseTitle: string | null; // null when courseId is null
+  teacherId: string;
+  teacherName: string;
+}
