@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
         const result = await pool.query(
         `SELECT a.id, a.content, a.created_at, a.updated_at,
-            a.course_id, c.name AS course_name,
+            a.course_id, c.title AS course_name,
             a.teacher_id, u.name AS teacher_name
         FROM announcements a
         JOIN users u ON u.id = a.teacher_id
