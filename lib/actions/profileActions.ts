@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { pool } from "../postgresql";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../authOptions";
-import { ImageUpdateResult, ProfileUpdateInput, ProfileUpdateResult, } from "@/types/profile";
+import { ImageUpdateResult, ProfileUpdateInput, ProfileUpdateResult, TeacherProfileUpdateInput, TeacherProfileUpdateResult, } from "@/types/profile";
 
 export async function updateStudentProfile(input: ProfileUpdateInput): Promise<ProfileUpdateResult> {
     try {
@@ -60,5 +60,47 @@ export async function updateStudentImage(image: string): Promise<ImageUpdateResu
     } catch (err) {
         console.error(err);
         return { success: false, error: "Failed to update image" };
+    }
+}
+
+export async function updateTeacherProfile(input: TeacherProfileUpdateInput): Promise<TeacherProfileUpdateResult> {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+        const name = input.name.trim();
+        const institution = input.institution.trim();
+
+        if (!name) return { success: false, error: "Name is required" };
+        if (name.length > 120) return { success: false, error: "Name is too long" };
+        if (!institution) return { success: false, error: "Institution is required" };
+
+        const client = await pool.connect();
+        try {
+            await client.query("BEGIN");
+
+            await client.query(`UPDATE users SET name = $1, updated_at = now() WHERE id = $2::uuid`, [name,session.user.id,]);
+
+            const rv = await client.query(
+                `UPDATE role_verifications SET institution = $1
+                WHERE user_id = $2::uuid AND requested_role = 'teacher' RETURNING id`,
+                [institution, session.user.id]
+            );
+
+            if (rv.rowCount === 0) {
+                await client.query("ROLLBACK");
+                return { success: false, error: "No verification record found for this account" };
+            }
+            await client.query("COMMIT");
+        } catch (err) {
+            await client.query("ROLLBACK");
+            throw err;
+        } finally { client.release(); }
+
+        revalidatePath("/teacher/profile");
+        return { success: true, data: { name, institution } };
+    } catch (err) {
+        console.error(err);
+        return { success: false, error: "Failed to update profile" };
     }
 }
