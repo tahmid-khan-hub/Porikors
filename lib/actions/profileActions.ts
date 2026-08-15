@@ -47,7 +47,7 @@ export async function updateStudentProfile(input: ProfileUpdateInput): Promise<P
     }
 }
 
-export async function updateStudentImage(image: string): Promise<ImageUpdateResult> {
+export async function updateUserImage(image: string): Promise<ImageUpdateResult> {
     try {
         const session = await getServerSession(authOptions);
         if (!session?.user?.id) return { success: false, error: "Unauthorized" };
@@ -55,7 +55,7 @@ export async function updateStudentImage(image: string): Promise<ImageUpdateResu
 
         await pool.query(`UPDATE users SET image = $1, updated_at = now() WHERE id = $2::uuid`, [image, session.user.id]);
 
-        revalidatePath("/student/profile");
+        revalidatePath(`/${session.user.role}/profile`);
         return { success: true, data: { image } };
     } catch (err) {
         console.error(err);

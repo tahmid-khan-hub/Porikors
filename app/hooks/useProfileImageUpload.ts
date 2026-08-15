@@ -2,14 +2,14 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateStudentImage } from "@/lib/actions/profileActions";
+import { updateUserImage } from "@/lib/actions/profileActions";
 
 export function useProfileImageUpload(queryKey: unknown[]) {
     const queryClient = useQueryClient();
     const [isUploading, setIsUploading] = useState(false);
 
     const saveImageMutation = useMutation({
-        mutationFn: (url: string) => updateStudentImage(url),
+        mutationFn: (url: string) => updateUserImage(url),
         onSuccess: (result) => {
             if (result.success) {
                 toast.success("Profile photo updated");
