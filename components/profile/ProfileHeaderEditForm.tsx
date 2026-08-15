@@ -1,13 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Camera, Check, X } from "lucide-react";
+import { Camera, Check, Loader2, X } from "lucide-react";
 import { updateStudentProfile } from "@/lib/actions/profileActions";
 import { StudentIdentity } from "@/types/profile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useProfileImageUpload } from "@/app/hooks/useProfileImageUpload";
 
 interface ProfileHeaderEditFormProps {
     identity: StudentIdentity;
@@ -20,6 +21,8 @@ export default function ProfileHeaderEditForm({ identity, queryKey, onDone, }: P
     const [name, setName] = useState(identity.name);
     const [institution, setInstitution] = useState(identity.institution);
     const [error, setError] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const { handleFileSelected, isUploading } = useProfileImageUpload(queryKey);
 
     const mutation = useMutation({
         mutationFn: () => updateStudentProfile({ name, institution }),
@@ -40,6 +43,14 @@ export default function ProfileHeaderEditForm({ identity, queryKey, onDone, }: P
             return;
         }
         mutation.mutate();
+    }
+
+    function handleAvatarClick() { fileInputRef.current?.click(); }
+
+    function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (file) handleFileSelected(file);
+        e.target.value = ""; // allow re-selecting the same file later
     }
 
     return (
@@ -71,12 +82,21 @@ export default function ProfileHeaderEditForm({ identity, queryKey, onDone, }: P
                             </div>
                         )}
                     </div>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        className="hidden"
+                        onChange={handleFileChange}
+                    />
                     <button
                         type="button"
-                        className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-[#1F6F5C] text-white flex items-center justify-center border-2 border-white"
-                        title="Image upload isn't wired up yet"
+                        onClick={handleAvatarClick}
+                        disabled={isUploading}
+                        className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-[#1F6F5C] text-white flex items-center justify-center border-2 border-white disabled:opacity-60"
+                        title="Change photo"
                     >
-                        <Camera size={12} />
+                        {isUploading ? <Loader2 size={12} className="animate-spin" /> : <Camera size={12} />}
                     </button>
                 </div>
 
