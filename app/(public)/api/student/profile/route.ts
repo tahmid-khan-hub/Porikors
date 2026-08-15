@@ -15,7 +15,7 @@ export async function GET() {
             rv.institution, rv.department, rv.student_id_number, rv.id_card_url, rv.status AS verification_status
             FROM users u
             LEFT JOIN role_verifications rv
-            ON rv.user_id = u.id AND rv.role = 'student'
+            ON rv.user_id = u.id AND rv.requested_role = 'student'
             WHERE u.id = $1::uuid`, [studentId]
         );
 
@@ -49,12 +49,12 @@ export async function GET() {
         const overallGradePercent = earned !== null && possible !== null && possible > 0 ? Math.round((earned / possible) * 1000) / 10 : null;
 
         const coursesResult = await pool.query(
-            `SELECT c.id AS course_id, c.name AS course_name, c.is_archived,
+            `SELECT c.id AS course_id, c.title AS course_name, c.is_archived,
             t.name AS teacher_name
             FROM enrollments en
             JOIN courses c ON c.id = en.course_id JOIN users t ON t.id = c.teacher_id
             WHERE en.student_id = $1::uuid
-            ORDER BY c.is_archived ASC, en.created_at DESC`,
+            ORDER BY c.is_archived ASC, en.enrolled_at DESC`,
             [studentId]
         );
 
