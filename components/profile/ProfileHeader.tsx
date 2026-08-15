@@ -1,0 +1,53 @@
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
+import { StudentIdentity } from "@/types/profile";
+import ProfileHeaderEditForm from "./ProfileHeaderEditForm";
+import Image from "next/image";
+
+interface ProfileHeaderProps {
+    identity: StudentIdentity;
+    queryKey: unknown[];
+}
+
+export default function ProfileHeader({ identity, queryKey }: ProfileHeaderProps) {
+    const [editing, setEditing] = useState(false);
+
+    if (editing) {
+        return (
+            <ProfileHeaderEditForm
+                identity={identity}
+                queryKey={queryKey}
+                onDone={() => setEditing(false)}
+            />
+        );
+    }
+
+    return (
+        <div className="rounded-xl border border-[#DAD7CE] bg-white shadow-sm p-6 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-[#DAD7CE] overflow-hidden">
+                    {identity.avatarUrl ? (
+                        <Image src={identity.avatarUrl} alt={identity.name} height={40} width={40} className="h-full w-full object-cover" />
+                    ) : (
+                        <div className="h-full w-full flex items-center justify-center text-[#6B7369] text-lg font-medium">
+                        {identity.name.charAt(0).toUpperCase()}
+                        </div>
+                    )}
+                </div>
+                <div>
+                    <div className="flex items-center gap-2">
+                        <h2 className="text-lg font-semibold text-[#1C2420]">{identity.name}</h2>
+                        <span className="text-xs font-medium text-[#1F6F5C] border border-[#1F6F5C] rounded-full px-2 py-0.5">Student</span>
+                    </div>
+                    <p className="text-sm text-[#6B7369]">{identity.email}</p>
+                    <p className="text-sm text-[#6B7369]">{identity.institution}</p>
+                </div>
+            </div>
+            <Button variant="outline" onClick={() => setEditing(true)} className="shrink-0">
+                <Pencil size={14} className="mr-1.5" /> Edit Profile
+            </Button>
+        </div>
+    );
+}
