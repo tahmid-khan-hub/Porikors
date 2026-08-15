@@ -45,6 +45,6 @@ export type ProfileUpdateResult =
     | { success: true; data: { name: string; institution: string } }
     | { success: false; error: string };
 
-export type AvatarUpdateResult =
-    | { success: true; data: { avatarUrl: string } }
+export type ImageUpdateResult =
+    | { success: true; data: { image: string } }
     | { success: false; error: string };
