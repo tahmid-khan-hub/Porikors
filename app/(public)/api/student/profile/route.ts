@@ -63,7 +63,7 @@ export async function GET() {
                 id: u.id,
                 name: u.name,
                 email: u.email,
-                avatarUrl: u.avatar_url,
+                image: u.image,
                 institution: u.institution ?? "",
             },
             academic: {

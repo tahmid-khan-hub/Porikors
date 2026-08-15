@@ -24,8 +24,8 @@ export async function updateStudentProfile(input: ProfileUpdateInput): Promise<P
             await client.query(`UPDATE users SET name = $1, updated_at = now() WHERE id = $2::uuid`, [name, session.user.id]);
 
             const rv = await client.query(
-                `UPDATE role_verifications SET institution = $1, updated_at = now()
-                WHERE user_id = $2::uuid AND role = 'student'
+                `UPDATE role_verifications SET institution = $1
+                WHERE user_id = $2::uuid AND requested_role = 'student'
                 RETURNING id`, [institution, session.user.id]
             );
 

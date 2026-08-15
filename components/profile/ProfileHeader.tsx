@@ -28,8 +28,8 @@ export default function ProfileHeader({ identity, queryKey }: ProfileHeaderProps
         <div className="rounded-xl border border-[#DAD7CE] bg-white shadow-sm p-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
                 <div className="h-16 w-16 rounded-full bg-[#DAD7CE] overflow-hidden">
-                    {identity.avatarUrl ? (
-                        <Image src={identity.avatarUrl} alt={identity.name} height={40} width={40} className="h-full w-full object-cover" />
+                    {identity.image ? (
+                        <Image src={identity.image} alt={identity.name} height={40} width={40} className="h-full w-full object-cover" />
                     ) : (
                         <div className="h-full w-full flex items-center justify-center text-[#6B7369] text-lg font-medium">
                         {identity.name.charAt(0).toUpperCase()}

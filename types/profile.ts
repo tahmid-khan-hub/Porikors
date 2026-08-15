@@ -2,7 +2,7 @@ export interface StudentIdentity {
     id: string;
     name: string;
     email: string;
-    avatarUrl: string | null;
+    image: string | null;
     institution: string;
 }
 
