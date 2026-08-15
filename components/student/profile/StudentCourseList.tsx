@@ -1,7 +1,9 @@
+"use client"
 import Link from "next/link";
 import { StudentCourseSummary } from "@/types/profile";
 import { BookOpen, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export default function StudentCourseList({ courses }: { courses: StudentCourseSummary[] }) {
     const activeCount = courses.filter((c) => !c.isArchived).length;
@@ -32,24 +34,31 @@ export default function StudentCourseList({ courses }: { courses: StudentCourseS
                 </div>
             ) : (
                 <div>
-                    {courses.map((course) => (
-                        <Link
+                    {courses.map((course, i) => (
+                        <motion.div 
                             key={course.courseId}
-                            href={`/student/courses/${course.courseId}`}
-                            className="relative flex items-center justify-between py-3 border-b border-[#DAD7CE] last:border-0 hover:bg-[#F6F5F1]/60 -mx-2 px-2 rounded-md"
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, delay: i * 0.06, ease: "easeOut" }}
                         >
-                            <div className="relative z-10">
-                                <div className="text-sm font-medium text-[#1C2420]">{course.courseName}</div>
-                                <div className="text-xs text-[#6B7369]">{course.teacherName}</div>
-                            </div>
-                            <div className="relative z-10 flex items-center gap-2">
-                                <span
-                                    className="h-1.5 w-1.5 rounded-full"
-                                    style={{ backgroundColor: course.isArchived ? "#8A9186" : "#3B8F5C" }}
-                                />
-                                    <ChevronRight size={16} className="text-[#8A9186]" />
-                            </div>
-                        </Link>
+                            <Link
+                                key={course.courseId}
+                                href={`/student/courses/${course.courseId}`}
+                                className="relative flex items-center justify-between py-3 border-b border-[#DAD7CE] last:border-0 hover:bg-[#F6F5F1]/60 -mx-2 px-2 rounded-md"
+                            >
+                                <div className="relative z-10">
+                                    <div className="text-sm font-medium text-[#1C2420]">{course.courseName}</div>
+                                    <div className="text-xs text-[#6B7369]">{course.teacherName}</div>
+                                </div>
+                                <div className="relative z-10 flex items-center gap-2">
+                                    <span
+                                        className="h-1.5 w-1.5 rounded-full"
+                                        style={{ backgroundColor: course.isArchived ? "#8A9186" : "#3B8F5C" }}
+                                    />
+                                        <ChevronRight size={16} className="text-[#8A9186]" />
+                                </div>
+                            </Link>
+                        </motion.div>
                     ))}
                 </div>
             )}

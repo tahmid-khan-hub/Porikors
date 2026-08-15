@@ -5,6 +5,7 @@ import { Pencil } from "lucide-react";
 import { StudentIdentity } from "@/types/profile";
 import ProfileHeaderEditForm from "./ProfileHeaderEditForm";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface ProfileHeaderProps {
     identity: StudentIdentity;
@@ -25,7 +26,12 @@ export default function ProfileHeader({ identity, queryKey }: ProfileHeaderProps
     }
 
     return (
-        <div className="rounded-xl border border-[#DAD7CE] bg-white shadow-sm p-6 flex items-center justify-between">
+        <motion.div 
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.06, ease: "easeOut" }}
+            whileHover={{ y: -2 }}
+            className="flex flex-col md:flex-row rounded-xl border border-[#DAD7CE] bg-white shadow-sm p-6 items-center justify-between">
             <div className="flex items-center gap-4">
                 <div className="h-16 w-16 rounded-full bg-[#DAD7CE] overflow-hidden">
                     {identity.image ? (
@@ -39,15 +45,15 @@ export default function ProfileHeader({ identity, queryKey }: ProfileHeaderProps
                 <div>
                     <div className="flex items-center gap-2">
                         <h2 className="text-lg font-semibold text-[#1C2420]">{identity.name}</h2>
-                        <span className="text-xs font-medium text-[#1F6F5C] border border-[#1F6F5C] rounded-full px-2 py-0.5">Student</span>
+                        <span className="text-xs font-medium text-[#1F6F5C] border border-[#1F6F5C]  hover:bg-[#1F6F5C] hover:text-white rounded-full cursor-default px-2 py-0.5 ml-2 mt-1">Student</span>
                     </div>
-                    <p className="text-sm text-[#6B7369]">{identity.email}</p>
+                    <p className="text-sm mt-2 text-[#6B7369]">{identity.email}</p>
                     <p className="text-sm text-[#6B7369]">{identity.institution}</p>
                 </div>
             </div>
-            <Button variant="outline" onClick={() => setEditing(true)} className="shrink-0">
+            <Button variant="outline" onClick={() => setEditing(true)} className="shrink-0 flex mt-5 md:mt-0">
                 <Pencil size={14} className="mr-1.5" /> Edit Profile
             </Button>
-        </div>
+        </motion.div>
     );
 }
