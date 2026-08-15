@@ -48,3 +48,50 @@ export type ProfileUpdateResult =
 export type ImageUpdateResult =
     | { success: true; data: { image: string } }
     | { success: false; error: string };
+
+export interface TeacherIdentity {
+    id: string;
+    name: string;
+    email: string;
+    image: string | null;
+    institution: string;
+}
+
+export interface TeacherAcademicInfo {
+    designation: string | null;
+    department: string | null;
+    institution: string;
+    workEmail: string | null;
+    verificationStatus: "unset" | "pending" | "approved" | "rejected";
+    memberSince: string;
+}
+
+export interface TeacherStats {
+    coursesTaught: number;
+    totalStudents: number;
+    pendingGrading: number;
+    announcementsPosted: number;
+}
+
+export interface TeacherCourseSummary {
+    courseId: string;
+    courseName: string;
+    studentCount: number;
+    isArchived: boolean;
+}
+
+export interface TeacherProfile {
+    identity: TeacherIdentity;
+    academic: TeacherAcademicInfo;
+    stats: TeacherStats;
+    courses: TeacherCourseSummary[];
+}
+
+export interface TeacherProfileUpdateInput {
+    name: string;
+    institution: string;
+}
+
+export type TeacherProfileUpdateResult =
+  | { success: true; data: { name: string; institution: string } }
+  | { success: false; error: string };
