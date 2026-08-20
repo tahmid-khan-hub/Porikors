@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   description:
     "Porikors is a full-stack course management platform for teachers and students - create courses, share resources, post announcements, assign tasks and track grades all in one place.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/porikors_logo.jpeg",
   },
 };
 
