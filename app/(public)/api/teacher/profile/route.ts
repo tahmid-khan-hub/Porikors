@@ -13,7 +13,8 @@ export async function GET() {
         const identityResult = await pool.query(
             `SELECT u.id, u.name, u.email, u.image, u.created_at,
             rv.institution, rv.department, rv.designation,
-            rv.work_email, rv.status AS verification_status
+            rv.work_email, rv.status AS verification_status,
+            rv.phone_number, rv.gender, rv.date_of_birth
             FROM users u
             LEFT JOIN role_verifications rv
             ON rv.user_id = u.id AND rv.requested_role = 'teacher'
@@ -62,6 +63,9 @@ export async function GET() {
                 email: u.email,
                 image: u.image,
                 institution: u.institution ?? "",
+                phoneNumber: u.phone_number ?? "",
+                gender: u.gender ?? "",
+                dateOfBirth: u.date_of_birth ?? null,
             },
             academic: {
                 designation: u.designation,

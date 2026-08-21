@@ -55,6 +55,9 @@ export interface TeacherIdentity {
     email: string;
     image: string | null;
     institution: string;
+    phoneNumber: string;
+    gender: string;
+    dateOfBirth: string;
 }
 
 export interface TeacherAcademicInfo {
