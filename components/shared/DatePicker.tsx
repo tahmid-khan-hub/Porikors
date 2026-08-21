@@ -18,9 +18,8 @@ interface DatePickerProps {
 export default function DatePicker({ name, label, value, onChange, placeholder = "Pick a date", error, required, }: DatePickerProps) {
     return (
         <div className="space-y-1.5">
-            <label htmlFor={name} className="text-sm font-medium text-[#1C2420]">
+            <label htmlFor={name} className="text-xs font-medium text-[#1C2420]/70">
                 {label}
-                {required && <span className="text-[#C1443D]"> *</span>}
             </label>
 
             <Popover>

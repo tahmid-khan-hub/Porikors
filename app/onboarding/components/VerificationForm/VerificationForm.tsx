@@ -10,6 +10,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+const genderOptions = ["Male", "Female"];
+
 interface VerificationFormProps {
     role: Role;
     onBack: () => void;
@@ -45,8 +47,23 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const studentIdPattern = /^\d{3}-\d{3}-\d{3}$/;
+        const phonePattern = /^(?:\+?880|0)1[3-9]\d{8}$/;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const errors: typeof fieldErrors = {};
+
+        const rawPhone = formData.get("phone_number")?.toString().trim() ?? "";
+        const cleanedPhone = rawPhone.replace(/[\s\-]/g, "");
+        if (!phonePattern.test(cleanedPhone)) errors.phone_number = "Enter a valid Bangladeshi phone number";
+
+        if (!gender || !genderOptions.includes(gender)) errors.gender = "Please select a gender";
+
+        if (!dateOfBirth) errors.date_of_birth = "Date of birth is required";
+        else {
+            const minAgeDate = new Date();
+            minAgeDate.setFullYear(minAgeDate.getFullYear() - 18);
+            if (dateOfBirth > new Date()) errors.date_of_birth = "Date of birth cannot be in the future";
+            else if (dateOfBirth > minAgeDate) errors.date_of_birth = "You must be at least 18 years old";
+        }
         
         if (role === "student") {
             const studentId = formData.get("student_id_number")?.toString().trim() ?? "";
