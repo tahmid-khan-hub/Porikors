@@ -55,13 +55,11 @@ export default function VerificationFormFields({role,
               label="Student ID number"
               placeholder="e.g. 232-115-057"
               required
-              pattern="\d{3}-\d{3}-\d{3}" title="Format: 232-115-067"
+              pattern="\d{3}-\d{3}-\d{3}" title="Format: 232-115-057"
               maxLength={11} error={fieldErrors?.student_id_number}
             />
             <div>
-              <label className="text-xs font-medium text-[#1C2420]/70">
-                Student ID card photo
-              </label>
+              <label className="text-xs font-medium text-[#1C2420]/70">Student ID card photo</label>
               <input
                 type="file"
                 accept="image/*"
@@ -69,11 +67,17 @@ export default function VerificationFormFields({role,
                 title="Upload coming soon — pending storage setup"
                 className="mt-1 w-full cursor-not-allowed rounded-lg border border-[#DAD7CE] bg-[#F6F5F1] px-3 py-2 text-sm text-[#1C2420]/40"
               />
-              <p className="mt-1 text-xs text-[#D98B3F]">
-                Photo upload is not live yet — you can submit without it for
-                now.
-              </p>
+              <p className="mt-1 text-xs text-[#D98B3F]"> Photo upload is not live yet — you can submit without it for now.</p>
             </div>
+            <Dropdown
+              name="department"
+              options={departmentOptions}
+              placeholder="Select your department"
+              label="Department"
+              value={department}
+              onChange={setDepartment}
+              error={fieldErrors?.department}
+            />
           </>
         )}
 

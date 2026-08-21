@@ -9,7 +9,10 @@ export async function submitVerification(role: Role, formData: FormData) {
     if(!session?.user?.id) return { error: "You must  bg logged in to continue", status: 401 }
 
     const institution = formData.get("institution")?.toString().trim()
+    const dept = formData.get("department")?.toString().trim()
+
     if(!institution) return { error: "Institution is required", status: 400 };
+    if(!dept) return { error: "Department is required", status: 400 };
 
     if(role !== "teacher" && role !== "student") return { error: "Role must be teacher or student", status: 400 };
 
@@ -30,12 +33,13 @@ export async function submitVerification(role: Role, formData: FormData) {
             )
         } else {
             const student_id_number = formData.get("student_id_number")?.toString().trim();
+            const department = formData.get("department")?.toString().trim();
 
-            if(!student_id_number) return { error: "student id is required", status: 400 }
+            if(!student_id_number || !department ) return { error: "all fields are required", status: 400 }
 
             await pool.query(
-                "INSERT INTO role_verifications (user_id, requested_role, institution, student_id_number) VALUES ($1, 'student', $2, $3)",
-                [session.user.id, institution, student_id_number]
+                "INSERT INTO role_verifications (user_id, requested_role, institution, student_id_number, department) VALUES ($1, 'student', $2, $3, $4)",
+                [session.user.id, institution, student_id_number, department]
             )
         }
 

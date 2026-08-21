@@ -48,7 +48,8 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
         
         if (role === "student") {
             const studentId = formData.get("student_id_number")?.toString().trim() ?? "";
-            if (!studentIdPattern.test(studentId)) errors.student_id_number = "Format must be 232-115-067";
+            if (!department) errors.department = "Please select a department";
+            if (!studentIdPattern.test(studentId)) errors.student_id_number = "Format must be 232-115-057";
         }
         
         if (role === "teacher") {
