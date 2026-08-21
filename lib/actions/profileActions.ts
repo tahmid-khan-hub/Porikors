@@ -12,10 +12,15 @@ export async function updateStudentProfile(input: ProfileUpdateInput): Promise<P
 
         const name = input.name.trim();
         const institution = input.institution.trim();
+        const phoneNumber = input.phoneNumber.replace(/[\s\-]/g, "");
 
         if (!name) return { success: false, error: "Name is required" };
         if (name.length > 120) return { success: false, error: "Name is too long" };
         if (!institution) return { success: false, error: "Institution is required" };
+
+        const phonePattern = /^(?:\+?880|0)1[3-9]\d{8}$/;
+        if (!phoneNumber) return { success: false, error: "Phone number is required" };
+        if (!phonePattern.test(phoneNumber)) return { success: false, error: "Enter a valid Bangladeshi phone number" };
 
         const client = await pool.connect();
         try {
@@ -24,9 +29,8 @@ export async function updateStudentProfile(input: ProfileUpdateInput): Promise<P
             await client.query(`UPDATE users SET name = $1, updated_at = now() WHERE id = $2::uuid`, [name, session.user.id]);
 
             const rv = await client.query(
-                `UPDATE role_verifications SET institution = $1
-                WHERE user_id = $2::uuid AND requested_role = 'student'
-                RETURNING id`, [institution, session.user.id]
+                `UPDATE role_verifications SET institution = $1, phone_number = $2
+                WHERE user_id = $3::uuid AND requested_role = 'student' RETURNING id`, [institution, phoneNumber, session.user.id]
             );
 
             if (rv.rowCount === 0) {
@@ -40,7 +44,7 @@ export async function updateStudentProfile(input: ProfileUpdateInput): Promise<P
         } finally { client.release(); }
 
         revalidatePath("/student/profile");
-        return { success: true, data: { name, institution } };
+        return { success: true, data: { name, institution, phoneNumber } };
     } catch (err) {
         console.error(err);
         return { success: false, error: "Failed to update profile" };
