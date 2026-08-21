@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import { CalendarDays, Pencil, Phone, VenetianMask } from "lucide-react";
 import { StudentIdentity } from "@/types/profile";
 import ProfileHeaderEditForm from "./ProfileHeaderEditForm";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { formatDob } from "@/lib/formatDateOfBirth";
 
 interface ProfileHeaderProps {
     identity: StudentIdentity;
@@ -25,6 +26,7 @@ export default function ProfileHeader({ identity, queryKey }: ProfileHeaderProps
         );
     }
 
+    const dobFormatted = formatDob(identity.dateOfBirth);
     return (
         <motion.div 
             initial={{ opacity: 0, y: 12 }}
@@ -49,6 +51,23 @@ export default function ProfileHeader({ identity, queryKey }: ProfileHeaderProps
                     </div>
                     <p className="text-sm mt-2 text-[#6B7369]">{identity.email}</p>
                     <p className="text-sm text-[#6B7369]">{identity.institution}</p>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
+                        {identity.phoneNumber && (
+                            <span className="flex items-center gap-1 text-xs text-[#6B7369]">
+                                <Phone size={12} /> {identity.phoneNumber}
+                            </span>
+                        )}
+                        {identity.gender && (
+                            <span className="flex items-center gap-1 text-xs text-[#6B7369]">
+                                <VenetianMask size={12} /> {identity.gender}
+                            </span>
+                        )}
+                        {dobFormatted && (
+                            <span className="flex items-center gap-1 text-xs text-[#6B7369]">
+                                <CalendarDays size={12} /> {dobFormatted}
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
             <Button variant="outline" onClick={() => setEditing(true)} className="shrink-0 flex mt-5 md:mt-0">

@@ -4,6 +4,9 @@ export interface StudentIdentity {
     email: string;
     image: string | null;
     institution: string;
+    phoneNumber: string;
+    gender: string;
+    dateOfBirth: string;
 }
 
 export interface StudentAcademicInfo {
@@ -39,10 +42,11 @@ export interface StudentProfile {
 export interface ProfileUpdateInput {
     name: string;
     institution: string;
+    phoneNumber: string;
 }
 
 export type ProfileUpdateResult =
-    | { success: true; data: { name: string; institution: string } }
+    | { success: true; data: { name: string; institution: string; phoneNumber: string; } }
     | { success: false; error: string };
 
 export type ImageUpdateResult =
