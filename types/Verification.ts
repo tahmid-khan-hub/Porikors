@@ -12,6 +12,8 @@ export interface VerificationFormFieldsProps {
   setDepartment: (value: string) => void;
   designation: string;
   setDesignation: (value: string) => void;
+  gender: string;
+  setGender: (value: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClear: () => void;
   mutation: UseMutationResult<SubmitVerificationResult, Error, FormData, unknown>;

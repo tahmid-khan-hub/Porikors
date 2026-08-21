@@ -6,7 +6,8 @@ import { departmentOptions } from "@/lib/constants/departmentOptions";
 import TeacherVerificationFormFields from "./TeacherVerificationFormFields";
 
 export default function VerificationFormFields({role,
-  formKey, department, setDepartment, designation, setDesignation, onSubmit, onClear, mutation, fieldErrors } : VerificationFormFieldsProps) {
+  formKey, department, setDepartment, designation, setDesignation,
+  gender, setGender, onSubmit, onClear, mutation, fieldErrors } : VerificationFormFieldsProps) {
   return (
     <div>
       <form key={formKey} onSubmit={onSubmit} className="mt-6 space-y-4">
@@ -27,6 +28,8 @@ export default function VerificationFormFields({role,
               setDepartment={setDepartment}
               designation={designation}
               setDesignation={setDesignation}
+              gender={gender}
+              setGender={setGender}
             />
           </>
         ) : (

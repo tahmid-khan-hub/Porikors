@@ -20,6 +20,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const router = useRouter();
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
+    const [gender, setGender] = useState("");
     const [formKey, setFormKey] = useState(0);
     const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string; department?: string; designation?: string; phone_number?: string; gender?: string; date_of_birth?: string;}>({});
 
@@ -90,6 +91,8 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
                     setDepartment={setDepartment}
                     designation={designation}
                     setDesignation={setDesignation}
+                    gender={gender}
+                    setGender={setGender}
                     onSubmit={handleSubmit}
                     onClear={handleClear}
                     fieldErrors={fieldErrors}
