@@ -93,8 +93,9 @@ export interface TeacherProfile {
 export interface TeacherProfileUpdateInput {
     name: string;
     institution: string;
+    phoneNumber: string;
 }
 
 export type TeacherProfileUpdateResult =
-  | { success: true; data: { name: string; institution: string } }
+  | { success: true; data: { name: string; institution: string, phoneNumber: string; } }
   | { success: false; error: string };
