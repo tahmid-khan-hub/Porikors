@@ -1,9 +1,8 @@
-import Dropdown from "@/components/shared/Dropdown";
 import Field from "../Field";
 import { Button } from "@/components/ui/button";
 import { VerificationFormFieldsProps } from "@/types/Verification";
-import { departmentOptions } from "@/lib/constants/departmentOptions";
 import TeacherVerificationFormFields from "./TeacherVerificationFormFields";
+import StudentVerificationFormFields from "./StudentVerificationFormFields";
 
 export default function VerificationFormFields({role,
   formKey, department, setDepartment, designation, setDesignation,
@@ -37,33 +36,14 @@ export default function VerificationFormFields({role,
         ) : (
           <>
             {/* fields for student role */}
-            <Field
-              name="student_id_number"
-              label="Student ID number"
-              placeholder="e.g. 232-115-057"
-              required
-              pattern="\d{3}-\d{3}-\d{3}" title="Format: 232-115-057"
-              maxLength={11} error={fieldErrors?.student_id_number}
-            />
-            <div>
-              <label className="text-xs font-medium text-[#1C2420]/70">Student ID card photo</label>
-              <input
-                type="file"
-                accept="image/*"
-                disabled
-                title="Upload coming soon — pending storage setup"
-                className="mt-1 w-full cursor-not-allowed rounded-lg border border-[#DAD7CE] bg-[#F6F5F1] px-3 py-2 text-sm text-[#1C2420]/40"
-              />
-              <p className="mt-1 text-xs text-[#D98B3F]"> Photo upload is not live yet — you can submit without it for now.</p>
-            </div>
-            <Dropdown
-              name="department"
-              options={departmentOptions}
-              placeholder="Select your department"
-              label="Department"
-              value={department}
-              onChange={setDepartment}
-              error={fieldErrors?.department}
+            <StudentVerificationFormFields 
+              fieldErrors={fieldErrors}
+              department={department}
+              setDepartment={setDepartment}
+              gender={gender}
+              setGender={setGender}
+              dateOfBirth={dateOfBirth}
+              setDateOfBirth={setDateOfBirth}
             />
           </>
         )}
