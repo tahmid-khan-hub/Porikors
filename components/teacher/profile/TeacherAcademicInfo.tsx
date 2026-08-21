@@ -1,6 +1,7 @@
 "use client"
 import { TeacherAcademicInfo as TeacherAcademicInfoType } from "@/types/profile";
 import { CheckCircle2, Clock, XCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 const STATUS_CONFIG = {
     approved: { label: "Verified", color: "#3B8F5C", bg: "#EAF4EC", icon: CheckCircle2 },
@@ -31,7 +32,12 @@ export default function TeacherAcademicInfo({ academic }: { academic: TeacherAca
     const StatusIcon = status.icon;
 
     return (
-        <div className="rounded-xl border border-[#DAD7CE] bg-white p-6">
+        <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.06, ease: "easeOut" }}
+        whileHover={{ y: -2 }}
+        className="rounded-xl border border-[#DAD7CE] bg-white p-6">
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-medium text-[#1C2420]">Academic Information</h3>
                 <span
@@ -49,7 +55,7 @@ export default function TeacherAcademicInfo({ academic }: { academic: TeacherAca
                 <Field label="Work Email" value={academic.workEmail ?? "-"} />
                 <Field label="Joined" value={formatDate(academic.memberSince)} />
             </div>
-        </div>
+        </motion.div>
     );
 }
 

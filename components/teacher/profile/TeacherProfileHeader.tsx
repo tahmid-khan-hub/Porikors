@@ -5,6 +5,7 @@ import { Pencil } from "lucide-react";
 import { TeacherIdentity } from "@/types/profile";
 import Image from "next/image";
 import TeacherProfileHeaderEditForm from "./TeacherProfileHeaderEditForm";
+import { motion } from "framer-motion";
 
 interface TeacherProfileHeaderProps {
     identity: TeacherIdentity;
@@ -25,7 +26,12 @@ export default function TeacherProfileHeader({ identity, queryKey }: TeacherProf
     }
 
     return (
-        <div className="flex flex-col md:flex-row items-center justify-between rounded-xl border border-[#DAD7CE] bg-white shadow-sm p-6">
+        <motion.div 
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.06, ease: "easeOut" }}
+        whileHover={{ y: -2 }}
+        className="flex flex-col md:flex-row items-center justify-between rounded-xl border border-[#DAD7CE] bg-white shadow-sm p-6">
             <div className="flex items-center gap-4">
                 <div className="h-16 w-16 rounded-full bg-[#DAD7CE] overflow-hidden">
                     {identity.image ? (
@@ -48,6 +54,6 @@ export default function TeacherProfileHeader({ identity, queryKey }: TeacherProf
             <Button variant="outline" onClick={() => setEditing(true)} className="shrink-0 mt-5 md:mt-0">
                 <Pencil size={14} className="mr-1.5" /> Edit Profile
             </Button>
-        </div>
+        </motion.div>
     );
 }
