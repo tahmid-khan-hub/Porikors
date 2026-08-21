@@ -2,6 +2,7 @@ import Dropdown from "@/components/shared/Dropdown";
 import Field from "../Field";
 import { departmentOptions } from "@/lib/constants/departmentOptions";
 import { designationOptions } from "@/lib/constants/designationOptions";
+import DatePicker from "@/components/shared/DatePicker";
 
 const genderOptions = ["Male", "Female"]
 
@@ -13,9 +14,11 @@ interface TeacherVerificationFormFields {
     setDesignation: (value: string) => void;
     gender: string;
     setGender: (value: string) => void;
+    dateOfBirth: Date | undefined;
+    setDateOfBirth: (value: Date | undefined) => void;
 }
 
-export default function TeacherVerificationFormFields({ fieldErrors, department, setDepartment, designation, setDesignation, gender, setGender }: TeacherVerificationFormFields) {
+export default function TeacherVerificationFormFields({ fieldErrors, department, setDepartment, designation, setDesignation, gender, setGender, dateOfBirth, setDateOfBirth }: TeacherVerificationFormFields) {
     return (
         <>
             <Field
@@ -41,6 +44,15 @@ export default function TeacherVerificationFormFields({ fieldErrors, department,
                 value={gender}
                 onChange={setGender}
                 error={fieldErrors?.gender}
+            />
+            <DatePicker
+                name="date_of_birth"
+                label="Date of Birth"
+                value={dateOfBirth}
+                onChange={setDateOfBirth}
+                placeholder="Select your date of birth"
+                error={fieldErrors?.date_of_birth}
+                required
             />
             <Dropdown
                 name="department"

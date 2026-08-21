@@ -21,6 +21,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
     const [gender, setGender] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>(undefined);
     const [formKey, setFormKey] = useState(0);
     const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string; department?: string; designation?: string; phone_number?: string; gender?: string; date_of_birth?: string;}>({});
 
@@ -93,6 +94,8 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
                     setDesignation={setDesignation}
                     gender={gender}
                     setGender={setGender}
+                    dateOfBirth={dateOfBirth}
+                    setDateOfBirth={setDateOfBirth}
                     onSubmit={handleSubmit}
                     onClear={handleClear}
                     fieldErrors={fieldErrors}

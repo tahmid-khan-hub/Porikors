@@ -7,7 +7,7 @@ import TeacherVerificationFormFields from "./TeacherVerificationFormFields";
 
 export default function VerificationFormFields({role,
   formKey, department, setDepartment, designation, setDesignation,
-  gender, setGender, onSubmit, onClear, mutation, fieldErrors } : VerificationFormFieldsProps) {
+  gender, setGender, dateOfBirth, setDateOfBirth, onSubmit, onClear, mutation, fieldErrors } : VerificationFormFieldsProps) {
   return (
     <div>
       <form key={formKey} onSubmit={onSubmit} className="mt-6 space-y-4">
@@ -30,6 +30,8 @@ export default function VerificationFormFields({role,
               setDesignation={setDesignation}
               gender={gender}
               setGender={setGender}
+              dateOfBirth={dateOfBirth}
+              setDateOfBirth={setDateOfBirth}
             />
           </>
         ) : (
