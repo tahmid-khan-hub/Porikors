@@ -21,7 +21,7 @@ export default function VerificationForm({ role, onBack } : VerificationFormProp
     const [department, setDepartment] = useState("");
     const [designation, setDesignation] = useState("");
     const [formKey, setFormKey] = useState(0);
-    const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string; department?: string; designation?: string; }>({});
+    const [fieldErrors, setFieldErrors] = useState<{ work_email?: string; student_id_number?: string; department?: string; designation?: string; phone_number?: string; gender?: string; date_of_birth?: string;}>({});
 
     const mutation = useMutation({
         mutationFn: (formData: FormData) => submitVerification(role, formData),

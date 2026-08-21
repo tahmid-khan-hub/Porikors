@@ -15,5 +15,5 @@ export interface VerificationFormFieldsProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClear: () => void;
   mutation: UseMutationResult<SubmitVerificationResult, Error, FormData, unknown>;
-  fieldErrors?: { work_email?: string; student_id_number?: string; department?: string; designation?: string; };
+  fieldErrors?: { work_email?: string; student_id_number?: string; department?: string; designation?: string; phone_number?: string; gender?: string; date_of_birth?: string;};
 }

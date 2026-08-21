@@ -3,7 +3,7 @@ import Field from "../Field";
 import { Button } from "@/components/ui/button";
 import { VerificationFormFieldsProps } from "@/types/Verification";
 import { departmentOptions } from "@/lib/constants/departmentOptions";
-import { designationOptions } from "@/lib/constants/designationOptions";
+import TeacherVerificationFormFields from "./TeacherVerificationFormFields";
 
 export default function VerificationFormFields({role,
   formKey, department, setDepartment, designation, setDesignation, onSubmit, onClear, mutation, fieldErrors } : VerificationFormFieldsProps) {
@@ -21,30 +21,12 @@ export default function VerificationFormFields({role,
         {role === "teacher" ? (
           <>
             {/* fields for teacher role */}
-            <Field
-              name="work_email"
-              placeholder="Enter you work email"
-              label="Email"
-              required
-              type="email" error={fieldErrors?.work_email}
-            />
-            <Dropdown
-              name="department"
-              options={departmentOptions}
-              placeholder="Select your department"
-              label="Department"
-              value={department}
-              onChange={setDepartment}
-              error={fieldErrors?.department}
-            />
-            <Dropdown
-              name="designation"
-              options={designationOptions}
-              placeholder="Select your designation"
-              label="Designation"
-              value={designation}
-              onChange={setDesignation}
-              error={fieldErrors?.designation}
+            <TeacherVerificationFormFields 
+              fieldErrors={fieldErrors}
+              department={department}
+              setDepartment={setDepartment}
+              designation={designation}
+              setDesignation={setDesignation}
             />
           </>
         ) : (
