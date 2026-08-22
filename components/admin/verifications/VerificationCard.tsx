@@ -44,7 +44,7 @@ export default function VerificationCard({ verification,}: { verification: Verif
           <Button
             onClick={() => setOpen(true)}
             variant="outline"
-            className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium shrink-0"
+            className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 mt-3 md:mt-0 ml-auto md:ml-0 text-sm font-medium shrink-0"
           >
             <Eye className="h-4 w-4" />
             View
