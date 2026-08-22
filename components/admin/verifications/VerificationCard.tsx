@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
-import VerificationDetailDialog from "./VerificationDetailDialog";
+import VerificationDetailDialog from "./VerificationDetailDialog/VerificationDetailDialog";
 
 export default function VerificationCard({ verification,}: { verification: Verification }) {
   const [open, setOpen] = useState(false);
