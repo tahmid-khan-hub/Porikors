@@ -7,6 +7,16 @@ export interface Teacher {
   coursesCount: number;
 }
 
+export interface TeacherDetail extends Teacher {
+  institution: string | null;
+  department: string | null;
+  designation: string | null;
+  workEmail: string | null;
+  phoneNumber: string | null;
+  gender: string | null;
+  dateOfBirth: string | null;
+}
+
 export interface TeacherStats {
   totalTeachers: number;
   newThisMonth: number;
@@ -25,6 +35,11 @@ export interface TeachersResponse {
   };
 }
 
+export interface TeacherDetailResponse {
+  success: boolean;
+  teacher: TeacherDetail;
+}
+
 export type TeacherSortBy = "newest" | "oldest" | "name_asc" | "name_desc";
 export type TeacherDateRange = "all" | "today" | "week" | "month" | "year";
 
@@ -34,6 +49,15 @@ export interface Student {
   email: string;
   image: string | null;
   roleApprovedAt: string;
+}
+
+export interface StudentDetail extends Student {
+  institution: string | null;
+  department: string | null;
+  studentIdNumber: string | null;
+  phoneNumber: string | null;
+  gender: string | null;
+  dateOfBirth: string | null;
 }
 
 export interface StudentStats {
@@ -52,6 +76,11 @@ export interface StudentsResponse {
     totalItems: number;
     totalPages: number;
   };
+}
+
+export interface StudentDetailResponse {
+  success: boolean;
+  student: StudentDetail;
 }
 
 export type StudentSortBy = "newest" | "oldest" | "name_asc" | "name_desc";
