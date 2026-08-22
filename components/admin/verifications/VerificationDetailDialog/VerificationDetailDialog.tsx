@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import VerificationDetailActions from "./VerificationDetailActions";
 
 interface VerificationDetailDialogProps {
   verification: Verification;
@@ -75,7 +76,18 @@ export default function VerificationDetailDialog({ verification, open, onOpenCha
 
                 
 
-                
+                <VerificationDetailActions
+                    showRejectBox={showRejectBox}
+                    reason={reason}
+                    setReason={setReason}
+                    isApproving={approveMutation.isPending}
+                    isRejecting={rejectMutation.isPending}
+                    isBusy={isBusy}
+                    onOpenRejectBox={() => setShowRejectBox(true)}
+                    onCancelReject={() => { setShowRejectBox(false); setReason(""); }}
+                    onConfirmReject={() => rejectMutation.mutate()}
+                    onApprove={() => approveMutation.mutate()}
+                />
             </DialogContent>
         </Dialog>
     )
