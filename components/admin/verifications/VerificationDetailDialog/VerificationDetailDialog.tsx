@@ -6,6 +6,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import VerificationDetailActions from "./VerificationDetailActions";
+import VerificationDetailContent from "./VerificationDetailContent";
 
 interface VerificationDetailDialogProps {
   verification: Verification;
@@ -74,7 +75,7 @@ export default function VerificationDetailDialog({ verification, open, onOpenCha
                     </DialogTitle>
                 </DialogHeader>
 
-                
+                <VerificationDetailContent verification={verification} />
 
                 <VerificationDetailActions
                     showRejectBox={showRejectBox}
