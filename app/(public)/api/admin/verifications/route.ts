@@ -21,6 +21,8 @@ export async function GET(req: NextRequest) {
                 SELECT DISTINCT ON (rv.user_id) 
                     rv.id, rv.user_id, rv.requested_role, rv.status, rv.institution,
                     rv.id_card_url, rv.created_at,
+                    rv.phone_number, rv.gender, rv.date_of_birth, rv.department,
+                    rv.designation, rv.work_email, rv.student_id_number,
                     u.name, u.email, u.image
                 FROM role_verifications rv
                 JOIN users u ON u.id = rv.user_id
@@ -37,7 +39,7 @@ export async function GET(req: NextRequest) {
             `, [role, cursorCreatedAt, cursorId, limit]);
         
         const rows = result.rows;
-        const nextCursor = cursor?.length === limit ? 
+        const nextCursor = rows?.length === limit ? 
         `${rows[rows.length - 1].created_at}|${rows[rows.length - 1].id}` : null;
         
         return NextResponse.json({ success: true, items: rows, nextCursor }, { status: 200 });

@@ -12,6 +12,15 @@ export interface Verification {
   name: string;
   email: string;
   image: string | null;
+  phone_number: string | null;
+  gender: string | null;
+  date_of_birth: string | null;
+  department: string | null;
+  // teacher-only
+  designation: string | null;
+  work_email: string | null;
+  // student-only
+  student_id_number: string | null;
 };
 
 export interface VerificationsPage {
