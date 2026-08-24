@@ -1,18 +1,21 @@
 "use client";
+import { useState } from "react";
 import { TeacherColumns } from "@/components/admin/teachers/TeacherColumns";
 import TeacherStatsCards from "@/components/admin/teachers/TeacherStatsCards";
+import TeacherDetailDialog from "@/components/admin/teachers/TeacherDetailDialog";
 import { DataTable } from "@/components/shared/DataTable";
 import DataTablePagination from "@/components/shared/DataTablePagination";
 import Filters from "@/components/shared/Filters";
 import { adminFetchTeachers } from "@/lib/api/adminFetchTeachers";
 import { DATE_OPTIONS, SORT_OPTIONS } from "@/lib/constants/filterOptions";
-import { TeacherDateRange, TeacherSortBy } from "@/types/admin";
+import { Teacher, TeacherDateRange, TeacherSortBy } from "@/types/admin";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AdminTeachersPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
 
     const page = Number(searchParams.get("page")) || 1;
     const sortBy = (searchParams.get("sortBy") as TeacherSortBy) || "newest";
@@ -79,6 +82,7 @@ export default function AdminTeachersPage() {
                 data={data?.teachers ?? []}
                 isLoading={isLoading || isFetching}
                 getRowId={(teacher) => teacher.id}
+                onRowClick={(teacher) => setSelectedTeacher(teacher)}
                 emptyMessage="No teachers found."
             />
 
@@ -88,6 +92,12 @@ export default function AdminTeachersPage() {
                 totalItems={pagination.totalItems}
                 onPageChange={(newPage) => updateParams({ page: newPage })}
                 itemLabel="teachers"
+            />
+
+            <TeacherDetailDialog
+                teacherId={selectedTeacher?.id ?? null}
+                teacherName={selectedTeacher?.name ?? ""}
+                onOpenChange={(open) => !open && setSelectedTeacher(null)}
             />
         </div>
     )

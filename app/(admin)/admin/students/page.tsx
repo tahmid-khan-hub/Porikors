@@ -1,18 +1,21 @@
 "use client"
+import { useState } from "react";
 import { StudentColumns } from "@/components/admin/students/StudentColumns";
 import StudentStatsCards from "@/components/admin/students/StudentStatsCards";
+import StudentDetailDialog from "@/components/admin/students/StudentDetailDialog";
 import { DataTable } from "@/components/shared/DataTable";
 import DataTablePagination from "@/components/shared/DataTablePagination";
 import Filters from "@/components/shared/Filters";
 import { adminFetchStudents } from "@/lib/api/adminFetchStudents";
 import { DATE_OPTIONS, SORT_OPTIONS } from "@/lib/constants/filterOptions";
-import { StudentDateRange, StudentSortBy } from "@/types/admin";
+import { Student, StudentDateRange, StudentSortBy } from "@/types/admin";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AdminStudentsPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
     const page = Number(searchParams.get("page")) || 1;
     const sortBy = (searchParams.get("sortBy") as StudentSortBy) || "newest";
@@ -76,6 +79,7 @@ export default function AdminStudentsPage() {
                 data={data?.students ?? []}
                 isLoading={isLoading || isFetching}
                 getRowId={(student) => student.id}
+                onRowClick={(student) => setSelectedStudent(student)}
                 emptyMessage="No students found."
             />
             <DataTablePagination
@@ -84,6 +88,12 @@ export default function AdminStudentsPage() {
                 totalItems={pagination.totalItems}
                 onPageChange={(newPage) => updateParams({ page: newPage })}
                 itemLabel="students"
+            />
+
+            <StudentDetailDialog
+                studentId={selectedStudent?.id ?? null}
+                studentName={selectedStudent?.name ?? ""}
+                onOpenChange={(open) => !open && setSelectedStudent(null)}
             />
         </div>
     )
