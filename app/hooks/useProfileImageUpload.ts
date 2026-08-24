@@ -3,17 +3,23 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserImage } from "@/lib/actions/profileActions";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export function useProfileImageUpload(queryKey: unknown[]) {
+    const { update } = useSession();
+    const router = useRouter();
     const queryClient = useQueryClient();
     const [isUploading, setIsUploading] = useState(false);
 
     const saveImageMutation = useMutation({
         mutationFn: (url: string) => updateUserImage(url),
-        onSuccess: (result) => {
+        onSuccess: async (result) => {
             if (result.success) {
                 toast.success("Profile photo updated");
                 queryClient.invalidateQueries({ queryKey });
+                await update({ image: result.data.image });
+                router.refresh(); 
             } else { toast.error(result.error); }
         },
         onError: () => toast.error("Failed to save photo"),
