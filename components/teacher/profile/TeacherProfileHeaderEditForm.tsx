@@ -23,7 +23,7 @@ export default function TeacherProfileHeaderEditForm({ identity, queryKey, onDon
     const [institution, setInstitution] = useState(identity.institution);
     const [phoneNumber, setPhoneNumber] = useState(identity.phoneNumber ?? "");
     const [error, setError] = useState<string | null>(null);
-    const { handleFileSelected, isUploading } = useProfileImageUpload(queryKey);
+    const { handleFileSelected, handleRemoveImage, isUploading, isDeleting } = useProfileImageUpload(queryKey);
 
     const mutation = useMutation({
         mutationFn: () => updateTeacherProfile({ name, institution, phoneNumber  }),
@@ -80,7 +80,9 @@ export default function TeacherProfileHeaderEditForm({ identity, queryKey, onDon
                 phoneNumber={phoneNumber}
                 setPhoneNumber={setPhoneNumber}
                 isUploading={isUploading}
+                isDeleting={isDeleting}
                 onFileSelected={handleFileSelected}
+                onRemoveImage={handleRemoveImage}
             />
 
             {error && <p className="text-sm text-[#C1443D] mt-3">{error}</p>}

@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Camera, Loader2 } from "lucide-react";
+import { Camera, Loader2, X } from "lucide-react";
 import { TeacherIdentity } from "@/types/profile";
 import Image from "next/image";
 
@@ -14,12 +14,15 @@ interface TeacherProfileHeaderEditFieldsProps {
     phoneNumber: string;
     setPhoneNumber: (value: string) => void;
     isUploading: boolean;
+    isDeleting: boolean;
     onFileSelected: (file: File) => void;
+    onRemoveImage: () => void;
 }
 
 export default function TeacherProfileHeaderEditFields({ identity, name, setName, institution, setInstitution,
-phoneNumber, setPhoneNumber, isUploading, onFileSelected, }: TeacherProfileHeaderEditFieldsProps) {
+phoneNumber, setPhoneNumber, isUploading, onFileSelected, isDeleting, onRemoveImage }: TeacherProfileHeaderEditFieldsProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const busy = isUploading || isDeleting;
 
     function handleAvatarClick() { fileInputRef.current?.click(); }
 
@@ -59,6 +62,18 @@ phoneNumber, setPhoneNumber, isUploading, onFileSelected, }: TeacherProfileHeade
                 >
                     {isUploading ? <Loader2 size={12} className="animate-spin" /> : <Camera size={12} />}
                 </button>
+
+                {identity.image && (
+                    <button
+                        type="button"
+                        onClick={onRemoveImage}
+                        disabled={busy}
+                        className="absolute -top-1 -right-1 h-6 w-6 rounded-full bg-[#C1443D] text-white flex items-center justify-center border-2 border-white disabled:opacity-60"
+                        title="Remove photo"
+                    >
+                        {isDeleting ? <Loader2 size={12} className="animate-spin" /> : <X size={12} />}
+                    </button>
+                )}
             </div>
 
             <div className="flex-1 space-y-3">
