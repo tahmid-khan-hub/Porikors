@@ -55,7 +55,11 @@ export default function TeacherHeader({ user, title = "Dashboard", onMenuClick }
                     <div className="relative h-9 w-9 overflow-hidden rounded-full bg-[#DAD7CE]">
                         {user.image ? (
                             <Image src={user.image} alt={user.name ?? "Teacher"} fill className="object-cover" />
-                        ) : null}
+                        ) : (
+                            <span className="h-full w-full flex items-center justify-center text-[#6B7369] text-xs font-medium">
+                                {user.name?.charAt(0).toUpperCase() }
+                            </span>
+                        )}
                     </div>
                 </Link>
             </div>
