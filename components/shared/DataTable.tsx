@@ -16,6 +16,7 @@ interface DataTableProps<T> {
     emptyMessage?: string;
     getRowId: (row: T) => string;
     skeletonRows?: number;
+    onRowClick?: (row: T) => void;
 }
 
 export function DataTable<T>({
@@ -25,6 +26,7 @@ export function DataTable<T>({
   emptyMessage = "No records found.",
   getRowId,
   skeletonRows = 6,
+  onRowClick,
 }: DataTableProps<T>) {
     return (
         <div className="rounded-lg border border-[#DAD7CE] bg-white overflow-x-auto">
@@ -47,7 +49,7 @@ export function DataTable<T>({
                             <TableRow key={`skeleton-${i}`} className="border-[#DAD7CE] hover:bg-transparent">
                                 {columns.map((col) => (
                                     <TableCell key={col.key}>
-                                        <div className="h-5 w-full max-w-[160px] rounded bg-[#DAD7CE]/50 animate-pulse" />
+                                        <div className="h-5 w-full max-w-40 rounded bg-[#DAD7CE]/50 animate-pulse" />
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -63,7 +65,11 @@ export function DataTable<T>({
                         </TableRow>
                     ) : (
                         data.map((row) => (
-                            <TableRow key={getRowId(row)} className="border-[#DAD7CE] hover:bg-[#F6F5F1]">
+                            <TableRow
+                                key={getRowId(row)}
+                                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                                className={`border-[#DAD7CE] hover:bg-[#F6F5F1] ${onRowClick ? "cursor-pointer" : ""}`}
+                            >
                                 {columns.map((col) => (
                                 <TableCell key={col.key} className={col.cellClassName}>
                                     {col.cell(row)}
