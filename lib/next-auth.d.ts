@@ -34,5 +34,6 @@ declare module "next-auth/jwt" {
     role?: Role | null;
     roleStatus?: RoleStatus;
     isAdmin?: boolean;
+    image?: string | null;
   }
 }
