@@ -3,7 +3,8 @@ import { revalidatePath } from "next/cache";
 import { pool } from "../postgresql";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../authOptions";
-import { ImageUpdateResult, ProfileUpdateInput, ProfileUpdateResult, TeacherProfileUpdateInput, TeacherProfileUpdateResult, } from "@/types/profile";
+import { ImageDeleteResult, ImageUpdateResult, ProfileUpdateInput, ProfileUpdateResult, TeacherProfileUpdateInput, TeacherProfileUpdateResult, } from "@/types/profile";
+import { cloudinary } from "../cloudinary";
 
 export async function updateStudentProfile(input: ProfileUpdateInput): Promise<ProfileUpdateResult> {
     try {
@@ -64,6 +65,33 @@ export async function updateUserImage(image: string): Promise<ImageUpdateResult>
     } catch (err) {
         console.error(err);
         return { success: false, error: "Failed to update image" };
+    }
+}
+
+export async function deleteUserImage(): Promise<ImageDeleteResult> {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+        const publicId = `porikors/profile-images/user_${session.user.id}`;
+
+        try {
+            await cloudinary.uploader.destroy(publicId);
+        } catch (cloudErr) {
+            console.error("Cloudinary destroy failed:", cloudErr);
+        }
+
+        const result = await pool.query(
+            `UPDATE users SET image = NULL, updated_at = now() WHERE id = $1::uuid RETURNING id`, [session.user.id]
+        );
+
+        if (result.rowCount === 0) return { success: false, error: "User not found" };
+
+        revalidatePath(`/${session.user.role}/profile`);
+        return { success: true, data: { image: null } };
+    } catch (err) {
+        console.error(err);
+        return { success: false, error: "Failed to remove photo" };
     }
 }
 

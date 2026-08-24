@@ -53,6 +53,10 @@ export type ImageUpdateResult =
     | { success: true; data: { image: string } }
     | { success: false; error: string };
 
+export type ImageDeleteResult =
+  | { success: true; data: { image: null } }
+  | { success: false; error: string };
+
 export interface TeacherIdentity {
     id: string;
     name: string;

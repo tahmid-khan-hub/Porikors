@@ -2,15 +2,16 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUserImage } from "@/lib/actions/profileActions";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { updateUserImage, deleteUserImage } from "@/lib/actions/profileActions";
 
 export function useProfileImageUpload(queryKey: unknown[]) {
+    const queryClient = useQueryClient();
     const { update } = useSession();
     const router = useRouter();
-    const queryClient = useQueryClient();
     const [isUploading, setIsUploading] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const saveImageMutation = useMutation({
         mutationFn: (url: string) => updateUserImage(url),
@@ -19,11 +20,25 @@ export function useProfileImageUpload(queryKey: unknown[]) {
                 toast.success("Profile photo updated");
                 queryClient.invalidateQueries({ queryKey });
                 await update({ image: result.data.image });
-                router.refresh(); 
+                router.refresh();
             } else { toast.error(result.error); }
         },
         onError: () => toast.error("Failed to save photo"),
         onSettled: () => setIsUploading(false),
+    });
+
+    const deleteImageMutation = useMutation({
+        mutationFn: () => deleteUserImage(),
+        onSuccess: async (result) => {
+            if (result.success) {
+                toast.success("Profile photo removed");
+                queryClient.invalidateQueries({ queryKey });
+                await update({ image: null });
+                router.refresh();
+            } else { toast.error(result.error); }
+        },
+        onError: () => toast.error("Failed to remove photo"),
+        onSettled: () => setIsDeleting(false),
     });
 
     async function handleFileSelected(file: File) {
@@ -57,5 +72,10 @@ export function useProfileImageUpload(queryKey: unknown[]) {
         }
     }
 
-    return { handleFileSelected, isUploading };
+    function handleRemoveImage() {
+        setIsDeleting(true);
+        deleteImageMutation.mutate();
+    }
+
+    return { handleFileSelected, handleRemoveImage, isUploading, isDeleting };
 }
