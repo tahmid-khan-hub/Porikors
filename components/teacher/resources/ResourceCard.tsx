@@ -29,7 +29,7 @@ export default function ResourceCard({ resource, onEdit, onDelete, }: ResourceCa
     const Icon = iconMap[resource.resource_type];
 
     return (
-        <div className="relative rounded-lg border border-[#DAD7CE] bg-white p-4 hover:shadow-sm transition-shadow">
+        <div className="relative h-full flex flex-col  rounded-lg border border-[#DAD7CE] bg-white p-4 hover:shadow-sm transition-shadow">
             {(resource.resource_type === "video_link" || resource.resource_type === "drive_link" ||
             resource.resource_type === "pdf" || resource.resource_type === "file") &&
             resource.url && (
@@ -42,7 +42,7 @@ export default function ResourceCard({ resource, onEdit, onDelete, }: ResourceCa
                 />
             )}
 
-            <div className="flex items-start justify-between relative z-10">
+            <div className="flex items-start justify-between relative z-10 pointer-events-none">
                 <div className="flex items-start gap-3 min-w-0">
                     <div className="mt-0.5 rounded-md bg-[#1F6F5C]/10 p-2 text-[#1F6F5C] shrink-0">
                         <Icon size={16} />
@@ -59,7 +59,7 @@ export default function ResourceCard({ resource, onEdit, onDelete, }: ResourceCa
                     </div>
                 </div>
 
-                <div className="relative z-10">
+                <div className="relative z-10 pointer-events-auto">
                     <ResourceCardMenu onEdit={onEdit} onDelete={onDelete} />
                 </div>
             </div>
