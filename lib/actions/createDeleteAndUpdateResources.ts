@@ -80,11 +80,13 @@ export async function deleteResource( id: string, course_id: string | null ): Pr
 
   try {
     const result = await pool.query(
-      `DELETE FROM resources WHERE id = $1 AND teacher_id = $2 RETURNING id`, [id, session.user.id]);
+      `DELETE FROM resources WHERE id = $1 AND teacher_id = $2 RETURNING id, course_id`,
+      [id, session.user.id]
+    );
 
     if (result.rows.length === 0) return { success: false, error: "Resource not found or not yours" };
 
-    if (result.rows[0].course_id) revalidatePath(`/teacher/courses/${result.rows[0].course_id}/resources`);  
+    if (result.rows[0].course_id) revalidatePath(`/teacher/courses/${result.rows[0].course_id}/resources`);
     else revalidatePath(`/teacher/resources`);
 
     return { success: true, data: { id } };
