@@ -8,6 +8,8 @@ export interface Task {
   allowed_file_types: AllowedFileType[] | null; // null/empty = text-only submission
   deadline: string;
   max_marks: number | null;
+  attachment_url: string | null;
+  attachment_name: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -18,4 +20,6 @@ export interface TaskFormValues {
   allowed_file_types: AllowedFileType[] | null;
   deadline: string;
   max_marks: number | null;
+  attachment_url: string | null;
+  attachment_name: string | null;
 }
