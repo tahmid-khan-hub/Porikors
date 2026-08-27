@@ -26,9 +26,9 @@ export async function createTask(input: CreateTaskInput): Promise<ActionResult<{
     if (!input.title.trim()) return { success: false, error: "Title is required" };
 
     const result = await pool.query(
-      `INSERT INTO tasks (course_id, title, description, allowed_file_types, deadline, max_marks)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-      [input.courseId, input.title.trim(), input.description, input.allowed_file_types, input.deadline, input.max_marks]
+      `INSERT INTO tasks (course_id, title, description, allowed_file_types, deadline, max_marks, attachment_url, attachment_name)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+      [input.courseId, input.title.trim(), input.description, input.allowed_file_types, input.deadline, input.max_marks, input.attachment_url, input.attachment_name,]
     );
 
     revalidatePath(`/teacher/courses/${input.courseId}/tasks`);
@@ -53,11 +53,12 @@ export async function updateTask(input: UpdateTaskInput): Promise<ActionResult<{
 
     const result = await pool.query(
       `UPDATE tasks t
-       SET title = $1, description = $2, allowed_file_types = $3, deadline = $4, max_marks = $5, updated_at = now()
-       FROM courses c WHERE t.id = $6
-       AND t.course_id = c.id AND c.teacher_id = $7
-       RETURNING t.id, t.course_id`,
-      [input.title.trim(), input.description, input.allowed_file_types, input.deadline, input.max_marks, input.taskId, session.user.id]
+      SET title = $1, description = $2, allowed_file_types = $3, deadline = $4, max_marks = $5,
+      attachment_url = $6, attachment_name = $7, updated_at = now()
+      FROM courses c WHERE t.id = $8
+      AND t.course_id = c.id AND c.teacher_id = $9
+      RETURNING t.id, t.course_id`,
+      [ input.title.trim(), input.description, input.allowed_file_types, input.deadline, input.max_marks, input.attachment_url, input.attachment_name, input.taskId, session.user.id,]
     );
 
     if (result.rowCount === 0) return { success: false, error: "Task not found or access denied" };
