@@ -9,7 +9,7 @@ const nav_items = [
     { label: "Dashboard", href: "/teacher/dashboard", icon: LayoutDashboard },
     { label: "Courses", href: "/teacher/courses", icon: BookOpen },
     { label: "Resources", href: "/teacher/resources", icon: FolderOpen },
-    { label: "Tasks", href: "/teacher/tasks", icon: ClipboardList },
+    // { label: "Tasks", href: "/teacher/tasks", icon: ClipboardList },
     { label: "Announcements", href: "/teacher/announcements", icon: Megaphone },
     // { label: "Grades", href: "/teacher/grades", icon: Table },
 ]

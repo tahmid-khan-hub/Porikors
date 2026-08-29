@@ -9,7 +9,7 @@ const nav_items = [
     { label: "Pending Verifications", href: "/admin/verifications", icon: ClipboardCheck },
     { label: "Teachers", href: "/admin/teachers", icon: TeacherIcon  },
     { label: "Students", href: "/admin/students", icon: Users },
-    { label: "Settings", href: "/admin/settings", icon: Settings },
+    // { label: "Settings", href: "/admin/settings", icon: Settings },
 ]
 
 export default function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void }) {
