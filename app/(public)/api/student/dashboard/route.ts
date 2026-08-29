@@ -55,8 +55,17 @@ export async function GET() {
                 `SELECT a.id, a.content, a.created_at,
                 c.id AS course_id, c.title AS course_name
                 FROM announcements a
-                JOIN courses c ON c.id = a.course_id
-                JOIN enrollments en ON en.course_id = c.id AND en.student_id = $1
+                LEFT JOIN courses c ON c.id = a.course_id
+                WHERE
+                  (a.course_id IS NOT NULL AND EXISTS (
+                    SELECT 1 FROM enrollments en WHERE en.course_id = a.course_id AND en.student_id = $1
+                  ))
+                OR
+                  (a.course_id IS NULL AND EXISTS (
+                    SELECT 1 FROM enrollments en
+                    JOIN courses co ON co.id = en.course_id
+                    WHERE en.student_id = $1 AND co.teacher_id = a.teacher_id
+                  ))
                 ORDER BY a.created_at DESC LIMIT 5`,
                 [studentId]
             ),

@@ -50,7 +50,8 @@ export async function GET() {
             `SELECT a.id, a.content, a.created_at,
             c.id AS course_id, c.title AS course_name
             FROM announcements a
-            JOIN courses c ON c.id = a.course_id WHERE a.teacher_id = $1
+            LEFT JOIN courses c ON c.id = a.course_id
+            WHERE a.teacher_id = $1
             ORDER BY a.created_at DESC LIMIT 5`,
             [teacherId]
         ),
