@@ -26,7 +26,7 @@ export default function RecentGradesList({ grades }: { grades: StudentRecentGrad
                         <p className="text-xs text-[#6B7369] truncate">{g.course_name}</p>
                     </div>
                     <span className="shrink-0 text-sm font-medium text-[#3B8F5C]">
-                        {g.marks}{g.max_marks !== null ? `/${g.max_marks}` : ""}
+                        {g.grade}{g.max_marks !== null ? `/${g.max_marks}` : ""}
                     </span>
                 </Link>
             ))}

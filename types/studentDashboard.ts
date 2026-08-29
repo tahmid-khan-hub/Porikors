@@ -27,7 +27,7 @@ export interface StudentRecentGrade {
     task_title: string;
     course_id: string;
     course_name: string;
-    marks: number;
+    grade: number;
     max_marks: number | null;
     graded_at: string;
 }

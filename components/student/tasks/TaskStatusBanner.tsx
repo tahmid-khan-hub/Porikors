@@ -23,8 +23,8 @@ export default function TaskStatusBanner({ task }: { task: StudentTaskDetail }) 
                 <div>
                     <p className="text-sm font-medium" style={{ color: style.text }}>
                         {style.label}
-                        {status === "graded" && task.submission?.marks !== null && task.max_marks !== null
-                        ? ` — ${task.submission?.marks}/${task.max_marks}`
+                        {status === "graded" && task.submission?.grade !== null && task.max_marks !== null
+                        ? ` — ${task.submission?.grade}/${task.max_marks}`
                         : ""}
                     </p>
                     <p className="text-xs" style={{ color: style.text, opacity: 0.8 }}>

@@ -16,7 +16,7 @@ export interface StudentTaskDetail {
         text_content: string | null;
         file_url: string | null;
         file_name: string | null;
-        marks: number | null;
+        grade: number | null;
         feedback: string | null;
         submitted_at: string | null;
         graded_at: string | null;
