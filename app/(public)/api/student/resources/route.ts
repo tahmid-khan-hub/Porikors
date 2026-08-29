@@ -31,8 +31,8 @@ export async function GET(req: NextRequest) {
         JOIN users u ON u.id = r.teacher_id
         LEFT JOIN courses c ON c.id = r.course_id
         WHERE
-            (r.course_id IS NULL AND r.teacher_id IN (SELECT teacher_id FROM my_courses))
-            OR (r.course_id IN (SELECT course_id FROM my_courses))
+            r.course_id IS NULL
+            AND r.teacher_id IN (SELECT teacher_id FROM my_courses)
         ORDER BY r.created_at DESC
         LIMIT $2`,
         [session.user.id, limit]

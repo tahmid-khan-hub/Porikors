@@ -22,17 +22,12 @@ export async function GET(req: NextRequest) {
         FROM announcements a
         JOIN users u ON u.id = a.teacher_id
         LEFT JOIN courses c ON c.id = a.course_id
-        WHERE a.teacher_id IN (
+        WHERE a.course_id IS NULL
+        AND a.teacher_id IN (
             SELECT DISTINCT co.teacher_id
             FROM enrollments en
             JOIN courses co ON co.id = en.course_id
             WHERE en.student_id = $1::uuid
-        )
-        AND (
-            a.course_id IS NULL
-            OR a.course_id IN (
-            SELECT course_id FROM enrollments WHERE student_id = $1::uuid
-            )
         )
         ORDER BY a.created_at DESC
         LIMIT $2`,
